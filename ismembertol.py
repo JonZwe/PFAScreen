@@ -1,10 +1,9 @@
-"""
-Function to find identicals within a tolerance
-input: two arrays (vec_1 and vec_2) and absolute tolerance (tol)
-returns booleans with indices of identical values 
-e.g.: vec_1[bool_1] = values in vec_1 that are identical with vec_2 within tol
-and boolean matrix diff_bool
-"""
+# Function to find identicals within a tolerance
+# input: two arrays (vec_1 and vec_2) and absolute tolerance (tol)
+# returns booleans with indices of identical values 
+# e.g.: vec_1[bool_1] = values in vec_1 that are identical with vec_2 within tol
+# and boolean matrix diff_bool
+
 import numpy as np
 
 def ismembertol(
