@@ -160,7 +160,7 @@ def PFAS_feature_prioritization(
     writer.close()
 
     # ========================================================================================
-    # Plotting routines!
+    # Plotting routines
 
     plotting.mz_RT(
                 Df_FeatureData,
