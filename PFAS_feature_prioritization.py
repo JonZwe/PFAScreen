@@ -51,7 +51,7 @@ def PFAS_feature_prioritization(
     Df_FeatureData.loc[idx_no_MSMS_hit, 'n_diffs'] = 0
     Df_FeatureData.loc[idx_no_MSMS_hit, 'n_dias'] = 0
 
-            #%%
+    #%%
     # MD/C-m/C, and MD
     # ==============================================================================================
     def calc_MDC_mC(mz, intens_C12, intens_C13):
@@ -137,7 +137,7 @@ def PFAS_feature_prioritization(
     Df_FeatureData_Excel.to_excel(writer, sheet_name="Sheet1")
 
     # Get the xlsxwriter workbook and worksheet objects.
-    workbook = writer.book
+    # workbook = writer.book
     worksheet = writer.sheets["Sheet1"]
 
     # Get the dimensions of the dataframe.
