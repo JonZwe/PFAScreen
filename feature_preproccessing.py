@@ -171,7 +171,7 @@ def feature_preproccessing(
     # keep only MS2 spectra that have a MS1 feature
     Df_MS2RawData = Df_MS2RawData.dropna(subset=['idx_MS1'])
 
-    # NOTE: ÜBERPRÜFEN! IST DAS KORREKT, UND: WENN MS/MS PRECURSOR MASSEN NICHT IDENTISCH SIND, LÄUFT CODE DANN OHNE DIESEN SCHRITT?
+    # NOTE: Check if this works also multiple triggered precursor masses are not identical
     Df_MS2RawData = Df_MS2RawData.sort_values('intens').drop_duplicates('idx_MS1').sort_index()
     # Df_MS2RawData = Df_MS2RawData.sort_values('intens', ascending=False).drop_duplicates('m/z').sort_index()
 
