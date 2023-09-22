@@ -6,6 +6,8 @@ PFΔScreen is an open-source Python based non-target screening software tool to 
 If you use PFΔScreen please cite (more detailed examples and explations can be found here):\
 Zweigle, J.; Bugsel, B.; Fabregat-Palau, J., Zwiener, C., PFΔScreen – An open-source tool for automated PFAS feature prioritization in non-target HRMS data.
 
+![alt text](https://github.com/JonZwe/PFAScreen/logo.jpg)
+
 Installation:
 --------------------
 
