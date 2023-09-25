@@ -1,12 +1,12 @@
-numpy
-pandas
-matplotlib
-pyteomics
-lxml
-openpyxl
-pyopenms
-Pillow
-plotly
-altair
-scipy
-XlsxWriter
+numpy >= 1.20.3
+pandas >=  1.4.4
+matplotlib >= 3.7.2
+pyteomics >= 4.5.5
+lxml >= 4.9.1
+openpyxl >= 3.0.10
+pyopenms >= 3.0.0
+Pillow >= 9.2.0
+plotly >= 5.9.0
+altair >=  5.1.1
+scipy >= 1.9.1
+XlsxWriter >= 3.0.3
