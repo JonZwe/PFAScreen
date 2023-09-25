@@ -3,8 +3,6 @@
 from pyopenms import (MSExperiment, MzMLFile, MassTraceDetection, ElutionPeakDetection, FeatureMap, 
                       FeatureFindingMetabo, FeatureXMLFile, MetaboliteFeatureDeconvolution, ConsensusMap)
 
-# NOTE: Several parameters could be investigated in more detail
-
 def MS1_feature_finding(sample, 
                         mass_error_ppm, 
                         noise_threshold_int,
@@ -53,46 +51,5 @@ def MS1_feature_finding(sample,
     ffm.run(mass_traces_final, fm, feat_chrom)
 
     fm.setUniqueIds()
-    # fm.setPrimaryMSRunPath(["ms_data.mzML".encode()])
-    # fh = FeatureXMLFile()
-    # fh.store("FM_" + sample_names[s]  + ".featureXML", fm)
 
-    '''
-    # 4) Adduct finding (optional)
-    mfd = MetaboliteFeatureDeconvolution()
-    mdf_par = mfd.getDefaults()
-
-    # understand how adducts should be specified!
-    ionization_mode = 'neg'
-    if ionization_mode == 'pos':
-        mdf_par.setValue("potential_adducts", [b"H:+:0.4",b"Na:+:0.2",b"NH4:+:0.2", b"H-1O-1:+:0.1", b"H-3O-2:+:0.1"])
-    else:
-        mdf_par.setValue("potential_adducts", [b"H-1:-:0.9", b"H-2O-1:0:0.05", b"CH2O2:0:0.5", b"CH3COOH:0:0.4", b"Cl:-0:0.1"])
-
-    mdf_par.setValue("charge_min", 1, "Minimal possible charge")
-    mdf_par.setValue("charge_max", 1, "Maximal possible charge")
-    mdf_par.setValue("charge_span_max", 1)
-    mdf_par.setValue("max_neutrals", 1)
-    mfd.setParameters(mdf_par)
-    feature_map_MFD = FeatureMap()
-    cons_map0 = ConsensusMap()
-    cons_map1 = ConsensusMap()
-    mfd.compute(fm, feature_map_MFD, cons_map0, cons_map1)
-
-    mfd = MetaboliteFeatureDeconvolution()
-    mdf_par = mfd.getDefaults()
-    mdf_par.setValue("potential_adducts", [b"H-1:-:0.9", b"H-2O-1:0:0.05", b"CH2O2:0:0.5", b"CH3COOH:0:0.4", b"Cl:-0:0.1"])
-    mdf_par.setValue("charge_min", 1, "Minimal possible charge")
-    mdf_par.setValue("charge_max", 1, "Maximal possible charge")
-    mdf_par.setValue("charge_span_max", 1)
-    mdf_par.setValue("max_neutrals", 1)
-    mdf_par.setValue("retention_max_diff", 3.0)
-    mdf_par.setValue("retention_max_diff_local", 3.0)
-    mfd.setParameters(mdf_par)
-    feature_map_MFD = FeatureMap()
-    cons_map0 = ConsensusMap()
-    cons_map1 = ConsensusMap()
-    mfd.compute(fm, feature_map_MFD, cons_map0, cons_map1)
-
-    '''
     return exp, fm
