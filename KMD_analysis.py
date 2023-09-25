@@ -41,8 +41,6 @@ def KMD_analysis( # NOTE: Give default parameters!
         KMD = KM - KM_round
         Mod_HS = {'mz':mz_vec,'RT':RT_vec,'mod':modulo,'KMD':KMD}
         Mod_HS_Dataframe = pd.DataFrame(data=Mod_HS)
-        #Mod_HS_Dataframe.sort_values('mod', inplace=True, ignore_index=True) #nach aufsteigendem modulo sortieren
-        #Mod_HS_Dataframe.sort_values('mod', inplace=True) #nach aufsteigendem modulo sortieren
         Mod_sorted_Df_temp=Mod_HS_Dataframe.sort_values('mod') #nach aufsteigendem modulo sortieren
         Mod_sorted_Df = Mod_sorted_Df_temp.reset_index(drop=False)
         #Mod_HS_Dataframe = Mod_HS_Dataframe.reset_index(drop=True, inplace=True) ##NEU
