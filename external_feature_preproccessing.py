@@ -19,8 +19,8 @@ def external_feature_preproccessing(
         fold_change_blank_correction
         ):
 
-    path = os.path.dirname(sample_feature_list_path)
-    sample_file = os.path.basename(sample_feature_list_path)
+    path = os.path.dirname(sample_path)
+    sample_file = os.path.basename(sample_path)
     blank_file = os.path.basename(blank_feature_list_path)
 
     # ====================================================================================================
@@ -103,13 +103,13 @@ def external_feature_preproccessing(
                                          'MS2SpecIntens': MS2_spec_intens})
     
     # NOTE: REMOVE! ONLY FOR TEST PURPOSES
-    import matplotlib.pyplot as plt
-    all_MSMS_intens = np.concatenate(Df_MS2RawData['MS2SpecIntens'].values).ravel() # concatenate all MSMS intensities
-    plt.hist(np.ma.log10(all_MSMS_intens), bins = 1000)
-    plt.title('MS2 Intensity log histogram')
-    plt.xlabel('log(Intensity)')
-    plt.ylabel('Counts')
-    plt.savefig(os.path.join(Results_folder, 'plots/MSMS_histo.png'))
+    # import matplotlib.pyplot as plt
+    # all_MSMS_intens = np.concatenate(Df_MS2RawData['MS2SpecIntens'].values).ravel() # concatenate all MSMS intensities
+    # plt.hist(np.ma.log10(all_MSMS_intens), bins = 1000)
+    # plt.title('MS2 Intensity log histogram')
+    # plt.xlabel('log(Intensity)')
+    # plt.ylabel('Counts')
+    # plt.savefig(os.path.join(Results_folder, 'plots/MSMS_histo.png'))
 
 
     # check if MSMS_files foldes exists, if True append all MS/MS spectra to Df_MS2RawData
@@ -139,6 +139,8 @@ def external_feature_preproccessing(
     idx_in_MS2RawData =np.where(M_combined)[0]
     idx_in_features = np.where(M_combined)[1]
 
+    print(f'{len(idx_in_MS2RawData)} of {len(Df_MS2RawData)} MS2 spectra assigned to features')
+    print(f'{len(np.unique(idx_in_features))} of {len(Df_FeatureData)} features have MS2 information')
 
     plotting.mz_RT_MSMS(
                 Df_FeatureData, 
@@ -163,15 +165,3 @@ def external_feature_preproccessing(
     print('Evaluation successfully finished!')
 
     return Df_FeatureData, Df_MS2RawData, idx_in_features
-
-    
-    #Df_FeatureData, Df_MS2RawData, idx_in_features = external_feature_preproccessing(
-    #        sample_feature_list_path = r'C:\Users\Jonathan\OneDrive\PYTHON_CODES\PyOpenMS\FindPFAS_Workflow_GUI\external_featurefinding\11_Paper_4525_ddMS2_40eV_1it_Inj2_external_feature_list.xlsx', 
-    #        blank_feature_list_path = r'C:\Users\Jonathan\OneDrive\PYTHON_CODES\PyOpenMS\FindPFAS_Workflow_GUI\external_featurefinding\09_Blank_Neg_ddMS2_Inj10_external_feature_list.xlsx', 
-    #        sample_mzML_path = r'C:\Users\Jonathan\OneDrive\PYTHON_CODES\PyOpenMS\FindPFAS_Workflow_GUI\external_featurefinding\11_Paper_4525_ddMS2_40eV_1it_Inj2.mzML',
-    #        mass_tolerance_MSMS_assignment = 0.005,
-    #        RT_tolerance_MSMS_assignment = 0.2*60,
-    #        mass_tolerance_blank_correction = 0.005,
-    #        RT_tolerance_blank_correction = 0.1*60,
-    #        fold_change_blank_correction = 10
-    #        )
