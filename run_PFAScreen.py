@@ -54,6 +54,9 @@ def RunFeatureFinding():
                                                                 RT_tolerance_blank_correction = float(entryBlankRTTol.get()),
                                                                 fold_change_blank_correction = float(entryBlankFoldChange.get())
                                                                 )
+if not 'blank_path_xlsx_var' in globals():
+    blank_path_xlsx_var = ''    
+
 def RunExternalFeatures():
     global Df_FeatureData, Df_MS2RawData, idx_in_features
     Df_FeatureData, Df_MS2RawData, idx_in_features = external_feature_preproccessing(
