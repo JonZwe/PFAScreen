@@ -28,7 +28,6 @@ def MS1_feature_finding(sample,
     epd = ElutionPeakDetection()
     epd_params = epd.getDefaults()
 
-    # CHECK THE INFLUENCE OF THIS PARAMETER!!!
     epd_params.setValue("width_filtering", "fixed") # removes mass traces outside min_fwhm of 1 and max_fwhm of 60 s
     epd.setParameters(epd_params)
     epd.detectPeaks(mass_traces, mass_traces_split)
