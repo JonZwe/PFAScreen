@@ -41,7 +41,7 @@ def KMD_analysis( # NOTE: Give default parameters!
         KMD = KM - KM_round
         Mod_HS = {'mz':mz_vec,'RT':RT_vec,'mod':modulo,'KMD':KMD}
         Mod_HS_Dataframe = pd.DataFrame(data=Mod_HS)
-        Mod_sorted_Df_temp=Mod_HS_Dataframe.sort_values('mod') #nach aufsteigendem modulo sortieren
+        Mod_sorted_Df_temp=Mod_HS_Dataframe.sort_values('mod') # Sort according to ascending modulo
         Mod_sorted_Df = Mod_sorted_Df_temp.reset_index(drop=False)
         #Mod_HS_Dataframe = Mod_HS_Dataframe.reset_index(drop=True, inplace=True) ##NEU
 
@@ -53,7 +53,7 @@ def KMD_analysis( # NOTE: Give default parameters!
             i = n
             if HS_num[n] == 0 and n != 0:
                 HS_num[n] = n
-                while Mod_sorted_Df['mod'][i+1]-Mod_sorted_Df['mod'][n] < hs_tol and exit_loop == 0: #and i < (len(mz_vec_unique)-2):
+                while Mod_sorted_Df['mod'][i+1]-Mod_sorted_Df['mod'][n] < hs_tol and exit_loop == 0:
                     HS_num[i+1] = n
                     HS_num[n] = n
                     if i < (len(mz_vec)-2):
