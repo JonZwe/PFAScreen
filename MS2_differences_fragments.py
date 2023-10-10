@@ -156,7 +156,7 @@ def MS2_differences_fragments(
         dia_frags['DF'] = dia_frags['DF'].str.replace('-', '', regex=False)
         dia_frags['DF'] = dia_frags['DF'].str.replace('+', '', regex=False)
         dia_frags = dia_frags.drop_duplicates(subset = 'DF').reset_index(drop = True)
-        #dia_frags = dia_frags.sort_values(by=['DF_mass']).reset_index(drop = True)
+        dia_frags = dia_frags.sort_values(by=['DF_mass']).reset_index(drop = True)
         
         # NOTE: dia_frags has to be sorted according to increasing mass!
         # NOTE: REMOVE MASS DUPLICATES!!! OR CLUSTER TOGETHER   
