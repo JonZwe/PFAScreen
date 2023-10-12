@@ -200,7 +200,7 @@ def MS2_differences_fragments(
 
     if all(isinstance(item, str) for item in diffs) == True:
         # annotate neighbours of diagnostic fragments characterized by mass differences
-        spec_idx_dia_diff, frag_idx_list, new_formula_list = combine_dias_diffs(mz_array, 
+        spec_idx_dia_diff, frag_idx_list, new_formula_list = combine_dias_diffs(mz_array,
                                                                                 diffs, 
                                                                                 m_diffs, 
                                                                                 idx_prec_diffs, 
