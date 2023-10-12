@@ -43,7 +43,6 @@ def KMD_analysis( # NOTE: Give default parameters!
         Mod_HS_Dataframe = pd.DataFrame(data=Mod_HS)
         Mod_sorted_Df_temp=Mod_HS_Dataframe.sort_values('mod') # Sort according to ascending modulo
         Mod_sorted_Df = Mod_sorted_Df_temp.reset_index(drop=False)
-        #Mod_HS_Dataframe = Mod_HS_Dataframe.reset_index(drop=True, inplace=True) ##NEU
 
         HS_num = np.zeros(len(mz_vec))
         # HS_abund_corr = np.zeros(len(mz_vec_unique))
