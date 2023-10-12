@@ -81,6 +81,7 @@ def feature_preproccessing(
         print(f'{len(Df_FeatureData)} features after blank correction')
     else:
         Df_FeatureData = feature_map_Dfs[0]
+        print(f'{len(Df_FeatureData)} features detected!')
 
     # %%
     # Get MS2 precursor masses, RT, TIC, and raw spectra from OpenMS MSExperiment and put in DataFrame
