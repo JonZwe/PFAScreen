@@ -120,7 +120,7 @@ def PFAS_feature_prioritization(
     # =======================================================================================
     # Prepare to save as Excel file with conditional formatting
 
-    report_excel_list = ['m/z',	'm/z+1', 'm/z intens', 'RT',  # specify columns that should be saved
+    report_excel_list = ['m/z', 'm/z intens', 'RT',  # specify columns that should be saved
                          'n_diffs', 'n_dias', 
                          'C', 'MD', 'MD/C', 'm/C', 
                          'KMD', 'HS Number', 'Unique Homologues', 
