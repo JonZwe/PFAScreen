@@ -284,7 +284,7 @@ def MS2_spectra_plotter(
                       title={'text': f'm/z = {np.round(Df_FindPFAS["m/z_MSMS"][idx],4)} | RT = {np.round(Df_FindPFAS["RT_MSMS"][idx]/60, 2)} | Intensity = {int(Df_FindPFAS["intensity"][idx])}'},
                       xaxis_title="m/z",
                       yaxis_title="Counts",
-                      xraxis_range=[np.min(Df_FindPFAS['mz_peaks'][idx]) - 10, Df_FindPFAS["m/z"][idx] + 10],
+                      xaxis_range=[np.min(Df_FindPFAS['mz_peaks'][idx]) - 10, Df_FindPFAS["m/z"][idx] + 10],
                       font = dict(size = font_size)
                       )
     fig.write_html(os.path.join(Results_folder, f'plots/Spec_mz_{str(np.round(Df_FindPFAS["m/z"][idx], 4))}_intens_{str(np.round(Df_FindPFAS["m/z intens"][idx], 0))}.html'))
