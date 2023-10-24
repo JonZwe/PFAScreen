@@ -45,7 +45,6 @@ def KMD_analysis( # NOTE: Give default parameters!
         Mod_sorted_Df = Mod_sorted_Df_temp.reset_index(drop=False)
 
         HS_num = np.zeros(len(mz_vec))
-        # HS_abund_corr = np.zeros(len(mz_vec_unique))
         exit_loop = 0
         #HS_num[0] = 1
         for n in range(len(mz_vec)-1):
