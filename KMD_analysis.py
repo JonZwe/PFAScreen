@@ -38,6 +38,7 @@ def KMD_analysis( # NOTE: Give default parameters!
     Mod_sorted_Df_temp=Mod_HS_Dataframe.sort_values('mod') # Sort according to ascending modulo
     Mod_sorted_Df = Mod_sorted_Df_temp.reset_index(drop=False)
 
+    # Assign identical HS number to compounds with identical modulo
     HS_num = np.zeros(len(mz_vec))
     exit_loop = 0
     for n in range(len(mz_vec)-1):
