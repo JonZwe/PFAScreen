@@ -25,17 +25,17 @@ def browse_button_blank_mzML():
     blank_path_var = r'{}'.format(blank_path)
     label_blank_path.configure(text = os.path.basename(blank_path_var)[0:20])
 
-def browse_button_sample_features_xlsx():
-    global sample_path_xlsx_var
-    sample_path_xlsx = filedialog.askopenfilename()
-    sample_path_xlsx_var = r'{}'.format(sample_path_xlsx)
-    label_sample_external_path.configure(text = os.path.basename(sample_path_xlsx)[0:20])
+def browse_button_sample_features_csv():
+    global sample_path_csv_var
+    sample_path_csv = filedialog.askopenfilename()
+    sample_path_csv_var = r'{}'.format(sample_path_csv)
+    label_sample_external_path.configure(text = os.path.basename(sample_path_csv)[0:20])
 
-def browse_button_blank_features_xlsx():
-    global blank_path_xlsx_var
-    blank_path_xlsx = filedialog.askopenfilename()
-    blank_path_xlsx_var = r'{}'.format(blank_path_xlsx)
-    label_blank_external_path.configure(text = os.path.basename(blank_path_xlsx)[0:20])
+def browse_button_blank_features_csv():
+    global blank_path_csv_var
+    blank_path_csv = filedialog.askopenfilename()
+    blank_path_csv_var = r'{}'.format(blank_path_csv)
+    label_blank_external_path.configure(text = os.path.basename(blank_path_csv)[0:20])
 
 if not 'blank_path_var' in globals():
     blank_path_var = ''
@@ -46,7 +46,7 @@ def RunFeatureFinding():
                                                                 sample_path_var, 
                                                                 blank_path_var,
                                                                 mass_error_ppm = float(entryMassError.get()),
-                                                                noise_threshold_int = float(entryIntThreshold.get()),
+                                                                intensity_threshold = float(entryIntThreshold.get()),
                                                                 isotope_model_bool = var_IsotopeModel.get(),
                                                                 mass_tolerance_MSMS_assignment = float(entryMSMSMassTol.get()),
                                                                 RT_tolerance_MSMS_assignment = float(entryMSMSRTTol.get()),
@@ -54,15 +54,15 @@ def RunFeatureFinding():
                                                                 RT_tolerance_blank_correction = float(entryBlankRTTol.get()),
                                                                 fold_change_blank_correction = float(entryBlankFoldChange.get())
                                                                 )
-if not 'blank_path_xlsx_var' in globals():
-    blank_path_xlsx_var = ''    
+if not 'blank_path_csv_var' in globals():
+    blank_path_csv_var = ''    
 
 def RunExternalFeatures():
     global Df_FeatureData, Df_MS2RawData, idx_in_features
     Df_FeatureData, Df_MS2RawData, idx_in_features = external_feature_preproccessing(
                                                         sample_path_var,
-                                                        sample_path_xlsx_var, 
-                                                        blank_path_xlsx_var,
+                                                        sample_path_csv_var, 
+                                                        blank_path_csv_var,
                                                         mass_tolerance_MSMS_assignment = float(entryMSMSMassTol.get()),
                                                         RT_tolerance_MSMS_assignment = float(entryMSMSRTTol.get()),
                                                         mass_tolerance_blank_correction = float(entryBlankMassTol.get()),
@@ -130,7 +130,7 @@ def RunEIC_correlator():
 # DEFAULT PARAMETERS
 # FeatureFinding
 mass_error_ppm = 10
-noise_threshold_int = 1000
+intensity_threshold_int = 1000
 
 mass_tolerance_MSMS_assignment = 0.005 # HIGHLY IMPORTANT
 RT_tolerance_MSMS_assignment = 0.2*60  # Consider peak width
@@ -228,11 +228,11 @@ ButtonBlankPath = Button(text="Browse Blank.mzML", bg='#E7ECF7', command = brows
 ButtonBlankPath.place(x = 40, y = 70, height = 30, width = 160)
 ButtonBlankPath['font'] = myfont
 
-ButtonSamplePathxlsx = Button(text="Browse SampleFeatures.xlsx", command = browse_button_sample_features_xlsx)
-ButtonSamplePathxlsx.place(x = 40, y = 100, height = 20, width = 160)
+ButtonSamplePathcsv = Button(text="Browse SampleFeatures.csv", command = browse_button_sample_features_csv)
+ButtonSamplePathcsv.place(x = 40, y = 100, height = 20, width = 160)
 
-ButtonBlankPathxlsx = Button(text="Browse BlankFeatures.xlsx", command = browse_button_blank_features_xlsx)
-ButtonBlankPathxlsx.place(x = 40, y = 120, height = 20, width = 160)
+ButtonBlankPathcsv = Button(text="Browse BlankFeatures.csv", command = browse_button_blank_features_csv)
+ButtonBlankPathcsv.place(x = 40, y = 120, height = 20, width = 160)
 
 
 labelTitleMSMS = ttk.Label(root,  text='Peak finding')
@@ -245,21 +245,16 @@ entryMassError = ttk.Entry(root)
 entryMassError.place(x = 200, y = 180, height = 20, width = 50)
 entryMassError.insert('end', mass_error_ppm)
 
-labelIntThreshold = ttk.Label(root, text='Noise threshold')
+labelIntThreshold = ttk.Label(root, text='Intensity threshold')
 labelIntThreshold.place(x = 50, y = 200) 
 entryIntThreshold = ttk.Entry(root)
 entryIntThreshold.place(x = 200, y = 200, height = 20, width = 50)
-entryIntThreshold.insert('end', noise_threshold_int)
+entryIntThreshold.insert('end', intensity_threshold_int)
 
-#labelIsotopeModel = ttk.Label(root, text='Isotope model')
-#labelIsotopeModel.place(x = 50, y = 220) 
-#entryIsotopeModel = ttk.Entry(root)
-#entryIsotopeModel.place(x = 200, y = 220, height = 20, width = 122)
-#entryIsotopeModel.insert('end', isotope_model)
 
 var_IsotopeModel = BooleanVar()
 var_IsotopeModel.set(True)
-CheckButtonIsotopeModel = tk.Checkbutton(root, text='Isotope model',variable=var_IsotopeModel, onvalue=1, offvalue=0)
+CheckButtonIsotopeModel = tk.Checkbutton(root, text='Isotope model',variable = var_IsotopeModel, onvalue=1, offvalue=0)
 CheckButtonIsotopeModel.place(x = 50, y = 220)
 
 
@@ -369,7 +364,7 @@ entryMassTolFrags = ttk.Entry(root)
 entryMassTolFrags.place(x = 520, y = 310, height = 20, width = 50)
 entryMassTolFrags.insert('end', mass_tolerance_FindPFAS)
 
-labelIntThresholdMSMS = ttk.Label(root, text='Noise threshold MS/MS')
+labelIntThresholdMSMS = ttk.Label(root, text='Intensity threshold MS/MS')
 labelIntThresholdMSMS.place(x = 370, y = 340) 
 entryIntThresholdMSMS = ttk.Entry(root)
 entryIntThresholdMSMS.place(x = 520, y = 340, height = 20, width = 50)

@@ -44,7 +44,7 @@ def mz_RT(
                      y = 'm/z',
                      color =  np.log10(Df_FeatureData['m/z intens']), color_continuous_scale = px.colors.sequential.RdPu,
                      hover_name = Df_FeatureData.index, 
-                     hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'FORMULA'])
+                     hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'formulas'])
 
     fig.update_traces(marker=dict(size=22,
                       line=dict(width=1, color='DarkSlateGrey')),
@@ -82,7 +82,7 @@ def MDC_mC_plot(
     fig1 = px.scatter(Df_FeatureData, x='m/C', y='MD/C', color = np.log10(Df_FeatureData['m/z intens']),#Df_FeatureData['Score_scaled']
                       color_continuous_scale = px.colors.sequential.Turbo,
                       hover_name = Df_FeatureData.index, 
-                      hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'FORMULA'])
+                      hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'formulas'])
     
     fig2 = px.line(x=x, y=y_CF, markers=False)
     fig3 = px.line(x=x, y=y_CHF, markers=False)
@@ -118,7 +118,7 @@ def KMD_plot(
         mC_limit = 0
         ):
 
-    Df_FeatureData = Df_FeatureData[['m/z','RT','Unique Homologues','HS Number', 'm/z intens', 'min Homologues', 'm/C', 'KMD', 'FORMULA']]
+    Df_FeatureData = Df_FeatureData[['m/z','RT','Unique Homologues','HS Number', 'm/z intens', 'min Homologues', 'm/C', 'KMD', 'formulas']]
 
     HS_pos = Df_FeatureData[Df_FeatureData['min Homologues'] == True]
     HS_neg = Df_FeatureData[Df_FeatureData['min Homologues'] == False]
@@ -138,7 +138,7 @@ def KMD_plot(
         x='m/z',
         y='KMD',
         color=color,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "FORMULA"]
+        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "formulas"]
     ).properties(
         width=500,
         height=500  
@@ -169,7 +169,7 @@ def KMD_plot(
         y='KMD',
         color=color_click,
         opacity=opacity,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'FORMULA']
+        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
     ).properties(
         width=500,
         height=500  
@@ -201,7 +201,7 @@ def KMD_plot(
         y='m/z',
         color=color_click,
         opacity=opacity,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'FORMULA']
+        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
     ).properties(
         width=500,
         height=500  

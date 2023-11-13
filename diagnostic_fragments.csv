@@ -1,0 +1,957 @@
+fragment_formula,fragment_mass,polarity,reference
+Cl- ,34.969403,neg,Koelmel et al. 2022
+C2F- ,42.9989532,neg,Koelmel et al. 2022
+CFO- ,46.9938682,neg,Koelmel et al. 2022
+CF2- ,49.9973564,neg,Koelmel et al. 2022
+C2H2S- ,57.9882712,neg,Koelmel et al. 2022
+C2FO- ,58.9938682,neg,Koelmel et al. 2022
+C2H3S- ,58.9960958,neg,Koelmel et al. 2022
+C2H4S- ,60.0039204,neg,Koelmel et al. 2022
+PO2- ,62.964143,neg,Koelmel et al. 2022
+CO2F- ,62.9887832,neg,Koelmel et al. 2022
+SO2- ,63.962452,neg,Koelmel et al. 2022
+SO2H- ,64.9702766,neg,Koelmel et al. 2022
+C4HF- ,68.0067778,neg,Koelmel et al. 2022
+CF3- ,68.9957596,neg,Koelmel et al. 2022
+NO2S- ,77.965526,neg,Koelmel et al. 2022
+Br- ,78.918886,neg,Koelmel et al. 2022
+PO3- ,78.959058,neg,Koelmel et al. 2022
+HNO2S- ,78.9733506,neg,Koelmel et al. 2022
+C2HF2O- ,79.000096,neg,Koelmel et al. 2022
+SO3- ,79.957367,neg,Koelmel et al. 2022
+SO3H- ,80.9651916,neg,Koelmel et al. 2022
+C2F3- ,80.9957596,neg,Koelmel et al. 2022
+PO2F- ,81.9625462,neg,Koelmel et al. 2022
+SO2F- ,82.9608552,neg,Koelmel et al. 2022
+C4H3S- ,82.9960958,neg,Koelmel et al. 2022
+CF3O- ,84.9906746,neg,Koelmel et al. 2022
+C4F2- ,85.9973564,neg,Koelmel et al. 2022
+C3H2SF- ,88.9866744,neg,Koelmel et al. 2022
+CNSO2- ,89.965526,neg,Koelmel et al. 2022
+C2H3SO2- ,90.9859258,neg,Koelmel et al. 2022
+CH2NO2S- ,91.9811752,neg,Koelmel et al. 2022
+C5HS- ,92.9804466,neg,Koelmel et al. 2022
+CH3NO2S- ,92.9889998,neg,Koelmel et al. 2022
+C3F3- ,92.9957596,neg,Koelmel et al. 2022
+CH2SO3- ,93.9730162,neg,Koelmel et al. 2022
+CH3SO3- ,94.9808408,neg,Koelmel et al. 2022
+SO4H- ,96.9601066,neg,Koelmel et al. 2022
+PO4H2- ,96.9696222,neg,Koelmel et al. 2022
+C2F3O- ,96.9906746,neg,Koelmel et al. 2022
+C5F2- ,97.9973564,neg,Koelmel et al. 2022
+SO3F- ,98.9557702,neg,Koelmel et al. 2022
+PO2F2- ,100.9609494,neg,Koelmel et al. 2022
+C4F3- ,104.9957596,neg,Koelmel et al. 2022
+C3H5SO2- ,105.001575,neg,Koelmel et al. 2022
+C2H2SO3- ,105.9730162,neg,Koelmel et al. 2022
+C3F3O- ,108.9906746,neg,Koelmel et al. 2022
+C3H3SF2- ,108.9929022,neg,Koelmel et al. 2022
+CFSO3- ,110.9557702,neg,Koelmel et al. 2022
+CH3FNSO2- ,111.987403,neg,Koelmel et al. 2022
+C2F3O2- ,112.9855896,neg,Koelmel et al. 2022
+C5H2FS- ,112.9866744,neg,Koelmel et al. 2022
+C5H3FS- ,113.994499,neg,Koelmel et al. 2022
+C4H3SO2- ,114.9859258,neg,Koelmel et al. 2022
+C4H4SO2- ,115.9937504,neg,Koelmel et al. 2022
+C2HF4O- ,116.9969,neg,Koelmel et al. 2022
+C4H5SO2- ,117.001575,neg,Koelmel et al. 2022
+C4H6SO2- ,118.0093996,neg,Koelmel et al. 2022
+C2F5- ,118.992566,neg,Koelmel et al. 2022
+C3H5NO2S- ,119.004649,neg,Koelmel et al. 2022
+C3H6NO2S- ,120.0124736,neg,Koelmel et al. 2022
+C4F3O- ,120.9906746,neg,Koelmel et al. 2022
+C2H4NO3S- ,121.9917394,neg,Koelmel et al. 2022
+C6FS- ,122.9710252,neg,Koelmel et al. 2022
+C2H3SO4- ,122.9757558,neg,Koelmel et al. 2022
+C2H5FNO2S- ,126.0030522,neg,Koelmel et al. 2022
+I- ,126.905027,neg,Koelmel et al. 2022
+SF5- ,126.964638,neg,Koelmel et al. 2022
+C5H3SO2- ,126.9859258,neg,Koelmel et al. 2022
+C3HF4O- ,128.9969024,neg,Koelmel et al. 2022
+C3H4SF3- ,128.99913,neg,Koelmel et al. 2022
+CF2SO3- ,129.9541734,neg,Koelmel et al. 2022
+CHF2SO3- ,130.961998,neg,Koelmel et al. 2022
+C3F5- ,130.992566,neg,Koelmel et al. 2022
+C3F5- ,130.992566,neg,Koelmel et al. 2022
+C5H8O2S- ,132.0250488,neg,Koelmel et al. 2022
+CF3SO2- ,132.9576616,neg,Koelmel et al. 2022
+C5H3F2S- ,132.9929022,neg,Koelmel et al. 2022
+C2F5O- ,134.987481,neg,Koelmel et al. 2022
+C4H7O3S- ,135.0121392,neg,Koelmel et al. 2022
+C2H2NO4S- ,135.9710052,neg,Koelmel et al. 2022
+C3H5O4S- ,136.991405,neg,Koelmel et al. 2022
+C5HF4- ,137.0019874,neg,Koelmel et al. 2022
+C4H2SF3- ,138.9834808,neg,Koelmel et al. 2022
+C2HF2SO3- ,142.961998,neg,Koelmel et al. 2022
+C6HF2S- ,142.977253,neg,Koelmel et al. 2022
+C2H4FSO4- ,142.9819836,neg,Koelmel et al. 2022
+C4F5- ,142.992566,neg,Koelmel et al. 2022
+C4H3F4O- ,143.0125516,neg,Koelmel et al. 2022
+C3F5O- ,146.987481,neg,Koelmel et al. 2022
+C5H4FSO2- ,146.9921536,neg,Koelmel et al. 2022
+CHF3NO2S- ,147.9685602,neg,Koelmel et al. 2022
+C4H8N2O2S- ,148.0311968,neg,Koelmel et al. 2022
+CF3SO3- ,148.9525766,neg,Koelmel et al. 2022
+C4H9N2O2S- ,149.0390214,neg,Koelmel et al. 2022
+C4H10O3NS- ,152.038687,neg,Koelmel et al. 2022
+C5F5- ,154.992566,neg,Koelmel et al. 2022
+C4F5O- ,158.987481,neg,Koelmel et al. 2022
+C4H3SF4- ,158.9897086,neg,Koelmel et al. 2022
+C2F3SO3- ,160.9525766,neg,Koelmel et al. 2022
+C2H3F3NO2S- ,161.9842094,neg,Koelmel et al. 2022
+C2H2F3SO3- ,162.9682258,neg,Koelmel et al. 2022
+C3F5O2- ,162.982396,neg,Koelmel et al. 2022
+C6H2F3S- ,162.9834808,neg,Koelmel et al. 2022
+C2H5F2O4S- ,162.9882114,neg,Koelmel et al. 2022
+C5H11N2O2S- ,163.0546706,neg,Koelmel et al. 2022
+C5H8O4S- ,164.0148788,neg,Koelmel et al. 2022
+C4H9O3N2S- ,165.0339364,neg,Koelmel et al. 2022
+C5H12NO3S- ,166.0543362,neg,Koelmel et al. 2022
+C6F5- ,166.992566,neg,Koelmel et al. 2022
+C5H5F2SO2- ,166.9983814,neg,Koelmel et al. 2022
+C3F7- ,168.9893724,neg,Koelmel et al. 2022
+C5F5O- ,170.987481,neg,Koelmel et al. 2022
+C6H4O4S- ,171.9835804,neg,Koelmel et al. 2022
+C7F3S- ,172.9678316,neg,Koelmel et al. 2022
+C3H2F3SO3- ,174.9682258,neg,Koelmel et al. 2022
+C6H3F2SO2- ,176.9827322,neg,Koelmel et al. 2022
+C4HF6O- ,178.9937088,neg,Koelmel et al. 2022
+C4H4SF5- ,178.9959364,neg,Koelmel et al. 2022
+C2F4SO3- ,179.9509798,neg,Koelmel et al. 2022
+C2HF4SO3- ,180.9588044,neg,Koelmel et al. 2022
+C4F7- ,180.9893724,neg,Koelmel et al. 2022
+C5H12NO4S- ,182.0492512,neg,Koelmel et al. 2022
+C2F5SO2- ,182.954468,neg,Koelmel et al. 2022
+C6H3F4S- ,182.9897086,neg,Koelmel et al. 2022
+C5H12FN2O2S- ,183.0608984,neg,Koelmel et al. 2022
+C4H3F2SO4- ,184.9725622,neg,Koelmel et al. 2022
+C3F7O- ,184.9842874,neg,Koelmel et al. 2022
+C6HF6- ,186.9987938,neg,Koelmel et al. 2022
+C5H6F3SO2- ,187.0046092,neg,Koelmel et al. 2022
+C4H5F3NO2S- ,187.9998586,neg,Koelmel et al. 2022
+C5H2SF5- ,188.9802872,neg,Koelmel et al. 2022
+C4H6F3NO2S- ,189.0076832,neg,Koelmel et al. 2022
+C3HF4SO3- ,192.9588044,neg,Koelmel et al. 2022
+C7HF4S- ,192.9740594,neg,Koelmel et al. 2022
+C5F7- ,192.9893724,neg,Koelmel et al. 2022
+C5H3F6O- ,193.009358,neg,Koelmel et al. 2022
+C6H14N2O3S- ,194.0730594,neg,Koelmel et al. 2022
+C6H14NO4S- ,196.0649004,neg,Koelmel et al. 2022
+C4F7O- ,196.9842874,neg,Koelmel et al. 2022
+C6H4F3SO2- ,196.98896,neg,Koelmel et al. 2022
+C2HF5NO2S- ,197.9653666,neg,Koelmel et al. 2022
+C2F5SO3- ,198.949383,neg,Koelmel et al. 2022
+C3O2F7- ,200.9792024,neg,Koelmel et al. 2022
+C6H8O2SF3- ,201.0202584,neg,Koelmel et al. 2022
+C4H4F3SO4- ,204.97879,neg,Koelmel et al. 2022
+C6F7- ,204.9893724,neg,Koelmel et al. 2022
+C7H12O4NS- ,206.0492512,neg,Koelmel et al. 2022
+F5S2O3- ,206.921455,neg,Koelmel et al. 2022
+C5F7O- ,208.9842874,neg,Koelmel et al. 2022
+C5H3SF6- ,208.986515,neg,Koelmel et al. 2022
+C3F5SO3- ,210.949383,neg,Koelmel et al. 2022
+C3H3F5NO2S- ,211.9810158,neg,Koelmel et al. 2022
+C3H2F5SO3- ,212.9650322,neg,Koelmel et al. 2022
+C4F7O2- ,212.9792024,neg,Koelmel et al. 2022
+C7H2F5S- ,212.9802872,neg,Koelmel et al. 2022
+C7F7- ,216.9893724,neg,Koelmel et al. 2022
+C6H5F4SO2- ,216.9951878,neg,Koelmel et al. 2022
+C5H8F3N2O2S- ,217.0264064,neg,Koelmel et al. 2022
+C4F9- ,218.9861788,neg,Koelmel et al. 2022
+C4F9- ,218.9861788,neg,Koelmel et al. 2022
+C6F7O- ,220.9842874,neg,Koelmel et al. 2022
+C8F5S- ,222.964638,neg,Koelmel et al. 2022
+C7H15N2O4S- ,223.075799,neg,Koelmel et al. 2022
+C4H2F5SO3- ,224.9650322,neg,Koelmel et al. 2022
+C4H5F4O4S- ,224.9850178,neg,Koelmel et al. 2022
+C7H3F4SO2- ,226.9795386,neg,Koelmel et al. 2022
+C5HF8O- ,228.9905152,neg,Koelmel et al. 2022
+C5H4SF7- ,228.9927428,neg,Koelmel et al. 2022
+C3F6SO3- ,229.9477862,neg,Koelmel et al. 2022
+C3HF6SO3- ,230.9556108,neg,Koelmel et al. 2022
+C5F9- ,230.9861788,neg,Koelmel et al. 2022
+C3F7SO2- ,232.9512744,neg,Koelmel et al. 2022
+C7H3F6S- ,232.986515,neg,Koelmel et al. 2022
+C7H3F6S- ,232.986515,neg,Koelmel et al. 2022
+C6H8F3O4S- ,233.0100884,neg,Koelmel et al. 2022
+C6H12F3N2O2S- ,233.0577048,neg,Koelmel et al. 2022
+C5H9F3O3N2S- ,234.029146,neg,Koelmel et al. 2022
+C4F9O- ,234.9810938,neg,Koelmel et al. 2022
+C7HF8- ,236.9956002,neg,Koelmel et al. 2022
+C6H6F5SO2- ,237.0014156,neg,Koelmel et al. 2022
+C5H5F5NO2S- ,237.996665,neg,Koelmel et al. 2022
+C6H2SF7- ,238.9770936,neg,Koelmel et al. 2022
+C5H6F5NO2S- ,239.0044896,neg,Koelmel et al. 2022
+C6H11NO5S2- ,241.0084136,neg,Koelmel et al. 2022
+C4HF6SO3- ,242.9556108,neg,Koelmel et al. 2022
+C8HF6S- ,242.9708658,neg,Koelmel et al. 2022
+C6F9- ,242.9861788,neg,Koelmel et al. 2022
+C6H3F8O- ,243.0061644,neg,Koelmel et al. 2022
+C6H3F4SO4- ,246.9693686,neg,Koelmel et al. 2022
+C5F9O- ,246.9810938,neg,Koelmel et al. 2022
+C5F9O- ,246.9810938,neg,Koelmel et al. 2022
+C7H4F5SO2- ,246.9857664,neg,Koelmel et al. 2022
+C3HF7NO2S- ,247.962173,neg,Koelmel et al. 2022
+C3F7SO3- ,248.9461894,neg,Koelmel et al. 2022
+C7H8O2SF5- ,251.0170648,neg,Koelmel et al. 2022
+C7F9- ,254.9861788,neg,Koelmel et al. 2022
+C7H14O5NS2- ,256.0318874,neg,Koelmel et al. 2022
+CF7S2O3- ,256.9182614,neg,Koelmel et al. 2022
+C6F9O- ,258.9810938,neg,Koelmel et al. 2022
+C6H3SF8- ,258.9833214,neg,Koelmel et al. 2022
+C4F7SO3- ,260.9461894,neg,Koelmel et al. 2022
+C4H3F7NO2S- ,261.9778222,neg,Koelmel et al. 2022
+C4H2F7SO3- ,262.9618386,neg,Koelmel et al. 2022
+C5F9O2- ,262.9760088,neg,Koelmel et al. 2022
+C8H2F7S- ,262.9770936,neg,Koelmel et al. 2022
+C7H14F3N2O3S- ,263.068269,neg,Koelmel et al. 2022
+C6H4F5SO4- ,266.9755964,neg,Koelmel et al. 2022
+C8F9- ,266.9861788,neg,Koelmel et al. 2022
+C7H5F6SO2- ,266.9919942,neg,Koelmel et al. 2022
+C6H8F5N2O2S- ,267.0232128,neg,Koelmel et al. 2022
+C9H17O4NS2- ,267.0604462,neg,Koelmel et al. 2022
+C5F11- ,268.9829852,neg,Koelmel et al. 2022
+C7F9O- ,270.9810938,neg,Koelmel et al. 2022
+C9F7S- ,272.9614444,neg,Koelmel et al. 2022
+C5H2F7SO3- ,274.9618386,neg,Koelmel et al. 2022
+C8H3F6SO2- ,276.976345,neg,Koelmel et al. 2022
+C6HF10O- ,278.9873216,neg,Koelmel et al. 2022
+C6H4SF9- ,278.9895492,neg,Koelmel et al. 2022
+C4F8SO3- ,279.9445926,neg,Koelmel et al. 2022
+C4HF8SO3- ,280.9524172,neg,Koelmel et al. 2022
+C6F11- ,280.9829852,neg,Koelmel et al. 2022
+C4F9SO2- ,282.9480808,neg,Koelmel et al. 2022
+C8H3F8S- ,282.9833214,neg,Koelmel et al. 2022
+C8H3F8S- ,282.9833214,neg,Koelmel et al. 2022
+C7H8F5O4S- ,283.0068948,neg,Koelmel et al. 2022
+C7H12F5N2O2S- ,283.0545112,neg,Koelmel et al. 2022
+C9H17O5NS2- ,283.0553612,neg,Koelmel et al. 2022
+C6H9F5O3N2S- ,284.0259524,neg,Koelmel et al. 2022
+C5F11O- ,284.9779002,neg,Koelmel et al. 2022
+C8H18N2O5S2- ,286.0662598,neg,Koelmel et al. 2022
+C6H5F6O4S- ,286.9818242,neg,Koelmel et al. 2022
+C8HF10- ,286.9924066,neg,Koelmel et al. 2022
+C7H6F7SO2- ,286.998222,neg,Koelmel et al. 2022
+C6H5F7NO2S- ,287.9934714,neg,Koelmel et al. 2022
+C7H2SF9- ,288.9739,neg,Koelmel et al. 2022
+C6H6F7NO2S- ,289.001296,neg,Koelmel et al. 2022
+C5HF8SO3- ,292.9524172,neg,Koelmel et al. 2022
+C9HF8S- ,292.9676722,neg,Koelmel et al. 2022
+C7F11- ,292.9829852,neg,Koelmel et al. 2022
+C7H3F10O- ,293.0029708,neg,Koelmel et al. 2022
+C6F11O- ,296.9779002,neg,Koelmel et al. 2022
+C8H4F7SO2- ,296.9825728,neg,Koelmel et al. 2022
+C4HF9NO2S- ,297.9589794,neg,Koelmel et al. 2022
+C4F9SO3- ,298.9429958,neg,Koelmel et al. 2022
+C8H8O2SF7- ,301.0138712,neg,Koelmel et al. 2022
+C8H18N2O6S2- ,302.0611748,neg,Koelmel et al. 2022
+C8F11- ,304.9829852,neg,Koelmel et al. 2022
+C2F9S2O3- ,306.9150678,neg,Koelmel et al. 2022
+C8H3F6SO4- ,308.966175,neg,Koelmel et al. 2022
+C7F11O- ,308.9779002,neg,Koelmel et al. 2022
+C7H3SF10- ,308.9801278,neg,Koelmel et al. 2022
+C7H11F3NO5S2- ,310.0036232,neg,Koelmel et al. 2022
+C5F9SO3- ,310.9429958,neg,Koelmel et al. 2022
+C5H3F9NO2S- ,311.9746286,neg,Koelmel et al. 2022
+C5H2F9SO3- ,312.958645,neg,Koelmel et al. 2022
+C6F11O2- ,312.9728152,neg,Koelmel et al. 2022
+C9H2F9S- ,312.9739,neg,Koelmel et al. 2022
+C8H14F5N2O3S- ,313.0650754,neg,Koelmel et al. 2022
+C9H20N2O6S2- ,316.076824,neg,Koelmel et al. 2022
+C9F11- ,316.9829852,neg,Koelmel et al. 2022
+C8H5F8SO2- ,316.9888006,neg,Koelmel et al. 2022
+C7H8F7N2O2S- ,317.0200192,neg,Koelmel et al. 2022
+C6F13- ,318.9797916,neg,Koelmel et al. 2022
+C8F11O- ,320.9779002,neg,Koelmel et al. 2022
+C10F9S- ,322.9582508,neg,Koelmel et al. 2022
+C6H2F9SO3- ,324.958645,neg,Koelmel et al. 2022
+C9H3F8SO2- ,326.9731514,neg,Koelmel et al. 2022
+C8H4F7SO4- ,328.9724028,neg,Koelmel et al. 2022
+C7HF12O- ,328.984128,neg,Koelmel et al. 2022
+C7H4SF11- ,328.9863556,neg,Koelmel et al. 2022
+C5F10SO3- ,329.941399,neg,Koelmel et al. 2022
+C5HF10SO3- ,330.9492236,neg,Koelmel et al. 2022
+C7F13- ,330.9797916,neg,Koelmel et al. 2022
+C5F11SO2- ,332.9448872,neg,Koelmel et al. 2022
+C9H3F10S- ,332.9801278,neg,Koelmel et al. 2022
+C9H3F10S- ,332.9801278,neg,Koelmel et al. 2022
+C8H8F7O4S- ,333.0037012,neg,Koelmel et al. 2022
+C8H12F7N2O2S- ,333.0513176,neg,Koelmel et al. 2022
+C10H4F6O4S- ,333.9739996,neg,Koelmel et al. 2022
+C7H9F7O3N2S- ,334.0227588,neg,Koelmel et al. 2022
+C6F13O- ,334.9747066,neg,Koelmel et al. 2022
+C10H17F3O4NS2- ,336.0556558,neg,Koelmel et al. 2022
+C9HF12- ,336.989213,neg,Koelmel et al. 2022
+C8H6F9SO2- ,336.9950284,neg,Koelmel et al. 2022
+C7H5F9NO2S- ,337.9902778,neg,Koelmel et al. 2022
+C8H2SF11- ,338.9707064,neg,Koelmel et al. 2022
+C7H6F9NO2S- ,338.9981024,neg,Koelmel et al. 2022
+C6HF10SO3- ,342.9492236,neg,Koelmel et al. 2022
+C10HF10S- ,342.9644786,neg,Koelmel et al. 2022
+C8F13- ,342.9797916,neg,Koelmel et al. 2022
+C8H3F12O- ,342.9997772,neg,Koelmel et al. 2022
+C7F13O- ,346.9747066,neg,Koelmel et al. 2022
+C7F13O- ,346.9747066,neg,Koelmel et al. 2022
+C9H4F9SO2- ,346.9793792,neg,Koelmel et al. 2022
+C5HF11NO2S- ,347.9557858,neg,Koelmel et al. 2022
+C5F11SO3- ,348.9398022,neg,Koelmel et al. 2022
+C8H5F8O4S- ,348.9786306,neg,Koelmel et al. 2022
+C9H8O2SF9- ,351.0106776,neg,Koelmel et al. 2022
+C10H17F3O5NS2- ,352.0505708,neg,Koelmel et al. 2022
+C9F13- ,354.9797916,neg,Koelmel et al. 2022
+C9H18F3N2O5S2- ,355.0614694,neg,Koelmel et al. 2022
+C3F11S2O3- ,356.9118742,neg,Koelmel et al. 2022
+C8F13O- ,358.9747066,neg,Koelmel et al. 2022
+C8H3SF12- ,358.9769342,neg,Koelmel et al. 2022
+C8H11F5NO5S2- ,360.0004296,neg,Koelmel et al. 2022
+C6F11SO3- ,360.9398022,neg,Koelmel et al. 2022
+C6H3F11NO2S- ,361.971435,neg,Koelmel et al. 2022
+C6H2F11SO3- ,362.9554514,neg,Koelmel et al. 2022
+C7F13O2- ,362.9696216,neg,Koelmel et al. 2022
+C10H2F11S- ,362.9707064,neg,Koelmel et al. 2022
+C9H14F7N2O3S- ,363.0618818,neg,Koelmel et al. 2022
+C11H4F7O4S- ,364.9724028,neg,Koelmel et al. 2022
+C10F13- ,366.9797916,neg,Koelmel et al. 2022
+C9H5F10SO2- ,366.985607,neg,Koelmel et al. 2022
+C8H8F9N2O2S- ,367.0168256,neg,Koelmel et al. 2022
+C7F15- ,368.976598,neg,Koelmel et al. 2022
+C10H3F8SO4- ,370.9629814,neg,Koelmel et al. 2022
+C9F13O- ,370.9747066,neg,Koelmel et al. 2022
+C9H18F3N2O6S2- ,371.0563844,neg,Koelmel et al. 2022
+C11F11S- ,372.9550572,neg,Koelmel et al. 2022
+C7H2F11SO3- ,374.9554514,neg,Koelmel et al. 2022
+C10H3F10SO2- ,376.9699578,neg,Koelmel et al. 2022
+C8HF14O- ,378.9809344,neg,Koelmel et al. 2022
+C8H4SF13- ,378.983162,neg,Koelmel et al. 2022
+C6F12SO3- ,379.9382054,neg,Koelmel et al. 2022
+C6HF12SO3- ,380.94603,neg,Koelmel et al. 2022
+C8F15- ,380.976598,neg,Koelmel et al. 2022
+C6F13SO2- ,382.9416936,neg,Koelmel et al. 2022
+C10H3F12S- ,382.9769342,neg,Koelmel et al. 2022
+C9H8F9O4S- ,383.0005076,neg,Koelmel et al. 2022
+C9H12F9N2O2S- ,383.048124,neg,Koelmel et al. 2022
+C8H9F9O3N2S- ,384.0195652,neg,Koelmel et al. 2022
+C7F15O- ,384.971513,neg,Koelmel et al. 2022
+C10H20F3N2O6S2- ,385.0720336,neg,Koelmel et al. 2022
+C11H17F5O4NS2- ,386.0524622,neg,Koelmel et al. 2022
+C10HF14- ,386.9860194,neg,Koelmel et al. 2022
+C9H6F11SO2- ,386.9918348,neg,Koelmel et al. 2022
+C8H5F11NO2S- ,387.9870842,neg,Koelmel et al. 2022
+C9H2SF13- ,388.9675128,neg,Koelmel et al. 2022
+C8H6F11NO2S- ,388.9949088,neg,Koelmel et al. 2022
+C10H4F9SO4- ,390.9692092,neg,Koelmel et al. 2022
+C7HF12SO3- ,392.94603,neg,Koelmel et al. 2022
+C11HF12S- ,392.961285,neg,Koelmel et al. 2022
+C9F15- ,392.976598,neg,Koelmel et al. 2022
+C9H3F14O- ,392.9965836,neg,Koelmel et al. 2022
+C8F15O- ,396.971513,neg,Koelmel et al. 2022
+C8F15O- ,396.971513,neg,Koelmel et al. 2022
+C10H4F11SO2- ,396.9761856,neg,Koelmel et al. 2022
+C6HF13NO2S- ,397.9525922,neg,Koelmel et al. 2022
+C6F13SO3- ,398.9366086,neg,Koelmel et al. 2022
+C10H8O2SF11- ,401.007484,neg,Koelmel et al. 2022
+C11H17F5O5NS2- ,402.0473772,neg,Koelmel et al. 2022
+C11H4F9O4S ,402.9692092,neg,Koelmel et al. 2022
+C10F15- ,404.976598,neg,Koelmel et al. 2022
+C10H18F5N2O5S2- ,405.0582758,neg,Koelmel et al. 2022
+C4F13S2O3- ,406.9086806,neg,Koelmel et al. 2022
+C9F15O- ,408.971513,neg,Koelmel et al. 2022
+C9H3SF14- ,408.9737406,neg,Koelmel et al. 2022
+C9H11F7NO5S2- ,409.997236,neg,Koelmel et al. 2022
+C7F13SO3- ,410.9366086,neg,Koelmel et al. 2022
+C10H5F10O4S- ,410.975437,neg,Koelmel et al. 2022
+C7H3F13NO2S- ,411.9682414,neg,Koelmel et al. 2022
+C7H2F13SO3- ,412.9522578,neg,Koelmel et al. 2022
+C8F15O2- ,412.966428,neg,Koelmel et al. 2022
+C11H2F13S- ,412.9675128,neg,Koelmel et al. 2022
+C10H14F9N2O3S- ,413.0586882,neg,Koelmel et al. 2022
+C12H4F9O4S- ,414.9692092,neg,Koelmel et al. 2022
+C11F15- ,416.976598,neg,Koelmel et al. 2022
+C10H5F12SO2- ,416.9824134,neg,Koelmel et al. 2022
+C9H8F11N2O2S- ,417.013632,neg,Koelmel et al. 2022
+C8F17- ,418.9734044,neg,Koelmel et al. 2022
+C10F15O- ,420.971513,neg,Koelmel et al. 2022
+C10H18F5N2O6S2- ,421.0531908,neg,Koelmel et al. 2022
+C12F13S- ,422.9518636,neg,Koelmel et al. 2022
+C8H2F13SO3- ,424.9522578,neg,Koelmel et al. 2022
+C11H3F12SO2- ,426.9667642,neg,Koelmel et al. 2022
+C9HF16O- ,428.9777408,neg,Koelmel et al. 2022
+C9H4SF15- ,428.9799684,neg,Koelmel et al. 2022
+C7F14SO3- ,429.9350118,neg,Koelmel et al. 2022
+C7HF14SO3- ,430.9428364,neg,Koelmel et al. 2022
+C9F17- ,430.9734044,neg,Koelmel et al. 2022
+C7F15SO2- ,432.9385,neg,Koelmel et al. 2022
+C12H3F10SO4- ,432.9597878,neg,Koelmel et al. 2022
+C11H3F14S- ,432.9737406,neg,Koelmel et al. 2022
+C11H3F14S- ,432.9737406,neg,Koelmel et al. 2022
+C10H8F11O4S- ,432.997314,neg,Koelmel et al. 2022
+C10H12F11N2O2S- ,433.0449304,neg,Koelmel et al. 2022
+C9H9F11O3N2S- ,434.0163716,neg,Koelmel et al. 2022
+C8F17O- ,434.9683194,neg,Koelmel et al. 2022
+C11H20F5N2O6S2- ,435.06884,neg,Koelmel et al. 2022
+C12H17F7O4NS2- ,436.0492686,neg,Koelmel et al. 2022
+C11HF16- ,436.9828258,neg,Koelmel et al. 2022
+C10H6F13SO2- ,436.9886412,neg,Koelmel et al. 2022
+C9H5F13NO2S- ,437.9838906,neg,Koelmel et al. 2022
+C10H2SF15- ,438.9643192,neg,Koelmel et al. 2022
+C9H6F13NO2S- ,438.9917152,neg,Koelmel et al. 2022
+C8HF14SO3- ,442.9428364,neg,Koelmel et al. 2022
+C12HF14S- ,442.9580914,neg,Koelmel et al. 2022
+C10F17- ,442.9734044,neg,Koelmel et al. 2022
+C10H3F16O- ,442.99339,neg,Koelmel et al. 2022
+C9F17O- ,446.9683194,neg,Koelmel et al. 2022
+C11H4F13SO2- ,446.972992,neg,Koelmel et al. 2022
+C7HF15NO2S- ,447.9493986,neg,Koelmel et al. 2022
+C7F15SO3- ,448.933415,neg,Koelmel et al. 2022
+C11H8O2SF13- ,451.0042904,neg,Koelmel et al. 2022
+C12H17F7O5NS2- ,452.0441836,neg,Koelmel et al. 2022
+C12H4F11SO4- ,452.9660156,neg,Koelmel et al. 2022
+C11F17- ,454.9734044,neg,Koelmel et al. 2022
+C11H18F7N2O5S2- ,455.0550822,neg,Koelmel et al. 2022
+C5F15S2O3- ,456.905487,neg,Koelmel et al. 2022
+C8HF14SO4- ,458.9377514,neg,Koelmel et al. 2022
+C10F17O- ,458.9683194,neg,Koelmel et al. 2022
+C10H3SF16- ,458.970547,neg,Koelmel et al. 2022
+C10H11F9NO5S2- ,459.9940424,neg,Koelmel et al. 2022
+C8F15SO3- ,460.933415,neg,Koelmel et al. 2022
+C8H3F15NO2S- ,461.9650478,neg,Koelmel et al. 2022
+C8H2F15SO3- ,462.9490642,neg,Koelmel et al. 2022
+C9F17O2- ,462.9632344,neg,Koelmel et al. 2022
+C12H2F15S- ,462.9643192,neg,Koelmel et al. 2022
+C11H14F11N2O3S- ,463.0554946,neg,Koelmel et al. 2022
+C13H4F11O4S- ,464.9660156,neg,Koelmel et al. 2022
+C12F17- ,466.9734044,neg,Koelmel et al. 2022
+C11H5F14SO2- ,466.9792198,neg,Koelmel et al. 2022
+C10H8F13N2O2S- ,467.0104384,neg,Koelmel et al. 2022
+C9F19- ,468.9702108,neg,Koelmel et al. 2022
+C11F17O- ,470.9683194,neg,Koelmel et al. 2022
+C11H18F7N2O6S2- ,471.0499972,neg,Koelmel et al. 2022
+C13F15S- ,472.94867,neg,Koelmel et al. 2022
+C12H5F12O4S- ,472.9722434,neg,Koelmel et al. 2022
+C9H2F15SO3- ,474.9490642,neg,Koelmel et al. 2022
+C12H3F14SO2- ,476.9635706,neg,Koelmel et al. 2022
+C10HF18O- ,478.9745472,neg,Koelmel et al. 2022
+C10H4SF17- ,478.9767748,neg,Koelmel et al. 2022
+C8F16SO3- ,479.9318182,neg,Koelmel et al. 2022
+C8HF16SO3- ,480.9396428,neg,Koelmel et al. 2022
+C10F19- ,480.9702108,neg,Koelmel et al. 2022
+C8F17SO2- ,482.9353064,neg,Koelmel et al. 2022
+C12H3F16S- ,482.970547,neg,Koelmel et al. 2022
+C12H3F16S- ,482.970547,neg,Koelmel et al. 2022
+C11H8F13O4S- ,482.9941204,neg,Koelmel et al. 2022
+C11H12F13N2O2S- ,483.0417368,neg,Koelmel et al. 2022
+C10H9F13O3N2S- ,484.013178,neg,Koelmel et al. 2022
+C9F18Cl-,484.9406606,neg,Koelmel et al. 2022
+C9F19O- ,484.9651258,neg,Koelmel et al. 2022
+C12H20F7N2O6S2- ,485.0656464,neg,Koelmel et al. 2022
+C13H17F9O4NS2- ,486.046075,neg,Koelmel et al. 2022
+C12HF18- ,486.9796322,neg,Koelmel et al. 2022
+C11H6F15SO2- ,486.9854476,neg,Koelmel et al. 2022
+C10H5F15NO2S- ,487.980697,neg,Koelmel et al. 2022
+C11H2SF17- ,488.9611256,neg,Koelmel et al. 2022
+C10H6F15NO2S- ,488.9885216,neg,Koelmel et al. 2022
+C9HF16SO3- ,492.9396428,neg,Koelmel et al. 2022
+C13HF16S- ,492.9548978,neg,Koelmel et al. 2022
+C11F19- ,492.9702108,neg,Koelmel et al. 2022
+C11H3F18O- ,492.9901964,neg,Koelmel et al. 2022
+C14H3F12SO4- ,494.9565942,neg,Koelmel et al. 2022
+C10F19O- ,496.9651258,neg,Koelmel et al. 2022
+C10F19O- ,496.9651258,neg,Koelmel et al. 2022
+C12H4F15SO2- ,496.9697984,neg,Koelmel et al. 2022
+C8HF17NO2S- ,497.946205,neg,Koelmel et al. 2022
+C8F17SO3- ,498.9302214,neg,Koelmel et al. 2022
+C12H8O2SF15- ,501.0010968,neg,Koelmel et al. 2022
+C13H17F9O5NS2- ,502.04099,neg,Koelmel et al. 2022
+C13H4F13O4S ,502.962822,neg,Koelmel et al. 2022
+C12F19- ,504.9702108,neg,Koelmel et al. 2022
+C12H18F9N2O5S2- ,505.0518886,neg,Koelmel et al. 2022
+C6F17S2O3- ,506.9022934,neg,Koelmel et al. 2022
+C11F19O- ,508.9651258,neg,Koelmel et al. 2022
+C11H3SF18- ,508.9673534,neg,Koelmel et al. 2022
+C11H11F11NO5S2- ,509.9908488,neg,Koelmel et al. 2022
+C9F17SO3- ,510.9302214,neg,Koelmel et al. 2022
+C9H3F17NO2S- ,511.9618542,neg,Koelmel et al. 2022
+C9H2F17SO3- ,512.9458706,neg,Koelmel et al. 2022
+C10F19O2- ,512.9600408,neg,Koelmel et al. 2022
+C13H2F17S- ,512.9611256,neg,Koelmel et al. 2022
+C12H14F13N2O3S- ,513.052301,neg,Koelmel et al. 2022
+C14H4F13O4S- ,514.962822,neg,Koelmel et al. 2022
+C14H4F13SO4- ,514.962822,neg,Koelmel et al. 2022
+C13F19- ,516.9702108,neg,Koelmel et al. 2022
+C12H5F16SO2- ,516.9760262,neg,Koelmel et al. 2022
+C11H8F15N2O2S- ,517.0072448,neg,Koelmel et al. 2022
+C10F21- ,518.9670172,neg,Koelmel et al. 2022
+C12F19O- ,520.9651258,neg,Koelmel et al. 2022
+C12H18F9N2O6S2- ,521.0468036,neg,Koelmel et al. 2022
+C14F17S- ,522.9454764,neg,Koelmel et al. 2022
+C10H2F17SO3- ,524.9458706,neg,Koelmel et al. 2022
+C13H3F16SO2- ,526.960377,neg,Koelmel et al. 2022
+C11HF20O- ,528.9713536,neg,Koelmel et al. 2022
+C11H4SF19- ,528.9735812,neg,Koelmel et al. 2022
+C9F18SO3- ,529.9286246,neg,Koelmel et al. 2022
+C9HF18SO3- ,530.9364492,neg,Koelmel et al. 2022
+C11F21- ,530.9670172,neg,Koelmel et al. 2022
+C9F19SO2- ,532.9321128,neg,Koelmel et al. 2022
+C13H3F18S- ,532.9673534,neg,Koelmel et al. 2022
+C12H8F15O4S- ,532.9909268,neg,Koelmel et al. 2022
+C12H12F15N2O2S- ,533.0385432,neg,Koelmel et al. 2022
+C11H9F15O3N2S- ,534.0099844,neg,Koelmel et al. 2022
+C10F21O- ,534.9619322,neg,Koelmel et al. 2022
+C14H5F14O4S- ,534.9690498,neg,Koelmel et al. 2022
+C13H20F9N2O6S2- ,535.0624528,neg,Koelmel et al. 2022
+C14H17F11O4NS2- ,536.0428814,neg,Koelmel et al. 2022
+C13HF20- ,536.9764386,neg,Koelmel et al. 2022
+C12H6F17SO2- ,536.982254,neg,Koelmel et al. 2022
+C11H5F17NO2S- ,537.9775034,neg,Koelmel et al. 2022
+C12H2SF19- ,538.957932,neg,Koelmel et al. 2022
+C11H6F17NO2S- ,538.985328,neg,Koelmel et al. 2022
+C10HF18SO3- ,542.9364492,neg,Koelmel et al. 2022
+C14HF18S- ,542.9517042,neg,Koelmel et al. 2022
+C12F21- ,542.9670172,neg,Koelmel et al. 2022
+C12H3F20O- ,542.9870028,neg,Koelmel et al. 2022
+C11F21O- ,546.9619322,neg,Koelmel et al. 2022
+C11F21O- ,546.9619322,neg,Koelmel et al. 2022
+C13H4F17SO2- ,546.9666048,neg,Koelmel et al. 2022
+C9HF19NO2S- ,547.9430114,neg,Koelmel et al. 2022
+C9F19SO3- ,548.9270278,neg,Koelmel et al. 2022
+C13H8O2SF17- ,550.9979032,neg,Koelmel et al. 2022
+C14H17F11O5NS2- ,552.0377964,neg,Koelmel et al. 2022
+C14H4F15O4S ,552.9596284,neg,Koelmel et al. 2022
+C13F21- ,554.9670172,neg,Koelmel et al. 2022
+C13H18F11N2O5S2- ,555.048695,neg,Koelmel et al. 2022
+C7F19S2O3- ,556.8990998,neg,Koelmel et al. 2022
+C16H3F14SO4- ,556.9534006,neg,Koelmel et al. 2022
+C12F21O- ,558.9619322,neg,Koelmel et al. 2022
+C12H3SF20- ,558.9641598,neg,Koelmel et al. 2022
+C12H11F13NO5S2- ,559.9876552,neg,Koelmel et al. 2022
+C10F19SO3- ,560.9270278,neg,Koelmel et al. 2022
+C10H3F19NO2S- ,561.9586606,neg,Koelmel et al. 2022
+C10H2F19SO3- ,562.942677,neg,Koelmel et al. 2022
+C11F21O2- ,562.9568472,neg,Koelmel et al. 2022
+C14H2F19S- ,562.957932,neg,Koelmel et al. 2022
+C13H14F15N2O3S- ,563.0491074,neg,Koelmel et al. 2022
+C15H4F15O4S- ,564.9596284,neg,Koelmel et al. 2022
+C14F21- ,566.9670172,neg,Koelmel et al. 2022
+C13H5F18SO2- ,566.9728326,neg,Koelmel et al. 2022
+C12H8F17N2O2S- ,567.0040512,neg,Koelmel et al. 2022
+C11F23- ,568.9638236,neg,Koelmel et al. 2022
+C13F21O- ,570.9619322,neg,Koelmel et al. 2022
+C13H18F11N2O6S2- ,571.04361,neg,Koelmel et al. 2022
+C15F19S- ,572.9422828,neg,Koelmel et al. 2022
+C11H2F19SO3- ,574.942677,neg,Koelmel et al. 2022
+C14H3F18SO2- ,576.9571834,neg,Koelmel et al. 2022
+C16H4F15SO4- ,576.9596284,neg,Koelmel et al. 2022
+C12HF22O- ,578.96816,neg,Koelmel et al. 2022
+C12H4SF21- ,578.9703876,neg,Koelmel et al. 2022
+C10F20SO3- ,579.925431,neg,Koelmel et al. 2022
+C10HF20SO3- ,580.9332556,neg,Koelmel et al. 2022
+C12F23- ,580.9638236,neg,Koelmel et al. 2022
+C10F21SO2- ,582.9289192,neg,Koelmel et al. 2022
+C14H3F20S- ,582.9641598,neg,Koelmel et al. 2022
+C14H3F20S- ,582.9641598,neg,Koelmel et al. 2022
+C13H8F17O4S- ,582.9877332,neg,Koelmel et al. 2022
+C13H12F17N2O2S- ,583.0353496,neg,Koelmel et al. 2022
+C12H9F17O3N2S- ,584.0067908,neg,Koelmel et al. 2022
+C11F23O- ,584.9587386,neg,Koelmel et al. 2022
+C14H20F11N2O6S2- ,585.0592592,neg,Koelmel et al. 2022
+C15H17F13O4NS2- ,586.0396878,neg,Koelmel et al. 2022
+C14HF22- ,586.973245,neg,Koelmel et al. 2022
+C13H6F19SO2- ,586.9790604,neg,Koelmel et al. 2022
+C12H5F19NO2S- ,587.9743098,neg,Koelmel et al. 2022
+C13H2SF21- ,588.9547384,neg,Koelmel et al. 2022
+C12H6F19NO2S- ,588.9821344,neg,Koelmel et al. 2022
+C11HF20SO3- ,592.9332556,neg,Koelmel et al. 2022
+C15HF20S- ,592.9485106,neg,Koelmel et al. 2022
+C13F23- ,592.9638236,neg,Koelmel et al. 2022
+C13H3F22O- ,592.9838092,neg,Koelmel et al. 2022
+C12F23O- ,596.9587386,neg,Koelmel et al. 2022
+C14H4F19SO2- ,596.9634112,neg,Koelmel et al. 2022
+C16H5F16O4S- ,596.9658562,neg,Koelmel et al. 2022
+C10HF21NO2S- ,597.9398178,neg,Koelmel et al. 2022
+C10F21SO3- ,598.9238342,neg,Koelmel et al. 2022
+C14H8O2SF19- ,600.9947096,neg,Koelmel et al. 2022
+C15H17F13O5NS2- ,602.0346028,neg,Koelmel et al. 2022
+C15H4F17O4S ,602.9564348,neg,Koelmel et al. 2022
+C14F23- ,604.9638236,neg,Koelmel et al. 2022
+C14H18F13N2O5S2- ,605.0455014,neg,Koelmel et al. 2022
+C8F21S2O3- ,606.8959062,neg,Koelmel et al. 2022
+C13F23O- ,608.9587386,neg,Koelmel et al. 2022
+C13H3SF22- ,608.9609662,neg,Koelmel et al. 2022
+C13H11F15NO5S2- ,609.9844616,neg,Koelmel et al. 2022
+C11F21SO3- ,610.9238342,neg,Koelmel et al. 2022
+C11H3F21NO2S- ,611.955467,neg,Koelmel et al. 2022
+C11H2F21SO3- ,612.9394834,neg,Koelmel et al. 2022
+C12F23O2- ,612.9536536,neg,Koelmel et al. 2022
+C15H2F21S- ,612.9547384,neg,Koelmel et al. 2022
+C14H14F17N2O3S- ,613.0459138,neg,Koelmel et al. 2022
+C16H4F17O4S- ,614.9564348,neg,Koelmel et al. 2022
+C15F23- ,616.9638236,neg,Koelmel et al. 2022
+C14H5F20SO2- ,616.969639,neg,Koelmel et al. 2022
+C13H8F19N2O2S- ,617.0008576,neg,Koelmel et al. 2022
+C18H3F16SO4- ,618.950207,neg,Koelmel et al. 2022
+C12F25- ,618.96063,neg,Koelmel et al. 2022
+C14F23O- ,620.9587386,neg,Koelmel et al. 2022
+C14H18F13N2O6S2- ,621.0404164,neg,Koelmel et al. 2022
+C16F21S- ,622.9390892,neg,Koelmel et al. 2022
+C12H2F21SO3- ,624.9394834,neg,Koelmel et al. 2022
+C15H3F20SO2- ,626.9539898,neg,Koelmel et al. 2022
+C13HF24O- ,628.9649664,neg,Koelmel et al. 2022
+C13H4SF23- ,628.967194,neg,Koelmel et al. 2022
+C11F22SO3- ,629.9222374,neg,Koelmel et al. 2022
+C11HF22SO3- ,630.930062,neg,Koelmel et al. 2022
+C13F25- ,630.96063,neg,Koelmel et al. 2022
+C11F23SO2- ,632.9257256,neg,Koelmel et al. 2022
+C15H3F22S- ,632.9609662,neg,Koelmel et al. 2022
+C14H8F19O4S- ,632.9845396,neg,Koelmel et al. 2022
+C14H12F19N2O2S- ,633.032156,neg,Koelmel et al. 2022
+C13H9F19O3N2S- ,634.0035972,neg,Koelmel et al. 2022
+C12F25O- ,634.955545,neg,Koelmel et al. 2022
+C15H20F13N2O6S2- ,635.0560656,neg,Koelmel et al. 2022
+C16H17F15O4NS2- ,636.0364942,neg,Koelmel et al. 2022
+C15HF24- ,636.9700514,neg,Koelmel et al. 2022
+C14H6F21SO2- ,636.9758668,neg,Koelmel et al. 2022
+C13H5F21NO2S- ,637.9711162,neg,Koelmel et al. 2022
+C14H2SF23- ,638.9515448,neg,Koelmel et al. 2022
+C18H4F17SO4- ,638.9564348,neg,Koelmel et al. 2022
+C13H6F21NO2S- ,638.9789408,neg,Koelmel et al. 2022
+C12HF22SO3- ,642.930062,neg,Koelmel et al. 2022
+C16HF22S- ,642.945317,neg,Koelmel et al. 2022
+C14F25- ,642.96063,neg,Koelmel et al. 2022
+C14H3F24O- ,642.9806156,neg,Koelmel et al. 2022
+C13F25O- ,646.955545,neg,Koelmel et al. 2022
+C13F25O- ,646.955545,neg,Koelmel et al. 2022
+C15H4F21SO2- ,646.9602176,neg,Koelmel et al. 2022
+C11HF23NO2S- ,647.9366242,neg,Koelmel et al. 2022
+C11F23SO3- ,648.9206406,neg,Koelmel et al. 2022
+C15H8O2SF21- ,650.991516,neg,Koelmel et al. 2022
+C16H17F15O5NS2- ,652.0314092,neg,Koelmel et al. 2022
+C16H4F19O4S ,652.9532412,neg,Koelmel et al. 2022
+C15F25- ,654.96063,neg,Koelmel et al. 2022
+C15H18F15N2O5S2- ,655.0423078,neg,Koelmel et al. 2022
+C9F23S2O3- ,656.8927126,neg,Koelmel et al. 2022
+C14F25O- ,658.955545,neg,Koelmel et al. 2022
+C14F25O- ,658.955545,neg,Koelmel et al. 2022
+C14H3SF24- ,658.9577726,neg,Koelmel et al. 2022
+C18H5F18O4S- ,658.9626626,neg,Koelmel et al. 2022
+C14H11F17NO5S2- ,659.981268,neg,Koelmel et al. 2022
+C12F23SO3- ,660.9206406,neg,Koelmel et al. 2022
+C12H3F23NO2S- ,661.9522734,neg,Koelmel et al. 2022
+C12H2F23SO3- ,662.9362898,neg,Koelmel et al. 2022
+C13F25O2- ,662.95046,neg,Koelmel et al. 2022
+C16H2F23S- ,662.9515448,neg,Koelmel et al. 2022
+C15H14F19N2O3S- ,663.0427202,neg,Koelmel et al. 2022
+C17H4F19O4S- ,664.9532412,neg,Koelmel et al. 2022
+C16F25- ,666.96063,neg,Koelmel et al. 2022
+C15H5F22SO2- ,666.9664454,neg,Koelmel et al. 2022
+C14H8F21N2O2S- ,666.997664,neg,Koelmel et al. 2022
+C13F27- ,668.9574364,neg,Koelmel et al. 2022
+C15F25O- ,670.955545,neg,Koelmel et al. 2022
+C15H18F15N2O6S2- ,671.0372228,neg,Koelmel et al. 2022
+C17F23S- ,672.9358956,neg,Koelmel et al. 2022
+C13H2F23SO3- ,674.9362898,neg,Koelmel et al. 2022
+C16H3F22SO2- ,676.9507962,neg,Koelmel et al. 2022
+C14HF26O- ,678.9617728,neg,Koelmel et al. 2022
+C14H4SF25- ,678.9640004,neg,Koelmel et al. 2022
+C12F24SO3- ,679.9190438,neg,Koelmel et al. 2022
+C12HF24SO3- ,680.9268684,neg,Koelmel et al. 2022
+C20H3F18SO4- ,680.9470134,neg,Koelmel et al. 2022
+C14F27- ,680.9574364,neg,Koelmel et al. 2022
+C12F25SO2- ,682.922532,neg,Koelmel et al. 2022
+C16H3F24S- ,682.9577726,neg,Koelmel et al. 2022
+C15H8F21O4S- ,682.981346,neg,Koelmel et al. 2022
+C15H12F21N2O2S- ,683.0289624,neg,Koelmel et al. 2022
+C14H9F21O3N2S- ,684.0004036,neg,Koelmel et al. 2022
+C13F27O- ,684.9523514,neg,Koelmel et al. 2022
+C16H20F15N2O6S2- ,685.052872,neg,Koelmel et al. 2022
+C17H17F17O4NS2- ,686.0333006,neg,Koelmel et al. 2022
+C16HF26- ,686.9668578,neg,Koelmel et al. 2022
+C15H6F23SO2- ,686.9726732,neg,Koelmel et al. 2022
+C14H5F23NO2S- ,687.9679226,neg,Koelmel et al. 2022
+C15H2SF25- ,688.9483512,neg,Koelmel et al. 2022
+C14H6F23NO2S- ,688.9757472,neg,Koelmel et al. 2022
+C13HF24SO3- ,692.9268684,neg,Koelmel et al. 2022
+C17HF24S- ,692.9421234,neg,Koelmel et al. 2022
+C15F27- ,692.9574364,neg,Koelmel et al. 2022
+C15H3F26O- ,692.977422,neg,Koelmel et al. 2022
+C14F27O- ,696.9523514,neg,Koelmel et al. 2022
+C14F27O- ,696.9523514,neg,Koelmel et al. 2022
+C16H4F23SO2- ,696.957024,neg,Koelmel et al. 2022
+C12HF25NO2S- ,697.9334306,neg,Koelmel et al. 2022
+C12F25SO3- ,698.917447,neg,Koelmel et al. 2022
+C20H4F19SO4- ,700.9532412,neg,Koelmel et al. 2022
+C16H8O2SF23- ,700.9883224,neg,Koelmel et al. 2022
+C17H17F17O5NS2- ,702.0282156,neg,Koelmel et al. 2022
+C17H4F21O4S ,702.9500476,neg,Koelmel et al. 2022
+C16F27- ,704.9574364,neg,Koelmel et al. 2022
+C16H18F17N2O5S2- ,705.0391142,neg,Koelmel et al. 2022
+C10F25S2O3- ,706.889519,neg,Koelmel et al. 2022
+C15F27O- ,708.9523514,neg,Koelmel et al. 2022
+C15F27O- ,708.9523514,neg,Koelmel et al. 2022
+C15H3SF26- ,708.954579,neg,Koelmel et al. 2022
+C15H11F19NO5S2- ,709.9780744,neg,Koelmel et al. 2022
+C13F25SO3- ,710.917447,neg,Koelmel et al. 2022
+C13H3F25NO2S- ,711.9490798,neg,Koelmel et al. 2022
+C13H2F25SO3- ,712.9330962,neg,Koelmel et al. 2022
+C14F27O2- ,712.9472664,neg,Koelmel et al. 2022
+C17H2F25S- ,712.9483512,neg,Koelmel et al. 2022
+C16H14F21N2O3S- ,713.0395266,neg,Koelmel et al. 2022
+C18H4F21O4S- ,714.9500476,neg,Koelmel et al. 2022
+C17F27- ,716.9574364,neg,Koelmel et al. 2022
+C16H5F24SO2- ,716.9632518,neg,Koelmel et al. 2022
+C15H8F23N2O2S- ,716.9944704,neg,Koelmel et al. 2022
+C14F29- ,718.9542428,neg,Koelmel et al. 2022
+C16F27O- ,720.9523514,neg,Koelmel et al. 2022
+C20H5F20O4S- ,720.959469,neg,Koelmel et al. 2022
+C16H18F17N2O6S2- ,721.0340292,neg,Koelmel et al. 2022
+C14H2F25SO3- ,724.9330962,neg,Koelmel et al. 2022
+C17H3F24SO2- ,726.9476026,neg,Koelmel et al. 2022
+C15HF28O- ,728.9585792,neg,Koelmel et al. 2022
+C15H4SF27- ,728.9608068,neg,Koelmel et al. 2022
+C13F26SO3- ,729.9158502,neg,Koelmel et al. 2022
+C13HF26SO3- ,730.9236748,neg,Koelmel et al. 2022
+C15F29- ,730.9542428,neg,Koelmel et al. 2022
+C13F27SO2- ,732.9193384,neg,Koelmel et al. 2022
+C17H3F26S- ,732.954579,neg,Koelmel et al. 2022
+C17H3F26S- ,732.954579,neg,Koelmel et al. 2022
+C16H8F23O4S- ,732.9781524,neg,Koelmel et al. 2022
+C16H12F23N2O2S- ,733.0257688,neg,Koelmel et al. 2022
+C15H9F23O3N2S- ,733.99721,neg,Koelmel et al. 2022
+C14F29O- ,734.9491578,neg,Koelmel et al. 2022
+C17H20F17N2O6S2- ,735.0496784,neg,Koelmel et al. 2022
+C18H17F19O4NS2- ,736.030107,neg,Koelmel et al. 2022
+C17HF28- ,736.9636642,neg,Koelmel et al. 2022
+C16H6F25SO2- ,736.9694796,neg,Koelmel et al. 2022
+C15H5F25NO2S- ,737.964729,neg,Koelmel et al. 2022
+C16H2SF27- ,738.9451576,neg,Koelmel et al. 2022
+C15H6F25NO2S- ,738.9725536,neg,Koelmel et al. 2022
+C14HF26SO3- ,742.9236748,neg,Koelmel et al. 2022
+C22H3F20SO4- ,742.9438198,neg,Koelmel et al. 2022
+C16F29- ,742.9542428,neg,Koelmel et al. 2022
+C16F29- ,742.9542428,neg,Koelmel et al. 2022
+C16F29- ,742.9542428,neg,Koelmel et al. 2022
+C16H3F28O- ,742.9742284,neg,Koelmel et al. 2022
+C15F29O- ,746.9491578,neg,Koelmel et al. 2022
+C15F29O- ,746.9491578,neg,Koelmel et al. 2022
+C17H4F25SO2- ,746.9538304,neg,Koelmel et al. 2022
+C13HF27NO2S- ,747.930237,neg,Koelmel et al. 2022
+C13F27SO3- ,748.9142534,neg,Koelmel et al. 2022
+C17H8O2SF25- ,750.9851288,neg,Koelmel et al. 2022
+C18H17F19O5NS2- ,752.025022,neg,Koelmel et al. 2022
+C18H4F23O4S ,752.946854,neg,Koelmel et al. 2022
+C17F29- ,754.9542428,neg,Koelmel et al. 2022
+C17H18F19N2O5S2- ,755.0359206,neg,Koelmel et al. 2022
+C11F27S2O3- ,756.8863254,neg,Koelmel et al. 2022
+C16F29O- ,758.9491578,neg,Koelmel et al. 2022
+C16F29O- ,758.9491578,neg,Koelmel et al. 2022
+C16H3SF28- ,758.9513854,neg,Koelmel et al. 2022
+C16H11F21NO5S2- ,759.9748808,neg,Koelmel et al. 2022
+C14F27SO3- ,760.9142534,neg,Koelmel et al. 2022
+C14H3F27NO2S- ,761.9458862,neg,Koelmel et al. 2022
+C14H2F27SO3- ,762.9299026,neg,Koelmel et al. 2022
+C15F29O2- ,762.9440728,neg,Koelmel et al. 2022
+C22H4F21SO4- ,762.9500476,neg,Koelmel et al. 2022
+C17H14F23N2O3S- ,763.036333,neg,Koelmel et al. 2022
+C19H4F23O4S- ,764.946854,neg,Koelmel et al. 2022
+C18F29- ,766.9542428,neg,Koelmel et al. 2022
+C17H5F26SO2- ,766.9600582,neg,Koelmel et al. 2022
+C16H8F25N2O2S- ,766.9912768,neg,Koelmel et al. 2022
+C17F29O- ,770.9491578,neg,Koelmel et al. 2022
+C17H18F19N2O6S2- ,771.0308356,neg,Koelmel et al. 2022
+C15H2F27SO3- ,774.9299026,neg,Koelmel et al. 2022
+C18H3F26SO2- ,776.944409,neg,Koelmel et al. 2022
+C15F29O3- ,778.9389878,neg,Koelmel et al. 2022
+C16HF30O- ,778.9553856,neg,Koelmel et al. 2022
+C16H4SF29- ,778.9576132,neg,Koelmel et al. 2022
+C14F28SO3- ,779.9126566,neg,Koelmel et al. 2022
+C14HF28SO3- ,780.9204812,neg,Koelmel et al. 2022
+C16F31- ,780.9510492,neg,Koelmel et al. 2022
+C14F29SO2- ,782.9161448,neg,Koelmel et al. 2022
+C18H3F28S- ,782.9513854,neg,Koelmel et al. 2022
+C22H5F22O4S- ,782.9562754,neg,Koelmel et al. 2022
+C17H8F25O4S- ,782.9749588,neg,Koelmel et al. 2022
+C17H12F25N2O2S- ,783.0225752,neg,Koelmel et al. 2022
+C16H9F25O3N2S- ,783.9940164,neg,Koelmel et al. 2022
+C18H20F19N2O6S2- ,785.0464848,neg,Koelmel et al. 2022
+C19H17F21O4NS2- ,786.0269134,neg,Koelmel et al. 2022
+C18HF30- ,786.9604706,neg,Koelmel et al. 2022
+C17H6F27SO2- ,786.966286,neg,Koelmel et al. 2022
+C16H5F27NO2S- ,787.9615354,neg,Koelmel et al. 2022
+C16H6F27NO2S- ,788.96936,neg,Koelmel et al. 2022
+C15HF28SO3- ,792.9204812,neg,Koelmel et al. 2022
+C17H3F30O- ,792.9710348,neg,Koelmel et al. 2022
+C18H4F27SO2- ,796.9506368,neg,Koelmel et al. 2022
+C14HF29NO2S- ,797.9270434,neg,Koelmel et al. 2022
+C14F29SO3- ,798.9110598,neg,Koelmel et al. 2022
+C18H8O2SF27- ,800.9819352,neg,Koelmel et al. 2022
+C19H17F21O5NS2- ,802.0218284,neg,Koelmel et al. 2022
+C19H4F25O4S ,802.9436604,neg,Koelmel et al. 2022
+C24H3F22SO4- ,804.9406262,neg,Koelmel et al. 2022
+C18F31- ,804.9510492,neg,Koelmel et al. 2022
+C18H18F21N2O5S2- ,805.032727,neg,Koelmel et al. 2022
+C12F29S2O3- ,806.8831318,neg,Koelmel et al. 2022
+C17H11F23NO5S2- ,809.9716872,neg,Koelmel et al. 2022
+C15H3F29NO2S- ,811.9426926,neg,Koelmel et al. 2022
+C17F32- ,811.9494524,neg,Koelmel et al. 2022
+C17F32- ,811.9494524,neg,Koelmel et al. 2022
+C15H2F29SO3- ,812.926709,neg,Koelmel et al. 2022
+C18H14F25N2O3S- ,813.0331394,neg,Koelmel et al. 2022
+C20H4F25O4S- ,814.9436604,neg,Koelmel et al. 2022
+C19F31- ,816.9510492,neg,Koelmel et al. 2022
+C18H5F28SO2- ,816.9568646,neg,Koelmel et al. 2022
+C17H8F27N2O2S- ,816.9880832,neg,Koelmel et al. 2022
+C18F31O- ,820.9459642,neg,Koelmel et al. 2022
+C18H18F21N2O6S2- ,821.027642,neg,Koelmel et al. 2022
+C16H2F29SO3- ,824.926709,neg,Koelmel et al. 2022
+C24H4F23SO4- ,824.946854,neg,Koelmel et al. 2022
+C17F33- ,830.9478556,neg,Koelmel et al. 2022
+C19H3F30S- ,832.9481918,neg,Koelmel et al. 2022
+C18H8F27O4S- ,832.9717652,neg,Koelmel et al. 2022
+C18H12F27N2O2S- ,833.0193816,neg,Koelmel et al. 2022
+C17H9F27O3N2S- ,833.9908228,neg,Koelmel et al. 2022
+C19H20F21N2O6S2- ,835.0432912,neg,Koelmel et al. 2022
+C20H17F23O4NS2- ,836.0237198,neg,Koelmel et al. 2022
+C18H6F29SO2- ,836.9630924,neg,Koelmel et al. 2022
+C17H5F29NO2S- ,837.9583418,neg,Koelmel et al. 2022
+C17H6F29NO2S- ,838.9661664,neg,Koelmel et al. 2022
+C16HF30SO3- ,842.9172876,neg,Koelmel et al. 2022
+C18H3F32O- ,842.9678412,neg,Koelmel et al. 2022
+C24H5F24O4S- ,844.9530818,neg,Koelmel et al. 2022
+C19H8O2SF29- ,850.9787416,neg,Koelmel et al. 2022
+C20H17F23O5NS2- ,852.0186348,neg,Koelmel et al. 2022
+C20H4F27O4S ,852.9404668,neg,Koelmel et al. 2022
+C19H18F23N2O5S2- ,855.0295334,neg,Koelmel et al. 2022
+C13F31S2O3- ,856.8799382,neg,Koelmel et al. 2022
+C18H11F25NO5S2- ,859.9684936,neg,Koelmel et al. 2022
+C19H14F27N2O3S- ,863.0299458,neg,Koelmel et al. 2022
+C21H4F27O4S- ,864.9404668,neg,Koelmel et al. 2022
+C26H3F24SO4- ,866.9374326,neg,Koelmel et al. 2022
+C18H8F29N2O2S- ,866.9848896,neg,Koelmel et al. 2022
+C19H18F23N2O6S2- ,871.0244484,neg,Koelmel et al. 2022
+C19H8F29O4S- ,882.9685716,neg,Koelmel et al. 2022
+C19H12F29N2O2S- ,883.016188,neg,Koelmel et al. 2022
+C18H9F29O3N2S- ,883.9876292,neg,Koelmel et al. 2022
+C20H20F23N2O6S2- ,885.0400976,neg,Koelmel et al. 2022
+C21H17F25O4NS2- ,886.0205262,neg,Koelmel et al. 2022
+C26H4F25SO4- ,886.9436604,neg,Koelmel et al. 2022
+C21H17F25O5NS2- ,902.0154412,neg,Koelmel et al. 2022
+C21H4F29O4S ,902.9372732,neg,Koelmel et al. 2022
+C20H18F25N2O5S2- ,905.0263398,neg,Koelmel et al. 2022
+C14F33S2O3- ,906.8767446,neg,Koelmel et al. 2022
+C26H5F26O4S- ,906.9498882,neg,Koelmel et al. 2022
+C19H11F27NO5S2- ,909.9653,neg,Koelmel et al. 2022
+C20H14F29N2O3S- ,913.0267522,neg,Koelmel et al. 2022
+C22H4F29O4S- ,914.9372732,neg,Koelmel et al. 2022
+C20H18F25N2O6S2- ,921.0212548,neg,Koelmel et al. 2022
+C28H3F26SO4- ,928.934239,neg,Koelmel et al. 2022
+C21H20F25N2O6S2- ,935.036904,neg,Koelmel et al. 2022
+C22H17F27O4NS2- ,936.0173326,neg,Koelmel et al. 2022
+C28H4F27SO4- ,948.9404668,neg,Koelmel et al. 2022
+C22H17F27O5NS2- ,952.0122476,neg,Koelmel et al. 2022
+C22H4F31O4S ,952.9340796,neg,Koelmel et al. 2022
+C21H18F27N2O5S2- ,955.0231462,neg,Koelmel et al. 2022
+C20H11F29NO5S2- ,959.9621064,neg,Koelmel et al. 2022
+C23H4F31O4S- ,964.9340796,neg,Koelmel et al. 2022
+C28H5F28O4S- ,968.9466946,neg,Koelmel et al. 2022
+C21H18F27N2O6S2- ,971.0180612,neg,Koelmel et al. 2022
+C22H20F27N2O6S2- ,985.0337104,neg,Koelmel et al. 2022
+C23H17F29O4NS2- ,986.014139,neg,Koelmel et al. 2022
+C23H17F29O5NS2- ,1002.009054,neg,Koelmel et al. 2022
+C23H4F33O4S ,1002.930886,neg,Koelmel et al. 2022
+C22H18F29N2O5S2- ,1005.019953,neg,Koelmel et al. 2022
+C24H4F33O4S- ,1014.930886,neg,Koelmel et al. 2022
+C22H18F29N2O6S2- ,1021.014868,neg,Koelmel et al. 2022
+C23H20F29N2O6S2- ,1035.030517,neg,Koelmel et al. 2022
+C24H4F35O4S-,1052.927692,neg,Koelmel et al. 2022
+C17H13F21O4PS2-,774.965755,neg,In-house
+C15H13F17O4PS2-,674.972143,neg,In-house
+C13H13F13O4PS2-,574.978531,neg,In-house
+C11H13F9O4PS2-,474.984919,neg,In-house
+CF7S-,176.960893,neg,In-house
+C3H8N+,58.0651,pos,Barzen-Hanson et al. 2017
+C3H9N+,59.073,pos,Barzen-Hanson et al. 2017
+C3H10N+,60.0808,pos,Barzen-Hanson et al. 2017
+C4H8N+,70.0651,pos,Barzen-Hanson et al. 2017
+C4H9N+,71.073,pos,Barzen-Hanson et al. 2017
+C4H10N+,72.0808,pos,Barzen-Hanson et al. 2017
+C4H11N+,73.0886,pos,Barzen-Hanson et al. 2017
+C5H10N+,84.0808,pos,Barzen-Hanson et al. 2017
+C5H11N+,85.0886,pos,Barzen-Hanson et al. 2017
+C5H12N+,86.0964,pos,Barzen-Hanson et al. 2017
+C5H13N+,87.1043,pos,Barzen-Hanson et al. 2017
+C4H12NO+,90.0913,pos,Barzen-Hanson et al. 2017
+C6H12N+,98.0964,pos,Barzen-Hanson et al. 2017
+C5H11N2+,99.0917,pos,Barzen-Hanson et al. 2017
+C5H12NO+,102.0913,pos,Barzen-Hanson et al. 2017
+C4H10NO2+,104.0706,pos,Barzen-Hanson et al. 2017
+C5H10NO2+,116.0706,pos,Barzen-Hanson et al. 2017
+C6H14NO+,116.107,pos,Barzen-Hanson et al. 2017
+C6H14NO+,116.107,pos,Barzen-Hanson et al. 2017
+C6H16N2+,116.1308,pos,Barzen-Hanson et al. 2017
+C4H7FNO2+,120.0455,pos,Barzen-Hanson et al. 2017
+C3H7O3S+,123.011,pos,Barzen-Hanson et al. 2017
+C8H18N+,128.1434,pos,Barzen-Hanson et al. 2017
+C6H11NO2+,129.0784,pos,Barzen-Hanson et al. 2017
+C7H17N2+,129.1386,pos,Barzen-Hanson et al. 2017
+C7H18N2+,130.1465,pos,Barzen-Hanson et al. 2017
+C6H15N2O+,131.1179,pos,Barzen-Hanson et al. 2017
+C7H12FN2+,143.0979,pos,Barzen-Hanson et al. 2017
+C8H19N2+,143.1543,pos,Barzen-Hanson et al. 2017
+C7H17N2O+,145.1335,pos,Barzen-Hanson et al. 2017
+C8H19N2O+,159.1492,pos,Barzen-Hanson et al. 2017
+C5H12NO3S+,166.0532,pos,Barzen-Hanson et al. 2017
+C5H14NO3S+,168.0689,pos,Barzen-Hanson et al. 2017
+C8H15N2O2+,171.1128,pos,Barzen-Hanson et al. 2017
+C6H13NO3S+,179.0611,pos,Barzen-Hanson et al. 2017
+C5H14NO4S+,184.0638,pos,Barzen-Hanson et al. 2017
+C10H21N2O+,185.1648,pos,Barzen-Hanson et al. 2017
+C7H17N2O2S+,193.1005,pos,Barzen-Hanson et al. 2017
+C7H16NO3S+,194.0845,pos,Barzen-Hanson et al. 2017
+C6H16NO4S+,198.0795,pos,Barzen-Hanson et al. 2017
+C9H21N2O3S+,237.1267,pos,Barzen-Hanson et al. 2017
+C10H23N2O3S+,251.1424,pos,Barzen-Hanson et al. 2017
+C9H21N2O4S+,253.1217,pos,Barzen-Hanson et al. 2017
+C11H23N2O4S+,279.1373,pos,Barzen-Hanson et al. 2017
+C5H3F9NO2S+,311.9735,pos,Barzen-Hanson et al. 2017
+C7H3F13N+,348.0052,pos,Barzen-Hanson et al. 2017
+C8H7F9NO2S+,352.0048,pos,Barzen-Hanson et al. 2017
+C7H5F9NO4S+,369.979,pos,Barzen-Hanson et al. 2017
+C10H9F13N+,390.0522,pos,Barzen-Hanson et al. 2017
+C7H3F13NO2S+,411.9671,pos,Barzen-Hanson et al. 2017
+C8H5F13NO2S+,425.9828,pos,Barzen-Hanson et al. 2017
+C9H5F13NO2S+,437.9828,pos,Barzen-Hanson et al. 2017
+C9H7F13NO2S+,439.9984,pos,Barzen-Hanson et al. 2017
+C12H13F13NO2+,450.0733,pos,Barzen-Hanson et al. 2017
+C10H7F13NO2S+,451.9984,pos,Barzen-Hanson et al. 2017
+C10H9F13NO2S+,454.0141,pos,Barzen-Hanson et al. 2017
+C9H7F13NO3S+,455.9934,pos,Barzen-Hanson et al. 2017
+C14H17F13NO2+,478.1046,pos,Barzen-Hanson et al. 2017
+C11H12F13N2O2S+,483.0406,pos,Barzen-Hanson et al. 2017
+C11H14F13N2O2S+,485.0563,pos,Barzen-Hanson et al. 2017
+C12H14F13N2O2S+,497.0563,pos,Barzen-Hanson et al. 2017
+C12H16F13N2O2S+,499.0719,pos,Barzen-Hanson et al. 2017
+C13H18F9N2O6S+,501.0736,pos,Barzen-Hanson et al. 2017
+C13H18F13N2O2S+,513.0876,pos,Barzen-Hanson et al. 2017
+C12H16F13N2O3S+,515.0669,pos,Barzen-Hanson et al. 2017
+C12H14F13N2O4S+,529.0461,pos,Barzen-Hanson et al. 2017
+C13H18F13N2O3S+,529.0825,pos,Barzen-Hanson et al. 2017
+C13H18F13N2O3S+,529.0845,pos,Barzen-Hanson et al. 2017
+C13H16F13N2O4S+,543.0618,pos,Barzen-Hanson et al. 2017
+C13H18F13N2O4S+,545.0774,pos,Barzen-Hanson et al. 2017
+C14H16F13N2O4S+,555.0618,pos,Barzen-Hanson et al. 2017
+C16H22F13N2O3S+,569.1138,pos,Barzen-Hanson et al. 2017
+C14H22F11N2O5S2+,571.0789,pos,Barzen-Hanson et al. 2017
+C15H20F13N2O4S+,571.0931,pos,Barzen-Hanson et al. 2017
+C15H22F13N2O4S+,573.1087,pos,Barzen-Hanson et al. 2017
+C14H22F9N2O8S2+,581.0668,pos,Barzen-Hanson et al. 2017
+C16H22F13N2O4S+,585.1087,pos,Barzen-Hanson et al. 2017
+C13H18F13N2O5S2+,593.0444,pos,Barzen-Hanson et al. 2017
+C14H20F13N2O5S2+,607.0601,pos,Barzen-Hanson et al. 2017
+C16H20F13N2O6S+,615.0829,pos,Barzen-Hanson et al. 2017
+C14H20F13N2O6S2+,623.055,pos,Barzen-Hanson et al. 2017
+C15H22F13N2O6S2+,637.0706,pos,Barzen-Hanson et al. 2017
+C16H24F13N2O6S2+,651.0863,pos,Barzen-Hanson et al. 2017
+C17H24F13N2O6S2+,663.0863,pos,Barzen-Hanson et al. 2017
+C16H22F13N2O7S2+,665.0655,pos,Barzen-Hanson et al. 2017
+C16H24F13N2O7S2+,667.0812,pos,Barzen-Hanson et al. 2017
+C17H26F13N2O8S3+,729.0638,pos,Barzen-Hanson et al. 2017
+C17H26F13N2O10S3+,761.0537,pos,Barzen-Hanson et al. 2017

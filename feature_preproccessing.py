@@ -6,7 +6,8 @@ import numpy as np
 import pandas as pd
 from pyopenms import FeatureXMLFile, MSExperiment, MzMLFile
 from MS1_feature_finding import MS1_feature_finding	# MS1 feature finding by OpenMS via PyOpenMS
-from read_featureXML import read_featureXML         # Function to read FeatureXML to PandasDataFrame
+from read_feature_map import read_feature_map
+# from read_featureXML import read_featureXML         # Function to read FeatureXML to PandasDataFrame
 from blank_correc import blank_correc               # Blank correction by m/z, RT, and FoldChange
 from ismembertol import ismembertol                 # Array comparison within an absolute tolerance
 import plotting                                     # Plotting routines
@@ -15,7 +16,7 @@ def feature_preproccessing(
         sample_path, 
         blank_path,
         mass_error_ppm,
-        noise_threshold_int,
+        intensity_threshold,
         isotope_model_bool,
         mass_tolerance_MSMS_assignment,
         RT_tolerance_MSMS_assignment,
@@ -56,13 +57,15 @@ def feature_preproccessing(
     # Perform feature finding
     experiments = []
     feature_map_Dfs = []
-    for s, sample in enumerate(samples):
-
-        exp, feature_map_MFD = MS1_feature_finding(sample, mass_error_ppm, noise_threshold_int, isotope_model)
-        experiments.append(exp)
-        FeatureXMLFile().store(os.path.join(Results_folder, f'FM_{sample_names[s]}.featureXML'), feature_map_MFD)
-        # Read in picked features into list of DataFrames (m/z, isotopes, RT, intensity)
-        feature_map_Dfs.append(read_featureXML(os.path.join(Results_folder, f'FM_{sample_names[s]}.featureXML')))
+    for sample in samples:
+        # Run feature finding
+        exp, feature_map = MS1_feature_finding(sample, 
+                                               mass_error_ppm, 
+                                               intensity_threshold, 
+                                               isotope_model)
+        experiments.append(exp) # safe experiments (mzML raw data)
+        # Read data from featuremap into DataFrames (m/z, isotopes, RT, intensity)
+        feature_map_Dfs.append(read_feature_map(feature_map))
 
     n_feature_sample = len(feature_map_Dfs[0]) # save number of features in sample
     # %%

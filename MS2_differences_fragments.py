@@ -22,7 +22,7 @@ def MS2_differences_fragments(
         adducts = 1,
         ):
 
-    def frags_to_mass(diffs_list): # NOTE: MUSS AUF GUI ANGEPASST WERDEN!
+    def frags_to_mass(diffs): # NOTE: MUSS AUF GUI ANGEPASST WERDEN!
         # convert fragments specified as numbers to float
         for n in range(len(diffs)):
             if (type(diffs[n]) == float) or (type(diffs[n]) == int): # ERSETZEN DURCH ISINSTANCE?
@@ -139,31 +139,31 @@ def MS2_differences_fragments(
     # sum up the total number of fragments for each precursor m/z
     n_diff_tot = np.sum(n_diffs, axis = 0)
     idx_prec_diffs = n_diff_tot >= number_of_fragments  # find all precursors which have n positive fragments
-    print(str(sum(idx_prec_diffs)) + ' of ' + str(len(mz_array)) + ' masses have fragment differences')
+    print(str(sum(idx_prec_diffs)) + ' of ' + str(len(mz_array)) + ' MSMS spectra have fragment differences')
 
 
     def get_diagnostic_fragments(spec_mz_list_corr_fil, adducts):
         # read in DF xlsx
-        dia_frags = pd.read_excel('diagnostic_fragments.xlsx')
+        dia_frags = pd.read_csv('diagnostic_fragments.csv')
 
         if adducts == 1: # check which polarity is desired
-            dia_frags = dia_frags[dia_frags['Polarity'] == 'neg']
+            dia_frags = dia_frags[dia_frags['polarity'] == 'neg']
         else:
-            dia_frags = dia_frags[dia_frags['Polarity'] == 'pos']
+            dia_frags = dia_frags[dia_frags['polarity'] == 'pos']
 
-        dia_frags['F_containing'] = dia_frags['DF'].str.contains('F')
-        dia_frags['DF'] = dia_frags['DF'].str.replace(' ', '', regex=False)
-        dia_frags['DF'] = dia_frags['DF'].str.replace('-', '', regex=False)
-        dia_frags['DF'] = dia_frags['DF'].str.replace('+', '', regex=False)
-        dia_frags = dia_frags.drop_duplicates(subset = 'DF').reset_index(drop = True)
-        dia_frags = dia_frags.sort_values(by=['DF_mass']).reset_index(drop = True)
+        dia_frags['F_containing'] = dia_frags['fragment_formula'].str.contains('F')
+        dia_frags['fragment_formula'] = dia_frags['fragment_formula'].str.replace(' ', '', regex=False)
+        dia_frags['fragment_formula'] = dia_frags['fragment_formula'].str.replace('-', '', regex=False)
+        dia_frags['fragment_formula'] = dia_frags['fragment_formula'].str.replace('+', '', regex=False)
+        dia_frags = dia_frags.drop_duplicates(subset = 'fragment_formula').reset_index(drop = True)
+        dia_frags = dia_frags.sort_values(by=['fragment_mass']).reset_index(drop = True)
         
         # NOTE: dia_frags has to be sorted according to increasing mass!
         # NOTE: REMOVE MASS DUPLICATES!!! OR CLUSTER TOGETHER   
         remove_duplicates = True
         if remove_duplicates == True:
             decimals_round = 2 # Extremly important, depends on sample
-            _, idx_unique, = np.unique(np.round(dia_frags['DF_mass'], decimals_round), return_index=True)
+            _, idx_unique, = np.unique(np.round(dia_frags['fragment_mass'], decimals_round), return_index=True)
 
             uniques = np.in1d(np.arange(0, len(dia_frags)), idx_unique)
             dia_frags = dia_frags[uniques]
@@ -181,11 +181,11 @@ def MS2_differences_fragments(
 
         for n in range(len(spec_mz_list_corr_fil)):
             # find diagnostic fragments in spectra
-            idx_dia_frags[n], idx_dia_formula[n], _ = ismembertol(spec_mz_list_corr_fil[n], dia_frags['DF_mass'], mass_tolerance)
+            idx_dia_frags[n], idx_dia_formula[n], _ = ismembertol(spec_mz_list_corr_fil[n], dia_frags['fragment_mass'], mass_tolerance)
             spec_mz_dias[n] = spec_mz_list_corr_fil[n][idx_dia_frags[n]]
             spec_intens_dias[n] = spec_intens_list_corr_fil[n][idx_dia_frags[n]]
-            spec_formula_dias[n] = dia_frags['DF'].iloc[idx_dia_formula[n]].reset_index(drop = True)
-            spec_formula_mass[n] = dia_frags['DF_mass'].iloc[idx_dia_formula[n]].reset_index(drop = True)
+            spec_formula_dias[n] = dia_frags['fragment_formula'].iloc[idx_dia_formula[n]].reset_index(drop = True)
+            spec_formula_mass[n] = dia_frags['fragment_mass'].iloc[idx_dia_formula[n]].reset_index(drop = True)
             n_dia_frags_f_contain[n] = np.sum(dia_frags['F_containing'].iloc[idx_dia_formula[n]].reset_index(drop = True))
             n_dia_frags[n] = sum(idx_dia_frags[n])
 
@@ -195,7 +195,7 @@ def MS2_differences_fragments(
     # find indices of m/z's with diagnostic fragments
     idx_prec_dia_frags = n_dia_frags_f_contain >= number_of_fragments
     n_dia_frag_prec_tot = sum(idx_prec_dia_frags)
-    print(str(n_dia_frag_prec_tot) + ' of ' + str(len(mz_array)) + " MSMS spectra have dias")
+    print(str(n_dia_frag_prec_tot) + ' of ' + str(len(mz_array)) + " MSMS spectra have diagostic fragments")
 
 
     if all(isinstance(item, str) for item in diffs) == True:

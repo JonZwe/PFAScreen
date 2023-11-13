@@ -86,7 +86,7 @@ def PFAS_feature_prioritization(
     Df_FeatureData = Df_FeatureData[Df_FeatureData['m/C'] >= mC_cutoff]
 
     #%%
-    # KMD analysis test
+    # KMD analysis
     # ==============================================================================================
 
     Df_KMD = KMD_analysis(
@@ -104,13 +104,10 @@ def PFAS_feature_prioritization(
     # Suspect screening
     # ==================================================================================
 
-    Df_susp_list = pd.read_excel('suspect_list.xlsx')
-
     Df_suspect_screening = suspect_screening(
                                 tol_suspect,
                                 adducts,
                                 Df_FeatureData['m/z'],
-                                Df_susp_list,
                                 Df_FeatureData
                                 )
 
@@ -124,26 +121,26 @@ def PFAS_feature_prioritization(
                          'n_diffs', 'n_dias', 
                          'C', 'MD', 'MD/C', 'm/C', 
                          'KMD', 'HS Number', 'Unique Homologues', 
-                         'hit_in_list', 'FORMULA', 'SMILES']
+                         'compound_names', 'formulas', 'SMILES']
 
-    Df_FeatureData_Excel = Df_FeatureData[report_excel_list]
-    Df_FeatureData_Excel.insert(3, "RT (min)", np.array(Df_FeatureData_Excel['RT']/60), True)
-    Df_FeatureData_Excel = Df_FeatureData_Excel.sort_values(by=['m/C'], ascending = False)
+    Df_FeatureData_to_save = Df_FeatureData[report_excel_list]
+    Df_FeatureData_to_save.insert(3, "RT (min)", np.array(Df_FeatureData_to_save['RT']/60), True)
+    Df_FeatureData_to_save = Df_FeatureData_to_save.sort_values(by = ['m/C'], ascending = False)
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
-    writer = pd.ExcelWriter(os.path.join(Results_folder, f'Results_{Results_folder}.xlsx'), engine="xlsxwriter")
+    writer = pd.ExcelWriter(os.path.join(Results_folder, f'Results_{Results_folder}.xlsx'), engine = "xlsxwriter")
 
     # Convert the dataframe to an XlsxWriter Excel object.
-    Df_FeatureData_Excel.to_excel(writer, sheet_name="Sheet1")
+    Df_FeatureData_to_save.to_excel(writer, sheet_name = "Sheet1")
 
     # Get the xlsxwriter workbook and worksheet objects.
     # workbook = writer.book
     worksheet = writer.sheets["Sheet1"]
 
     # Get the dimensions of the dataframe.
-    (max_row, max_col) = Df_FeatureData_Excel.shape
+    (max_row, max_col) = Df_FeatureData_to_save.shape
 
-    column_settings = [{"header": column} for column in Df_FeatureData_Excel.columns]
+    column_settings = [{"header": column} for column in Df_FeatureData_to_save.columns]
 
     column_settings.insert(0, {"header" : 'Index'}) # include also index at first position
 
@@ -153,11 +150,14 @@ def PFAS_feature_prioritization(
     # Make the columns wider for clarity.
     worksheet.set_column(0, max_col - 1, 12)
 
-    # Apply a conditional format to the required cell range.# NOTE: DOES NOT WORK YET
-    worksheet.conditional_format(1, 3, max_row, 3, {"type": "3_color_scale"})
+    # Apply a conditional format to the required cell range
+    worksheet.conditional_format(1, 2, max_row, 2, {"type": "3_color_scale"})
 
     # Close the Pandas Excel writer and output the Excel file.
     writer.close()
+
+    # Save results additionally as .csv file
+    Df_FeatureData_to_save.to_csv(os.path.join(Results_folder, f'Results_{Results_folder}.csv'))
 
     # ========================================================================================
     # Plotting routines

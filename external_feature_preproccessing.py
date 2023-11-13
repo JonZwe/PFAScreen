@@ -46,7 +46,7 @@ def external_feature_preproccessing(
     # Perform feature finding
     Dfs = []
     for s, sample in enumerate(samples):
-        Df = pd.read_excel(sample)
+        Df = pd.read_csv(sample)
         Dfs.append(Df)
 
     # %%
