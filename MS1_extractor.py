@@ -55,6 +55,10 @@ def MS1_extractor(
         mz_array_cut = mz_array[idx_cut]
         intens_array_cut = intens_array[idx_cut]/np.max(intens_array[idx_cut])*100
 
+        I_M1_measured = intens_array_cut[np.argmin(abs(mz_array_cut - mzs[1]))]
+        I_M1_theoretical = ints_normalized[1]
+        perc_error = ((I_M1_measured - I_M1_theoretical)/I_M1_theoretical)*100
+
         figure()
         plt.stem(mzs, ints_normalized, 'lightseagreen', markerfmt=" ", basefmt=" ")
         markerline, stemlines, baseline = plt.stem(mzs, ints_normalized, 'lightseagreen', markerfmt=" ", basefmt=" ", label='_nolegend_')
@@ -67,7 +71,7 @@ def MS1_extractor(
         plt.setp(stemlines2, color = 'tomato', linewidth= 2)
 
         plt.legend(['Theoretical', 'Experimental'])
-        plt.title(f'Theoretical isotope match ({formula})')
+        plt.title(f'Theoretical isotope match ({formula}) | M+1 error = {np.round(perc_error, 1)}%')
         plt.xlabel('m/z')
         plt.ylabel('Relative counts (%)')
         plt.ylim(ymin = 0)
