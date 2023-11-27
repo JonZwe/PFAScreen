@@ -69,7 +69,7 @@ def RunExternalFeatures():
                                                         RT_tolerance_blank_correction = float(entryBlankRTTol.get()),
                                                         fold_change_blank_correction = float(entryBlankFoldChange.get())
                                                         )
-def RunFindPFAS():
+def RunPFASPrioritization():
     global Df_FeatureData_Final, Df_FindPFAS
     Df_FeatureData_Final, Df_FindPFAS = PFAS_feature_prioritization(
                                             Df_FeatureData,
@@ -86,7 +86,9 @@ def RunFindPFAS():
                                             adducts = int(var_AdductsSuspectScreen.get()),
                                             tol_suspect = float(entrySuspectMassTol.get()),
                                             save_MSMS_spectra = var_save_MSMS_spectra.get(),
-                                            mC_cutoff = float(entrymCCutoff.get())
+                                            mC_range = entrymCCutoff.get().split(' '),
+                                            MDC_range = entryMDCCutoff.get().split(' '),
+                                            MD_range = entryMDRange.get().split(' ')
                                             )
 
 def RunEIC():
@@ -140,7 +142,9 @@ RT_tolerance_blank_correction = 0.1*60
 fold_change_blank_correction = 5
 
 # MD/C-m/C
-mC_cutoff = 0
+mC_range = [0, float('inf')]
+MDC_range = [-0.5, 0.5]
+MD_range = [-0.5, 0.5]
 
 # KMD analysis
 diffs_KMD = ['CF2']
@@ -306,32 +310,43 @@ buttonRunExternalFeatures.place(x = 100, y = 550, height = 25, width = 150)
 
 # PFAS feature prioritization
 # ==============================================================
-labelTitleMDCmC = ttk.Label(root,  text='MD/C-m/C')
+labelTitleMDCmC = ttk.Label(root,  text='MD/C-m/C & MD filtering')
 labelTitleMDCmC.place(x = 400, y = 40) 
 labelTitleMDCmC.configure(font=('Courier', 13))
 
-labelmCCutoff = ttk.Label(root, text='m/C cutoff')
+labelmCCutoff = ttk.Label(root, text='m/C range')
 labelmCCutoff.place(x = 370, y = 65) 
 entrymCCutoff = ttk.Entry(root)
 entrymCCutoff.place(x = 520, y = 65, height = 20, width = 50)
-entrymCCutoff.insert('end', mC_cutoff)
+entrymCCutoff.insert('end', mC_range)
 
+labelMDCCutoff = ttk.Label(root, text='MD/C range')
+labelMDCCutoff.place(x = 370, y = 85) 
+entryMDCCutoff = ttk.Entry(root)
+entryMDCCutoff.place(x = 520, y = 85, height = 20, width = 50)
+entryMDCCutoff.insert('end', MDC_range)
+
+labelMDRange = ttk.Label(root, text='MD range')
+labelMDRange.place(x = 370, y = 105) 
+entryMDRange = ttk.Entry(root)
+entryMDRange.place(x = 520, y = 105, height = 20, width = 50)
+entryMDRange.insert('end', MD_range)
 
 
 labelTitleKMD = ttk.Label(root,  text='Kendrick mass defect')
-labelTitleKMD.place(x = 400, y = 100) 
+labelTitleKMD.place(x = 400, y = 125) 
 labelTitleKMD.configure(font=('Courier', 13))
 
 labelKMDDiffs = ttk.Label(root, text='KMD difference')
-labelKMDDiffs.place(x = 370, y = 130) 
+labelKMDDiffs.place(x = 370, y = 150) 
 entryKMDDiffs = ttk.Entry(root)
-entryKMDDiffs.place(x = 520, y = 130, height = 20, width = 50)
+entryKMDDiffs.place(x = 520, y = 150, height = 20, width = 50)
 entryKMDDiffs.insert('end', diffs_KMD)
 
 labelKMDMassTol = ttk.Label(root, text='KMD mass tolerance (Da)')
-labelKMDMassTol.place(x = 370, y = 160) 
+labelKMDMassTol.place(x = 370, y = 170) 
 entryKMDMassTol = ttk.Entry(root)
-entryKMDMassTol.place(x = 520, y = 160, height = 20, width = 50)
+entryKMDMassTol.place(x = 520, y = 170, height = 20, width = 50)
 entryKMDMassTol.insert('end', mass_tolerance_KMD)
 
 labelNumberOfHS = ttk.Label(root, text='Number of homologues')
@@ -402,8 +417,8 @@ entrySuspectMassTol.place(x = 520, y = 450, height = 20, width = 50)
 entrySuspectMassTol.insert('end', tol_suspect)
 
 
-buttonRunFindPFAS = Button(root, text = 'Run PFASPrioritization', bg = '#F7EFEA', command = RunFindPFAS)
-buttonRunFindPFAS.place(x = 400, y = 520, height = 50, width = 150)
+buttonRunPFASPrioritization = Button(root, text = 'Run PFASPrioritization', bg = '#F7EFEA', command = RunPFASPrioritization)
+buttonRunPFASPrioritization.place(x = 400, y = 520, height = 50, width = 150)
 
 # Raw Data Visualization
 # ==============================================================
