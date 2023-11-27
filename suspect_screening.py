@@ -46,7 +46,8 @@ def suspect_screening(
                                            'formulas': Formulas})
     
     # perform matching between measured and theoretical isotope patters via isotope_matching function
-    scores_list, relative_deviations_list, susp_idx = isotope_matching(Df_FeatureData, Df_suspect_hits)
+    scores_list, relative_deviations_list, susp_idx = isotope_matching(Df_FeatureData, 
+                                                                       Df_suspect_hits)
 
     # write isotope matching data at respective indices of Df_suspect_hits
     Df_suspect_hits['isotope_scores'] = np.nan
