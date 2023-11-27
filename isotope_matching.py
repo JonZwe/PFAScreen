@@ -1,8 +1,10 @@
-
+# Function to perform matching of theoretical with measured isotope patterns
+# Currently only M, M+1 and M+2 isotopes are considered
 from pyopenms import EmpiricalFormula, CoarseIsotopePatternGenerator
 import numpy as np
 
-def isotope_matching(Df_FeatureData, Df_suspect_hits):
+def isotope_matching(Df_FeatureData, 
+                     Df_suspect_hits):
 
     # score similar to the isotope score in MZMine https://doi.org/10.1021/ac3000418
     def isotope_score(intens_array_theoretical, intens_array_measured):
