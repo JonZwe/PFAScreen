@@ -23,7 +23,9 @@ def PFAS_feature_prioritization(
         adducts = 1,
         tol_suspect = 0.002,
         save_MSMS_spectra = False,
-        mC_cutoff = 0,
+        mC_range = [0, float('inf')],
+        MDC_range = [-0.5, 0.5],
+        MD_range = [-0.5, 0.5]
         ):
     
     # considers only MS2 data
@@ -83,8 +85,21 @@ def PFAS_feature_prioritization(
                                                                                                                                 Df_FeatureData['m/z intens'], 
                                                                                                                                 Df_FeatureData['m/z+1 intens']
                                                                                                                                 )
-    Df_FeatureData = Df_FeatureData[Df_FeatureData['m/C'] >= mC_cutoff]
+    
+    # Filtering steps
+    print(f'{len(Df_FeatureData)} features before filtering!')
+    mC_range = [float(n) for n in mC_range]
+    MDC_range = [float(n)  for n in MDC_range]
+    MD_range = [float(n)  for n in MD_range]
 
+    Df_FeatureData = Df_FeatureData[np.logical_and(Df_FeatureData['m/C'] >= mC_range[0], Df_FeatureData['m/C'] <= mC_range[1])]
+    print(f'{len(Df_FeatureData)} features after m/C filtering!')
+
+    Df_FeatureData = Df_FeatureData[np.logical_and(Df_FeatureData['MD/C'] >= MDC_range[0], Df_FeatureData['MD/C'] <= MDC_range[1])]
+    print(f'{len(Df_FeatureData)} features after MD/C filtering!')
+
+    Df_FeatureData = Df_FeatureData[np.logical_and(Df_FeatureData['MD'] >= MD_range[0], Df_FeatureData['MD'] <= MD_range[1])]
+    print(f'{len(Df_FeatureData)} features after MD filtering!')
     #%%
     # KMD analysis
     # ==============================================================================================
@@ -97,9 +112,9 @@ def PFAS_feature_prioritization(
                 n_min = n_homologues
                 )
 
-    Df_FeatureData = pd.concat([Df_FeatureData, Df_KMD], axis=1) 
+    Df_FeatureData = pd.concat([Df_FeatureData, Df_KMD], axis = 1) 
 
-    print(f'{len(np.unique(Df_FeatureData[Df_FeatureData["min Homologues"] == True]["HS Number"]))} HS detected')
+    print(f'{len(np.unique(Df_FeatureData[Df_FeatureData["min Homologues"] == True]["HS Number"]))} HS detected') # move inside KMD function
 
     # Suspect screening
     # ==================================================================================
@@ -117,14 +132,15 @@ def PFAS_feature_prioritization(
     # =======================================================================================
     # Prepare to save as Excel file with conditional formatting
 
-    report_excel_list = ['m/z', 'm/z intens', 'RT',  # specify columns that should be saved
+    # specify columns that should be saved
+    report_excel_list = ['m/z', 'm/z intens', 'm/z+1 intens', 'm/z+2 intens', 'RT', 
                          'n_diffs', 'n_dias', 
                          'C', 'MD', 'MD/C', 'm/C', 
                          'KMD', 'HS Number', 'Unique Homologues', 
-                         'compound_names', 'formulas', 'SMILES']
+                         'compound_names', 'formulas', 'SMILES', 'isotope_scores', 'relative_isotope_intensity_deviation']
 
     Df_FeatureData_to_save = Df_FeatureData[report_excel_list]
-    Df_FeatureData_to_save.insert(3, "RT (min)", np.array(Df_FeatureData_to_save['RT']/60), True)
+    Df_FeatureData_to_save.insert(5, "RT (min)", np.array(Df_FeatureData_to_save['RT']/60), True)
     Df_FeatureData_to_save = Df_FeatureData_to_save.sort_values(by = ['m/C'], ascending = False)
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
@@ -184,7 +200,7 @@ def PFAS_feature_prioritization(
                 )
     
     if save_MSMS_spectra == True:
-        for idx in Df_FindPFAS.index:
+        for idx in Df_FeatureData[Df_FeatureData['m/z_MSMS'].notna()].index:
             plotting.MS2_spectra_plotter(
                         Df_FeatureData,
                         idx,
