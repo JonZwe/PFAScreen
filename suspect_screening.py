@@ -46,14 +46,20 @@ def suspect_screening(
                                            'formulas': Formulas})
     
     # perform matching between measured and theoretical isotope patters via isotope_matching function
-    scores_list, relative_deviations_list, susp_idx = isotope_matching(Df_FeatureData, Df_suspect_hits)
+    scores_list, susp_idx = isotope_matching(Df_FeatureData, Df_suspect_hits)
 
     # write isotope matching data at respective indices of Df_suspect_hits
     Df_suspect_hits['isotope_scores'] = np.nan
     Df_suspect_hits['relative_isotope_intensity_deviation'] = np.nan
-    Df_suspect_hits.loc[susp_idx, 'isotope_scores'] = np.array(scores_list, dtype="object")
-    Df_suspect_hits.loc[susp_idx, 'relative_isotope_intensity_deviation'] = np.array(relative_deviations_list, dtype="object")
 
+    scores_list_object = np.array(scores_list, dtype="object")
+    # relative_deviations_list_object = np.array(relative_deviations_list, dtype="object")
+
+    Df_suspect_hits.loc[susp_idx, 'isotope_scores'] = scores_list_object
+    # Df_suspect_hits.loc[susp_idx, 'relative_isotope_intensity_deviation'] = relative_deviations_list_object
+    # NOTE: Potential BUG in relative_deviations_list_object: if all nested lists have the same dimensions a 3D array is generated! 
+    # Needs to be fixed if relative_deviations are used in the future!
+ 
     print(f'{len(uniques)} suspect hits found')
     
     return Df_suspect_hits

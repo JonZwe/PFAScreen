@@ -1,8 +1,10 @@
-
+# Function to perform matching of theoretical with measured isotope patterns
+# Currently only M, M+1 and M+2 isotopes are considered
 from pyopenms import EmpiricalFormula, CoarseIsotopePatternGenerator
 import numpy as np
 
-def isotope_matching(Df_FeatureData, Df_suspect_hits):
+def isotope_matching(Df_FeatureData, 
+                     Df_suspect_hits):
 
     # score similar to the isotope score in MZMine https://doi.org/10.1021/ac3000418
     def isotope_score(intens_array_theoretical, intens_array_measured):
@@ -14,9 +16,9 @@ def isotope_matching(Df_FeatureData, Df_suspect_hits):
             
         return score
 
-    # NOTE: Add error propagation, ppm mass error, n_isotopes?
+    # NOTE: Add relative/absolute error, error propagation, ppm mass error, n_isotopes in the future?
     scores_list = []
-    relative_deviations_list = []
+    # relative_deviations_list = []
     susp_idx = np.where(Df_suspect_hits['formulas'].notna())[0]
     for idx in susp_idx:
 
@@ -40,18 +42,18 @@ def isotope_matching(Df_FeatureData, Df_suspect_hits):
 
                 score = isotope_score(intens_theoretical_normalized, intens_array_measured_normalized)
 
-                relative_deviation = abs( ( (intens_array_measured_normalized - intens_theoretical_normalized) / intens_theoretical_normalized ) )
+                # relative_deviation = abs( ( (intens_array_measured_normalized - intens_theoretical_normalized) / intens_theoretical_normalized ) )
 
                 scores.append(score)
-                relative_deviations.append(relative_deviation)
+                # relative_deviations.append(relative_deviation)
             else:
                 scores.append(np.nan)
-                relative_deviations.append(np.nan)
+                # relative_deviations.append(np.nan)
 
         scores_list.append(scores)
-        relative_deviations_list.append(relative_deviations)
+        # relative_deviations_list.append(relative_deviations)
 
-    return scores_list, relative_deviations_list, susp_idx
+    return scores_list, susp_idx
 
 '''
 import itertools
