@@ -1,11 +1,11 @@
 # Function to perform mass trace detection, elution peak detection, feature detection, and adduct finding
 # with the FeatureFinderMetabo algorithm from OpenMS (via PyOpenMS)
 from pyopenms import (MSExperiment, MzMLFile, MassTraceDetection, ElutionPeakDetection, FeatureMap, 
-                      FeatureFindingMetabo, FeatureXMLFile, MetaboliteFeatureDeconvolution, ConsensusMap)
+                      FeatureFindingMetabo, MetaboliteFeatureDeconvolution, ConsensusMap)
 
 def MS1_feature_finding(sample, 
                         mass_error_ppm, 
-                        noise_threshold_int,
+                        intensity_threshold,
                         isotope_model
                         ):
     
@@ -18,7 +18,7 @@ def MS1_feature_finding(sample,
     mtd = MassTraceDetection()
     mtd_params = mtd.getDefaults()
     mtd_params.setValue("mass_error_ppm", float(mass_error_ppm))           # set according to your instrument mass error
-    mtd_params.setValue("noise_threshold_int", float(noise_threshold_int)) # adjust to noise level in your data
+    mtd_params.setValue("noise_threshold_int", float(intensity_threshold)) # adjust to noise level in your data
     mtd.setParameters(mtd_params)
     mtd.run(exp, mass_traces, 0)
 

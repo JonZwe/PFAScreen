@@ -1,3 +1,11 @@
+For informations on typical fragment mass differences and where they were observed see:
+
+Zweigle, J., Bugsel, B., & Zwiener, C. (2022, Jul 22). FindPFΔS: Non-Target Screening for PFAS - Comprehensive Data Mining for MS2 Fragment Mass Differences. Anal Chem, 94(30), 10788-10796. https://doi.org/10.1021/acs.analchem.2c01521 
+Zweigle, J., Bugsel, B., Röhler, K., Haluska, A. A., & Zwiener, C. (2023, Apr 25). PFAS-Contaminated Soil Site in Germany: Nontarget Screening before and after Direct TOP Assay by Kendrick Mass Defect and FindPFΔS. Environ Sci Technol, 57(16), 6647-6655. https://doi.org/10.1021/acs.est.2c07969 
+Bugsel, B., Zweigle, J., & Zwiener, C. (2023). Nontarget screening strategies for PFAS prioritization and identification by high resolution mass spectrometry: A review. Trends in Environmental Analytical Chemistry, 40. https://doi.org/10.1016/j.teac.2023.e00216 
+
+Here a small subset is provided:
+
 CF2, C2F4, C3F6
 HF, H2F2
 C8H3F13, C10H3F17, C12H3F21, C14H3F25
@@ -6,3 +14,6 @@ CF2O
 CF3, C2F5, C3F7
 SF5
 F
+
+Note that depending on the intensity threshold and the mass tolerance some mass differences can lead to high false positive rates.
+Therefore, a pre-filering step by MD or MD/C-m/C can be very useful.

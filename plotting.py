@@ -44,7 +44,7 @@ def mz_RT(
                      y = 'm/z',
                      color =  np.log10(Df_FeatureData['m/z intens']), color_continuous_scale = px.colors.sequential.RdPu,
                      hover_name = Df_FeatureData.index, 
-                     hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'FORMULA'])
+                     hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'formulas'])
 
     fig.update_traces(marker=dict(size=22,
                       line=dict(width=1, color='DarkSlateGrey')),
@@ -82,7 +82,7 @@ def MDC_mC_plot(
     fig1 = px.scatter(Df_FeatureData, x='m/C', y='MD/C', color = np.log10(Df_FeatureData['m/z intens']),#Df_FeatureData['Score_scaled']
                       color_continuous_scale = px.colors.sequential.Turbo,
                       hover_name = Df_FeatureData.index, 
-                      hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'FORMULA'])
+                      hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'formulas'])
     
     fig2 = px.line(x=x, y=y_CF, markers=False)
     fig3 = px.line(x=x, y=y_CHF, markers=False)
@@ -118,7 +118,7 @@ def KMD_plot(
         mC_limit = 0
         ):
 
-    Df_FeatureData = Df_FeatureData[['m/z','RT','Unique Homologues','HS Number', 'm/z intens', 'min Homologues', 'm/C', 'KMD', 'FORMULA']]
+    Df_FeatureData = Df_FeatureData[['m/z','RT','Unique Homologues','HS Number', 'm/z intens', 'min Homologues', 'm/C', 'KMD', 'formulas']]
 
     HS_pos = Df_FeatureData[Df_FeatureData['min Homologues'] == True]
     HS_neg = Df_FeatureData[Df_FeatureData['min Homologues'] == False]
@@ -138,7 +138,7 @@ def KMD_plot(
         x='m/z',
         y='KMD',
         color=color,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "FORMULA"]
+        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "formulas"]
     ).properties(
         width=500,
         height=500  
@@ -169,7 +169,7 @@ def KMD_plot(
         y='KMD',
         color=color_click,
         opacity=opacity,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'FORMULA']
+        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
     ).properties(
         width=500,
         height=500  
@@ -201,7 +201,7 @@ def KMD_plot(
         y='m/z',
         color=color_click,
         opacity=opacity,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'FORMULA']
+        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
     ).properties(
         width=500,
         height=500  
@@ -223,7 +223,7 @@ def KMD_plot(
 
 # Plotting annotated MS2 spectra (diagnostic fragments and fragment mass differences)
 def MS2_spectra_plotter(
-        Df_FindPFAS,
+        Df_FeatureData,
         idx,
         diffs,
         Results_folder,
@@ -231,60 +231,60 @@ def MS2_spectra_plotter(
         ):
 
     fig = go.Figure()
-    for n, peak in enumerate(Df_FindPFAS['mz_peaks'][idx]):
+    for n, peak in enumerate(Df_FeatureData['mz_peaks'][idx]):
         fig.add_trace(
-            go.Scatter(x = (Df_FindPFAS['mz_peaks'][idx][n], Df_FindPFAS['mz_peaks'][idx][n]), y = (Df_FindPFAS['intens_peaks'][idx][n], 0), 
+            go.Scatter(x = (Df_FeatureData['mz_peaks'][idx][n], Df_FeatureData['mz_peaks'][idx][n]), y = (Df_FeatureData['intens_peaks'][idx][n], 0), 
             mode = 'lines+text', 
             line = dict(color = "black"),
-            text = [np.round(Df_FindPFAS['mz_peaks'][idx][n], 4)],
+            text = [np.round(Df_FeatureData['mz_peaks'][idx][n], 4)],
             textposition="top center")
             )
     
-    for n, peak in enumerate(Df_FindPFAS['mz_peaks_diagnostic'][idx]):
+    for n, peak in enumerate(Df_FeatureData['mz_peaks_diagnostic'][idx]):
         fig.add_trace(
-            go.Scatter(x = (Df_FindPFAS['mz_peaks_diagnostic'][idx][n], Df_FindPFAS['mz_peaks_diagnostic'][idx][n]), y = (Df_FindPFAS['intens_peaks_diagnostic'][idx][n], 0),
+            go.Scatter(x = (Df_FeatureData['mz_peaks_diagnostic'][idx][n], Df_FeatureData['mz_peaks_diagnostic'][idx][n]), y = (Df_FeatureData['intens_peaks_diagnostic'][idx][n], 0),
             mode = 'lines+text',
             line=dict(color="blue", width = 3),
-            text = [Df_FindPFAS['formula_diagnostic'][idx][n]],
+            text = [Df_FeatureData['formula_diagnostic'][idx][n]],
             textposition="bottom right",
             textfont=dict(color="blue"))
             )
     
     for diff in diffs:
-        for n, peak in enumerate(Df_FindPFAS[f'mz_{diff}'][idx]):
+        for n, peak in enumerate(Df_FeatureData[f'mz_{diff}'][idx]):
             fig.add_trace(
-                go.Scatter(x = (Df_FindPFAS[f'mz_{diff}'][idx][n], Df_FindPFAS[f'mz_{diff}'][idx][n]), y = (Df_FindPFAS[f'intens_{diff}'][idx][n], 0), 
+                go.Scatter(x = (Df_FeatureData[f'mz_{diff}'][idx][n], Df_FeatureData[f'mz_{diff}'][idx][n]), y = (Df_FeatureData[f'intens_{diff}'][idx][n], 0), 
                 mode = 'lines+text', 
                 line=dict(color="indianred", width = 3),
-                text = [np.round(Df_FindPFAS[f'mz_{diff}'][idx][n], 4)],
+                text = [np.round(Df_FeatureData[f'mz_{diff}'][idx][n], 4)],
                 textposition="top center",
                 textfont=dict(color="indianred"))
                 )
             
-    if type(Df_FindPFAS['frag_idx'][idx]) == np.ndarray:
+    if type(Df_FeatureData['frag_idx'][idx]) == np.ndarray:
 
-        u, c = np.unique(Df_FindPFAS['frag_idx'][idx], return_counts = True)
-        prefix_c = np.zeros(len(Df_FindPFAS['frag_idx'][idx]))
+        u, c = np.unique(Df_FeatureData['frag_idx'][idx], return_counts = True)
+        prefix_c = np.zeros(len(Df_FeatureData['frag_idx'][idx]))
         for x in range(len(u)):
-            prefix_c[np.where(u[x] == Df_FindPFAS['frag_idx'][idx])[0]] = np.arange(0, c[x])
+            prefix_c[np.where(u[x] == Df_FeatureData['frag_idx'][idx])[0]] = np.arange(0, c[x])
         
-        for n, peak in enumerate(Df_FindPFAS['frag_idx'][idx]):
+        for n, peak in enumerate(Df_FeatureData['frag_idx'][idx]):
             fig.add_trace(
-                go.Scatter(x = (Df_FindPFAS['mz_peaks'][idx][peak], Df_FindPFAS['mz_peaks'][idx][peak]),
-                           y = (Df_FindPFAS['intens_peaks'][idx][peak], 0),
+                go.Scatter(x = (Df_FeatureData['mz_peaks'][idx][peak], Df_FeatureData['mz_peaks'][idx][peak]),
+                           y = (Df_FeatureData['intens_peaks'][idx][peak], 0),
                 mode = 'text', 
                 line=dict(color="indianred",width = 3, dash ='dash'),
-                text = [int(prefix_c[n])* '<br>' + '<br>' + Df_FindPFAS['new_formulas'][idx][n]],
+                text = [int(prefix_c[n])* '<br>' + '<br>' + Df_FeatureData['new_formulas'][idx][n]],
                 textposition="bottom right",
                 textfont=dict(color="indianred"))
                 )
             
     fig.update_layout(showlegend=False,
                       template='plotly', #plotly_white, simple_white
-                      title={'text': f'm/z = {np.round(Df_FindPFAS["m/z_MSMS"][idx],4)} | RT = {np.round(Df_FindPFAS["RT_MSMS"][idx]/60, 2)} | Intensity = {int(Df_FindPFAS["intensity"][idx])}'},
+                      title={'text': f'm/z = {np.round(Df_FeatureData["m/z_MSMS"][idx],4)} | RT = {np.round(Df_FeatureData["RT_MSMS"][idx]/60, 2)} | Intensity = {int(Df_FeatureData["intensity"][idx])}'},
                       xaxis_title="m/z",
                       yaxis_title="Counts",
-                      xaxis_range=[np.min(Df_FindPFAS['mz_peaks'][idx]) - 10, Df_FindPFAS["m/z"][idx] + 10],
+                      xaxis_range=[np.min(Df_FeatureData['mz_peaks'][idx]) - 10, Df_FeatureData["m/z"][idx] + 10],
                       font = dict(size = font_size)
                       )
-    fig.write_html(os.path.join(Results_folder, f'plots/Spec_mz_{str(np.round(Df_FindPFAS["m/z"][idx], 4))}_intens_{str(np.round(Df_FindPFAS["m/z intens"][idx], 0))}.html'))
+    fig.write_html(os.path.join(Results_folder, f'plots/Spec_mz_{str(np.round(Df_FeatureData["m/z"][idx], 4))}_intens_{str(np.round(Df_FeatureData["m/z intens"][idx], 0))}.html'))

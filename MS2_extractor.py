@@ -32,7 +32,7 @@ def MS2_extractor(
         # Find MS/MS spectrum in Df_FindPFAS
         if type(Df_FindPFAS) != str:
             idx_FindPFAS = Df_FindPFAS['m/z_MSMS'] == prec_mz_true
-            if np.sum(idx_FindPFAS) == 1:
+            if np.sum(idx_FindPFAS) > 0: # CHANGED FROM == 1! NEED TO BE VALIDATED!
                 start_idx = Df_FindPFAS.columns.get_loc('formula_diagnostic') + 1 # find first index with diff (e.g. CF2)
                 end_idx = Df_FindPFAS.columns.get_loc(f'mz_{Df_FindPFAS.columns[start_idx]}')
 
