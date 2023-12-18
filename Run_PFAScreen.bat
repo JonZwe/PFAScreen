@@ -1,1 +1,5 @@
-python3 run_PFAScreen.py
+@echo off
+
+set "SCRIPT_DIR=%~dp0"
+
+start /b pythonw.exe "%SCRIPT_DIR%\run_PFAScreen.py"
