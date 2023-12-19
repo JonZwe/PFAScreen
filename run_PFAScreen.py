@@ -13,6 +13,9 @@ from MS1_extractor import MS1_extractor
 from MS2_extractor import MS2_extractor
 from EIC_correlator import EIC_correlator
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+
 def browse_button_sample_mzML():
     global sample_path_var 
     sample_path = filedialog.askopenfilename()
@@ -192,7 +195,7 @@ root.geometry('1000x600')
 root.resizable(width=True, height=True)
 style = ttk.Style(root)
 
-image = Image.open('logo.jpg').resize((143,90))
+image = Image.open(os.path.join(script_dir, 'logo.jpg')).resize((143, 90))
 photo = ImageTk.PhotoImage(image)
 labelLogo = ttk.Label(root, image=photo)
 labelLogo.place(x = 820, y = 20)
