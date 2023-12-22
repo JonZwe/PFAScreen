@@ -8,6 +8,8 @@ Zweigle, J., Bugsel, B., Fabregat-Palau, J., & Zwiener, C. (2023). PFΔScreen - 
 
 ![alt text](https://github.com/JonZwe/PFAScreen/blob/main/logo.jpg?raw=true)
 
+Please find our recent detailed Youtube tutorial at the following link: https://www.youtube.com/watch?v=mKcWTP7vLV4
+
 Installation:
 --------------------
 
