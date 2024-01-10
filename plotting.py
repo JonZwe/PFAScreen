@@ -125,100 +125,101 @@ def KMD_plot(
 
     HS_pos = HS_pos[HS_pos['m/C'] > mC_limit]
 
-    # Select features of same homologous series on mouseover
-    selection = alt.selection_point(on='mouseover', fields=['HS Number'])
+    if not HS_pos.empty:
+        # Select features of same homologous series on mouseover
+        selection = alt.selection_point(on='mouseover', fields=['HS Number'])
 
-    # Set color of features in the same homologous series
-    color = alt.condition(selection,
-                        alt.Color('HS Number:N', legend=None, scale=alt.Scale(scheme="set1")),
-                        alt.value('lightgrey'))
+        # Set color of features in the same homologous series
+        color = alt.condition(selection,
+                            alt.Color('HS Number:N', legend=None, scale=alt.Scale(scheme="set1")),
+                            alt.value('lightgrey'))
 
-    # Create layer 1: Figure contains features in homologous series
-    HS_features = alt.Chart(HS_pos).mark_circle(size=100).encode(
-        x='m/z',
-        y='KMD',
-        color=color,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "formulas"]
-    ).properties(
-        width=500,
-        height=500  
-    ).interactive(
-    ).add_params(
-        selection
-    )
+        # Create layer 1: Figure contains features in homologous series
+        HS_features = alt.Chart(HS_pos).mark_circle(size=100).encode(
+            x='m/z',
+            y='KMD',
+            color=color,
+            tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "formulas"]
+        ).properties(
+            width=500,
+            height=500  
+        ).interactive(
+        ).add_params(
+            selection
+        )
 
-    # Create layer 2: Figure contains features not in homologous series
-    HS_negative = alt.Chart(HS_neg).mark_circle(size=100, opacity = 0.01).encode(
-        x='m/z',
-        y='KMD',
-        color=alt.value('lightgray'),
-        tooltip=["m/z","RT"],
-    )
+        # Create layer 2: Figure contains features not in homologous series
+        HS_negative = alt.Chart(HS_neg).mark_circle(size=100, opacity = 0.01).encode(
+            x='m/z',
+            y='KMD',
+            color=alt.value('lightgray'),
+            tooltip=["m/z","RT"],
+        )
 
-    # Create layer 3: Activated when a certain homologous series is clicked
-    selection2 = alt.selection_point(fields=['HS Number'])
-    opacity = alt.condition(selection2, alt.value(0), alt.value(1))
+        # Create layer 3: Activated when a certain homologous series is clicked
+        selection2 = alt.selection_point(fields=['HS Number'])
+        opacity = alt.condition(selection2, alt.value(0), alt.value(1))
 
 
-    color_click = alt.condition(selection2,
-                        alt.Color('set1:N', legend=None, scale=alt.Scale(scheme="set1")),
-                        alt.value('lightgray'))
+        color_click = alt.condition(selection2,
+                            alt.Color('set1:N', legend=None, scale=alt.Scale(scheme="set1")),
+                            alt.value('lightgray'))
 
-    HS_click = alt.Chart(HS_pos).mark_circle(size=100).encode(
-        x='m/z',
-        y='KMD',
-        color=color_click,
-        opacity=opacity,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
-    ).properties(
-        width=500,
-        height=500  
-    ).interactive(
-    ).add_params(
-        selection2
-    )
-        
-    # Combine all 3 layers for first Figure HS_comb 
-    HS_comb = HS_features + HS_negative + HS_click
-        
+        HS_click = alt.Chart(HS_pos).mark_circle(size=100).encode(
+            x='m/z',
+            y='KMD',
+            color=color_click,
+            opacity=opacity,
+            tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
+        ).properties(
+            width=500,
+            height=500  
+        ).interactive(
+        ).add_params(
+            selection2
+        )
+            
+        # Combine all 3 layers for first Figure HS_comb 
+        HS_comb = HS_features + HS_negative + HS_click
+            
 
-    # Create second figure (RT vs. mz)
-    # Create layer 1: Highlight on mouseover
-    RT_chart1 = alt.Chart(HS_pos).mark_circle(size=100).encode(
-        x='RT',
-        y='m/z',
-        color=color
-    ).properties(
-        height=500,
-        width=500
-    ).add_params(
-        selection
-    )
+        # Create second figure (RT vs. mz)
+        # Create layer 1: Highlight on mouseover
+        RT_chart1 = alt.Chart(HS_pos).mark_circle(size=100).encode(
+            x='RT',
+            y='m/z',
+            color=color
+        ).properties(
+            height=500,
+            width=500
+        ).add_params(
+            selection
+        )
 
-    # Create layer 2: Activate when clicked
-    RT_chart2 = alt.Chart(HS_pos).mark_circle(size=100).encode(
-        x='RT',
-        y='m/z',
-        color=color_click,
-        opacity=opacity,
-        tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
-    ).properties(
-        width=500,
-        height=500  
-    ).interactive(
-    ).add_params(
-        selection2
-    )
-        
-    # Combine both RT layers
-    RT_chart = RT_chart1 + RT_chart2
+        # Create layer 2: Activate when clicked
+        RT_chart2 = alt.Chart(HS_pos).mark_circle(size=100).encode(
+            x='RT',
+            y='m/z',
+            color=color_click,
+            opacity=opacity,
+            tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
+        ).properties(
+            width=500,
+            height=500  
+        ).interactive(
+        ).add_params(
+            selection2
+        )
+            
+        # Combine both RT layers
+        RT_chart = RT_chart1 + RT_chart2
 
-    # Horizontally concatenate mz vs. KMD and mz vs RT and adjust font size
-    HS_concat = alt.hconcat(HS_comb, RT_chart).configure_axis(
-        labelFontSize=20,
-        titleFontSize=20
-    )
-    HS_concat.save(os.path.join(Results_folder, 'plots/HS.html'))
+        # Horizontally concatenate mz vs. KMD and mz vs RT and adjust font size
+        HS_concat = alt.hconcat(HS_comb, RT_chart).configure_axis(
+            labelFontSize=20,
+            titleFontSize=20
+        )
+        HS_concat.save(os.path.join(Results_folder, 'plots/HS.html'))
 
 
 # Plotting annotated MS2 spectra (diagnostic fragments and fragment mass differences)
