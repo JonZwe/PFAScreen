@@ -137,7 +137,7 @@ def PFAS_feature_prioritization(
                          'n_diffs', 'n_dias', 
                          'C', 'MD', 'MD/C', 'm/C', 
                          'KMD', 'HS Number', 'Unique Homologues', 
-                         'compound_names', 'formulas', 'SMILES', 'isotope_scores', 'relative_isotope_intensity_deviation']
+                         'compound_names', 'formulas', 'SMILES', 'isotope_scores']
 
     Df_FeatureData_to_save = Df_FeatureData[report_excel_list]
     Df_FeatureData_to_save.insert(5, "RT (min)", np.array(Df_FeatureData_to_save['RT']/60), True)
