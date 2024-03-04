@@ -13,6 +13,7 @@ __pycache__/*
 *.bak
 PFAScreen_*
 tests*
+.vscode/*
 
 
 # Distribution / packaging
