@@ -244,8 +244,8 @@ def MS2_differences_fragments(
     spec_intens_hit = list(compress(spec_intens_list_corr_fil, idx_diff_or_dia_prec))
 
     # create pandas DataFrame
-    Df = pd.DataFrame(data = {'m/z_MSMS': mz_hit,
-                              'RT_MSMS': RT_hit,
+    Df = pd.DataFrame(data = {'mz_msms': mz_hit,
+                              'rt_msms': RT_hit,
                               'intensity': intensity_hit,
                               'n_diffs': n_diffs_tot_hit,
                               'n_dias': n_dias_hit,

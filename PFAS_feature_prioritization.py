@@ -30,12 +30,12 @@ def PFAS_feature_prioritization(
     
     # considers only MS2 data
     Df_FindPFAS = MS2_differences_fragments(
-                    Df_MS2RawData['m/z'].to_numpy(),
-                    Df_MS2RawData['RT'].to_numpy(),
+                    Df_MS2RawData['mz'].to_numpy(),
+                    Df_MS2RawData['rt'].to_numpy(),
                     Df_MS2RawData['intens'].to_numpy(),
-                    Df_MS2RawData['MS2SpecMZ'].to_list(),
-                    Df_MS2RawData['MS2SpecIntens'].to_list(),
-                    Df_MS2RawData['idx_MS1'].to_numpy(),
+                    Df_MS2RawData['ms2_spec_mz'].to_list(),
+                    Df_MS2RawData['ms2_spec_intens'].to_list(),
+                    Df_MS2RawData['idx_ms1'].to_numpy(),
                     diffs = diffs, 
                     number_of_fragments = number_of_fragments, # factor of two for diagnostic fragments
                     mass_tolerance = mass_tolerance_FindPFAS, 
@@ -81,9 +81,9 @@ def PFAS_feature_prioritization(
         return C, MD, MDC, mC, mC_sr, MDC_sr, r_CF2
         
     Df_FeatureData['C'], Df_FeatureData['MD'], Df_FeatureData['MD/C'], Df_FeatureData['m/C'], _, _, Df_FeatureData['r_CF2'] = calc_MDC_mC(
-                                                                                                                                Df_FeatureData['m/z'], 
-                                                                                                                                Df_FeatureData['m/z intens'], 
-                                                                                                                                Df_FeatureData['m/z+1 intens']
+                                                                                                                                Df_FeatureData['mz'], 
+                                                                                                                                Df_FeatureData['mz_area'], 
+                                                                                                                                Df_FeatureData['mz+1_area']
                                                                                                                                 )
     
     # Filtering steps
@@ -105,8 +105,8 @@ def PFAS_feature_prioritization(
     # ==============================================================================================
 
     Df_KMD = KMD_analysis(
-                mz_vec = Df_FeatureData['m/z'], 
-                RT_vec = Df_FeatureData['RT'],
+                mz_vec = Df_FeatureData['mz'], 
+                RT_vec = Df_FeatureData['rt'],
                 diffs = diffs_KMD, 
                 hs_tol = mass_tolerance_KMD,
                 n_min = n_homologues
@@ -114,7 +114,7 @@ def PFAS_feature_prioritization(
 
     Df_FeatureData = pd.concat([Df_FeatureData, Df_KMD], axis = 1) 
 
-    print(f'{len(np.unique(Df_FeatureData[Df_FeatureData["min Homologues"] == True]["HS Number"]))} HS detected') # move inside KMD function
+    print(f'{len(np.unique(Df_FeatureData[Df_FeatureData["min_homologues"] == True]["hs_number"]))} HS detected') # move inside KMD function
 
     # Suspect screening
     # ==================================================================================
@@ -122,7 +122,7 @@ def PFAS_feature_prioritization(
     Df_suspect_screening = suspect_screening(
                                 tol_suspect,
                                 adducts,
-                                Df_FeatureData['m/z'],
+                                Df_FeatureData['mz'],
                                 Df_FeatureData
                                 )
 
@@ -133,14 +133,14 @@ def PFAS_feature_prioritization(
     # Prepare to save as Excel file with conditional formatting
 
     # specify columns that should be saved
-    report_excel_list = ['m/z', 'm/z intens', 'm/z+1 intens', 'm/z+2 intens', 'RT', 
+    report_excel_list = ['mz', 'mz_area', 'mz+1_area', 'mz+2_area', 'rt', 
                          'n_diffs', 'n_dias', 
                          'C', 'MD', 'MD/C', 'm/C', 
-                         'KMD', 'HS Number', 'Unique Homologues', 
+                         'KMD', 'hs_number', 'unique_homologues', 
                          'compound_names', 'formulas', 'SMILES', 'isotope_scores']
 
     Df_FeatureData_to_save = Df_FeatureData[report_excel_list]
-    Df_FeatureData_to_save.insert(5, "RT (min)", np.array(Df_FeatureData_to_save['RT']/60), True)
+    Df_FeatureData_to_save.insert(5, "rt(min)", np.array(Df_FeatureData_to_save['rt']/60), True)
     Df_FeatureData_to_save = Df_FeatureData_to_save.sort_values(by = ['m/C'], ascending = False)
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
@@ -200,7 +200,7 @@ def PFAS_feature_prioritization(
                 )
     
     if save_MSMS_spectra == True:
-        for idx in Df_FeatureData[Df_FeatureData['m/z_MSMS'].notna()].index:
+        for idx in Df_FeatureData[Df_FeatureData['mz_msms'].notna()].index:
             plotting.MS2_spectra_plotter(
                         Df_FeatureData,
                         idx,

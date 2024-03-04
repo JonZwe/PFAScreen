@@ -15,14 +15,14 @@ def mz_RT_MSMS(
         ):
     
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=Df_FeatureData['RT']/60, y=Df_FeatureData['m/z'],
+    fig.add_trace(go.Scatter(x=Df_FeatureData['rt']/60, y=Df_FeatureData['mz'],
                         mode='markers',
                         marker=dict(color="Navy", size = 15)))
-    fig.add_trace(go.Scatter(x=Df_MS2RawData['RT']/60, y=Df_MS2RawData['m/z'],
+    fig.add_trace(go.Scatter(x=Df_MS2RawData['rt']/60, y=Df_MS2RawData['mz'],
                         mode='markers',
                         marker=dict(color="Green", size = 10)))
 
-    fig.add_trace(go.Scatter(x=Df_MS2RawData['RT'][idx_in_MS2RawData]/60, y=Df_MS2RawData['m/z'][idx_in_MS2RawData],
+    fig.add_trace(go.Scatter(x=Df_MS2RawData['rt'][idx_in_MS2RawData]/60, y=Df_MS2RawData['mz'][idx_in_MS2RawData],
                         mode='markers',
                         marker=dict(color="Orange", size = 8)))
     fig.update_layout(showlegend=False,
@@ -40,11 +40,11 @@ def mz_RT(
         ):
     
     fig = px.scatter(Df_FeatureData, 
-                     x = Df_FeatureData['RT']/60, 
-                     y = 'm/z',
-                     color =  np.log10(Df_FeatureData['m/z intens']), color_continuous_scale = px.colors.sequential.RdPu,
+                     x = Df_FeatureData['rt']/60, 
+                     y = 'mz',
+                     color =  np.log10(Df_FeatureData['mz_area']), color_continuous_scale = px.colors.sequential.RdPu,
                      hover_name = Df_FeatureData.index, 
-                     hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'formulas'])
+                     hover_data=['mz', 'rt', 'mz_area', 'min_homologues', 'formulas'])
 
     fig.update_traces(marker=dict(size=22,
                       line=dict(width=1, color='DarkSlateGrey')),
@@ -79,10 +79,10 @@ def MDC_mC_plot(
     y_CF = m_CF * x + intercept_CF
     y_CHF = m_CHF * x + intercept_CHF
 
-    fig1 = px.scatter(Df_FeatureData, x='m/C', y='MD/C', color = np.log10(Df_FeatureData['m/z intens']),#Df_FeatureData['Score_scaled']
+    fig1 = px.scatter(Df_FeatureData, x='m/C', y='MD/C', color = np.log10(Df_FeatureData['mz_area']),#Df_FeatureData['Score_scaled']
                       color_continuous_scale = px.colors.sequential.Turbo,
                       hover_name = Df_FeatureData.index, 
-                      hover_data=['m/z', 'RT', 'm/z intens', 'min Homologues', 'formulas'])
+                      hover_data=['mz', 'rt', 'mz_area', 'min_homologues', 'formulas'])
     
     fig2 = px.line(x=x, y=y_CF, markers=False)
     fig3 = px.line(x=x, y=y_CHF, markers=False)
@@ -118,28 +118,28 @@ def KMD_plot(
         mC_limit = 0
         ):
 
-    Df_FeatureData = Df_FeatureData[['m/z','RT','Unique Homologues','HS Number', 'm/z intens', 'min Homologues', 'm/C', 'KMD', 'formulas']]
+    Df_FeatureData = Df_FeatureData[['mz','rt','unique_homologues','hs_number', 'mz_area', 'min_homologues', 'm/C', 'KMD', 'formulas']]
 
-    HS_pos = Df_FeatureData[Df_FeatureData['min Homologues'] == True]
-    HS_neg = Df_FeatureData[Df_FeatureData['min Homologues'] == False]
+    HS_pos = Df_FeatureData[Df_FeatureData['min_homologues'] == True]
+    HS_neg = Df_FeatureData[Df_FeatureData['min_homologues'] == False]
 
     HS_pos = HS_pos[HS_pos['m/C'] > mC_limit]
 
     if not HS_pos.empty:
         # Select features of same homologous series on mouseover
-        selection = alt.selection_point(on='mouseover', fields=['HS Number'])
+        selection = alt.selection_point(on='mouseover', fields=['hs_number'])
 
         # Set color of features in the same homologous series
         color = alt.condition(selection,
-                            alt.Color('HS Number:N', legend=None, scale=alt.Scale(scheme="set1")),
+                            alt.Color('hs_number:N', legend=None, scale=alt.Scale(scheme="set1")),
                             alt.value('lightgrey'))
 
         # Create layer 1: Figure contains features in homologous series
         HS_features = alt.Chart(HS_pos).mark_circle(size=100).encode(
-            x='m/z',
+            x='mz',
             y='KMD',
             color=color,
-            tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", "formulas"]
+            tooltip=["mz","rt","unique_homologues","hs_number", "mz_area", "formulas"]
         ).properties(
             width=500,
             height=500  
@@ -150,14 +150,14 @@ def KMD_plot(
 
         # Create layer 2: Figure contains features not in homologous series
         HS_negative = alt.Chart(HS_neg).mark_circle(size=100, opacity = 0.01).encode(
-            x='m/z',
+            x='mz',
             y='KMD',
             color=alt.value('lightgray'),
-            tooltip=["m/z","RT"],
+            tooltip=["mz","rt"],
         )
 
         # Create layer 3: Activated when a certain homologous series is clicked
-        selection2 = alt.selection_point(fields=['HS Number'])
+        selection2 = alt.selection_point(fields=['hs_number'])
         opacity = alt.condition(selection2, alt.value(0), alt.value(1))
 
 
@@ -166,11 +166,11 @@ def KMD_plot(
                             alt.value('lightgray'))
 
         HS_click = alt.Chart(HS_pos).mark_circle(size=100).encode(
-            x='m/z',
+            x='mz',
             y='KMD',
             color=color_click,
             opacity=opacity,
-            tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
+            tooltip=["mz","rt","unique_homologues","hs_number", "mz_area", 'formulas']
         ).properties(
             width=500,
             height=500  
@@ -186,8 +186,8 @@ def KMD_plot(
         # Create second figure (RT vs. mz)
         # Create layer 1: Highlight on mouseover
         RT_chart1 = alt.Chart(HS_pos).mark_circle(size=100).encode(
-            x='RT',
-            y='m/z',
+            x='rt',
+            y='mz',
             color=color
         ).properties(
             height=500,
@@ -198,11 +198,11 @@ def KMD_plot(
 
         # Create layer 2: Activate when clicked
         RT_chart2 = alt.Chart(HS_pos).mark_circle(size=100).encode(
-            x='RT',
-            y='m/z',
+            x='rt',
+            y='mz',
             color=color_click,
             opacity=opacity,
-            tooltip=["m/z","RT","Unique Homologues","HS Number", "m/z intens", 'formulas']
+            tooltip=["mz","rt","unique_homologues","hs_number", "mz_area", "formulas"]
         ).properties(
             width=500,
             height=500  
@@ -282,10 +282,10 @@ def MS2_spectra_plotter(
             
     fig.update_layout(showlegend=False,
                       template='plotly', #plotly_white, simple_white
-                      title={'text': f'm/z = {np.round(Df_FeatureData["m/z_MSMS"][idx],4)} | RT = {np.round(Df_FeatureData["RT_MSMS"][idx]/60, 2)} | Intensity = {int(Df_FeatureData["intensity"][idx])}'},
+                      title={'text': f'm/z = {np.round(Df_FeatureData["mz_msms"][idx],4)} | RT = {np.round(Df_FeatureData["rt_msms"][idx]/60, 2)} | Intensity = {int(Df_FeatureData["intensity"][idx])}'},
                       xaxis_title="m/z",
                       yaxis_title="Counts",
-                      xaxis_range=[np.min(Df_FeatureData['mz_peaks'][idx]) - 10, Df_FeatureData["m/z"][idx] + 10],
+                      xaxis_range=[np.min(Df_FeatureData['mz_peaks'][idx]) - 10, Df_FeatureData["mz"][idx] + 10],
                       font = dict(size = font_size)
                       )
-    fig.write_html(os.path.join(Results_folder, f'plots/Spec_mz_{str(np.round(Df_FeatureData["m/z"][idx], 4))}_intens_{str(np.round(Df_FeatureData["m/z intens"][idx], 0))}.html'))
+    fig.write_html(os.path.join(Results_folder, f'plots/Spec_mz_{str(np.round(Df_FeatureData["mz"][idx], 4))}_intens_{str(np.round(Df_FeatureData["mz_area"][idx], 0))}.html'))
