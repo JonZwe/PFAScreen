@@ -9,14 +9,14 @@ def MS2_extractor(
         prec_mz,
         ):
     
-    if np.sum(np.abs(Df_MS2RawData['m/z'] - prec_mz) < 0.005) == 0: # NOTE: Make mass tol as user input
+    if np.sum(np.abs(Df_MS2RawData['mz'] - prec_mz) < 0.005) == 0: # NOTE: Make mass tol as user input
         print('No MS2 available')
     else:
-        idx = np.abs(Df_MS2RawData['m/z'] - prec_mz) < 0.005
+        idx = np.abs(Df_MS2RawData['mz'] - prec_mz) < 0.005
 
-        prec_mz_true = Df_MS2RawData['m/z'][idx].values[0]
-        mz_array = Df_MS2RawData['MS2SpecMZ'][idx].values[0]
-        intens_array = Df_MS2RawData['MS2SpecIntens'][idx].values[0]
+        prec_mz_true = Df_MS2RawData['mz'][idx].values[0]
+        mz_array = Df_MS2RawData['ms2_spec_mz'][idx].values[0]
+        intens_array = Df_MS2RawData['ms2_spec_intens'][idx].values[0]
 
         intens_array_normalized = intens_array/np.max(intens_array)
         idx_label = intens_array_normalized > 0.05
@@ -31,7 +31,7 @@ def MS2_extractor(
 
         # Find MS/MS spectrum in Df_FindPFAS
         if type(Df_FindPFAS) != str:
-            idx_FindPFAS = Df_FindPFAS['m/z_MSMS'] == prec_mz_true
+            idx_FindPFAS = Df_FindPFAS['mz_msms'] == prec_mz_true
             if np.sum(idx_FindPFAS) > 0: # CHANGED FROM == 1! NEED TO BE VALIDATED!
                 start_idx = Df_FindPFAS.columns.get_loc('formula_diagnostic') + 1 # find first index with diff (e.g. CF2)
                 end_idx = Df_FindPFAS.columns.get_loc(f'mz_{Df_FindPFAS.columns[start_idx]}')

@@ -73,8 +73,8 @@ def feature_preproccessing(
     # ====================================================================================================
     if blank_file != '':
         idx_not_in_blank, _, _ = blank_correc(
-                                    feature_map_Dfs[0]['m/z'], feature_map_Dfs[0]['RT'], feature_map_Dfs[0]['m/z intens'], 
-                                    feature_map_Dfs[1]['m/z'], feature_map_Dfs[1]['RT'], feature_map_Dfs[1]['m/z intens'], 
+                                    feature_map_Dfs[0]['mz'], feature_map_Dfs[0]['rt'], feature_map_Dfs[0]['mz_area'], 
+                                    feature_map_Dfs[1]['mz'], feature_map_Dfs[1]['rt'], feature_map_Dfs[1]['mz_area'], 
                                     mass_tolerance_blank_correction, 
                                     RT_tolerance_blank_correction, 
                                     fold_change_blank_correction
@@ -112,11 +112,11 @@ def feature_preproccessing(
 
     precursor_mz, precursor_RT, precursor_intens, MS2_spec_mz, MS2_spec_intens = getMS2RawData(experiments[0])
 
-    Df_MS2RawData = pd.DataFrame(data = {'m/z':precursor_mz, 
-                                         'RT':precursor_RT, 
+    Df_MS2RawData = pd.DataFrame(data = {'mz':precursor_mz, 
+                                         'rt':precursor_RT, 
                                          'intens':precursor_intens, 
-                                         'MS2SpecMZ':MS2_spec_mz, 
-                                         'MS2SpecIntens':MS2_spec_intens})
+                                         'ms2_spec_mz':MS2_spec_mz, 
+                                         'ms2_spec_intens':MS2_spec_intens})
 
     # NOTE: REMOVE! ONLY FOR TEST PURPOSES
     # import matplotlib.pyplot as plt
@@ -131,26 +131,26 @@ def feature_preproccessing(
     # plt.close(fig)
 
     # check if MSMS_files foldes exists, if True append all MS/MS spectra to Df_MS2RawData NOTE: STILL MISSING!
-    if os.path.exists(os.path.join(path, 'MSMS_files')):
-        MSMS_files = glob.glob(os.path.join(path, 'MSMS_files', '*.mzML'))
-        MS2_Dfs = []
-        for MSMS_file in MSMS_files:
-            exp_MSMS = MSExperiment()
-            MzMLFile().load(MSMS_file, exp_MSMS)
-            precursor_mz, precursor_RT, precursor_intens, MS2_spec_mz, MS2_spec_intens = getMS2RawData(exp_MSMS)
-            MS2_Dfs.append(pd.DataFrame(data = {'m/z':precursor_mz, 
-                                                'RT':precursor_RT, 
-                                                'intens':precursor_intens, 
-                                                'MS2SpecMZ':MS2_spec_mz, 
-                                                'MS2SpecIntens':MS2_spec_intens}))
-        Df_MS2RawData = pd.concat([Df_MS2RawData] + MS2_Dfs)
-        Df_MS2RawData = Df_MS2RawData.reset_index(drop = True)
+    # if os.path.exists(os.path.join(path, 'MSMS_files')):
+    #     MSMS_files = glob.glob(os.path.join(path, 'MSMS_files', '*.mzML'))
+    #     MS2_Dfs = []
+    #     for MSMS_file in MSMS_files:
+    #         exp_MSMS = MSExperiment()
+    #         MzMLFile().load(MSMS_file, exp_MSMS)
+    #         precursor_mz, precursor_RT, precursor_intens, MS2_spec_mz, MS2_spec_intens = getMS2RawData(exp_MSMS)
+    #         MS2_Dfs.append(pd.DataFrame(data = {'m/z':precursor_mz, 
+    #                                             'RT':precursor_RT, 
+    #                                             'intens':precursor_intens, 
+    #                                             'MS2SpecMZ':MS2_spec_mz, 
+    #                                             'MS2SpecIntens':MS2_spec_intens}))
+    #     Df_MS2RawData = pd.concat([Df_MS2RawData] + MS2_Dfs)
+    #     Df_MS2RawData = Df_MS2RawData.reset_index(drop = True)
 
     # Merge MS2 spectra to MS1 features
     # ====================================================================================================
 
-    _, _, M_bool_mz = ismembertol(Df_FeatureData['m/z'], Df_MS2RawData['m/z'], mass_tolerance_MSMS_assignment)
-    _, _, M_bool_RT = ismembertol(Df_FeatureData['RT'], Df_MS2RawData['RT'], RT_tolerance_MSMS_assignment)
+    _, _, M_bool_mz = ismembertol(Df_FeatureData['mz'], Df_MS2RawData['mz'], mass_tolerance_MSMS_assignment)
+    _, _, M_bool_RT = ismembertol(Df_FeatureData['rt'], Df_MS2RawData['rt'], RT_tolerance_MSMS_assignment)
 
     M_combined = np.logical_and(M_bool_mz, M_bool_RT)
 
@@ -169,14 +169,14 @@ def feature_preproccessing(
                 )
 
     # add index of MS1 features to MS2 spectra
-    Df_MS2RawData['idx_MS1'] = np.nan
-    Df_MS2RawData.loc[idx_in_MS2RawData, 'idx_MS1'] = idx_in_features
+    Df_MS2RawData['idx_ms1'] = np.nan
+    Df_MS2RawData.loc[idx_in_MS2RawData, 'idx_ms1'] = idx_in_features
 
     # keep only MS2 spectra that have a MS1 feature
-    Df_MS2RawData = Df_MS2RawData.dropna(subset=['idx_MS1'])
+    Df_MS2RawData = Df_MS2RawData.dropna(subset=['idx_ms1'])
 
     # NOTE: Check if this works also multiple triggered precursor masses are not identical
-    Df_MS2RawData = Df_MS2RawData.sort_values('intens').drop_duplicates('idx_MS1').sort_index()
+    Df_MS2RawData = Df_MS2RawData.sort_values('intens').drop_duplicates('idx_ms1').sort_index()
     # Df_MS2RawData = Df_MS2RawData.sort_values('intens', ascending=False).drop_duplicates('m/z').sort_index()
 
     print('Evaluation successfully finished!')

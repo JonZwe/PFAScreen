@@ -1,8 +1,3 @@
-# %%
-# Basic function to perform a blank correction:
-# Input data: np.array of mass, RT, intensity for both sample and blank
-# m_tol: absolute mass tolerance, RT_tol: retention time tolerance, fold_change: desired fold change
-# Output data: boolean indices of overlapping features (not in blank and inverted: in blank)
 import numpy as np
 
 def blank_correc(mass_vec, 
@@ -14,7 +9,13 @@ def blank_correc(mass_vec,
                  m_tol, RT_tol, 
                  fold_change
                  ):
-    
+    '''
+    Basic function to perform a blank correction based on accurate mass- and RT-comparision and fold change
+    Input data: np.array of mass, RT, intensity for both sample and blank
+    m_tol: absolute mass tolerance, RT_tol: retention time tolerance, fold_change: desired fold change
+    Output data: boolean indices of overlapping features (not in blank and inverted: in blank)
+    '''
+
     # create a difference and ratio matrices with n x n dimensions for mz, RT, and intens
     # create meshgrids
     xxmz, yymz = np.meshgrid(mass_vec, mass_vec_B)

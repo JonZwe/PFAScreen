@@ -24,8 +24,8 @@ def isotope_matching(Df_FeatureData,
 
         feature = Df_FeatureData.iloc[idx]
 
-        mz_measured = feature['m/z']
-        intens_array_measured = np.array([feature['m/z intens'], feature['m/z+1 intens'], feature['m/z+2 intens']])
+        mz_measured = feature['mz']
+        intens_array_measured = np.array([feature['mz_area'], feature['mz+1_area'], feature['mz+2_area']])
         intens_array_measured = intens_array_measured[~np.isnan(intens_array_measured)] # remove isotopes if not detected
         intens_array_measured_normalized = intens_array_measured/np.max(intens_array_measured)
 

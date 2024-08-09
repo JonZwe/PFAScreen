@@ -19,10 +19,10 @@ def EIC_correlator(
     Df = Df_FeatureData.copy()
     RT_interest = RT_interest*60
 
-    cpd_range = np.logical_and(Df['RT'] > RT_interest - RT_width, Df['RT'] < RT_interest + RT_width)
-    masses = Df['m/z'][cpd_range].values
-    RTs = Df['RT'][cpd_range].values
-    ints = Df['m/z intens'][cpd_range].values
+    cpd_range = np.logical_and(Df['rt'] > RT_interest - RT_width, Df['rt'] < RT_interest + RT_width)
+    masses = Df['mz'][cpd_range].values
+    RTs = Df['rt'][cpd_range].values
+    ints = Df['mz_area'][cpd_range].values
 
     idx_mz_interest = np.where(np.logical_and(np.abs(masses - mz_interest) < 0.005, 
                                               np.abs(RTs - RT_interest) < 10))[0]
@@ -169,7 +169,7 @@ def EIC_correlator(
             plt.setp(sl, color=col[n], linewidth = linew)
             leg_diff.append(diffs[n])
 
-    plt.title(f' In-source fragementation spectrum of m/z = {mz_interest}')
+    plt.title(f' In-source fragmentation spectrum of m/z = {mz_interest}')
     plt.xlabel('m/z (Insource)')
     plt.ylabel('Peak area (MS1)')
     plt.ylim(ymin = 0)

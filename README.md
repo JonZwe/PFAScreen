@@ -20,11 +20,11 @@ PFΔScreen can be installed and executed within the standard Python environment.
 ### Automated installation
 
 - Download PFΔSScreen by clicking on the green “Code” button and click “Download ZIP”. When downloaded, unzip the folder and move it to a local folder on your computer. 
--	Automatic installation of Python and the required packages with Installation.bat: Navigate into the folder where PFΔSScreen was copied (PFAScreen-main). Double click the Installation.bat file. The Windows command line interface will open, and the Microsoft Store opens automatically if you do not have Python installed on your computer. Click on “Install” and wait until the installation of Python is finished and close the Microsoft Store. Back to the Windows command line press any button to automatically install pip (Package Manager for Python) and in the following all required Python packages. Finally, when the message “Installation successfully finished” pops up, press any button and the installation is completed.
+-	Automatic installation of Python and the required packages with Installation.bat: Navigate into the folder where PFΔSScreen was copied (PFAScreen-main). Double click the Installation.bat file. The Windows command line interface will open, and the Microsoft Store opens automatically if you do not have Python installed on your computer. Please note that Python 3.9 is required (search in the Store for "Python 3.9")! Then, click on “Install” and wait until the installation of Python is finished and close the Microsoft Store. Back to the Windows command line press any button to automatically install pip (Package Manager for Python) and in the following all required Python packages. Finally, when the message “Installation successfully finished” pops up, press any button and the installation is completed.
 
 
 ### Package installation 
-If Python is already installed, the PFΔScreen dependencies can be installed within the standard Python environment with the following command:
+If Python 3.9 is already installed, the PFΔScreen dependencies can be installed within the standard Python environment with the following command:
 
 ```
 pip install -r requirements.txt
