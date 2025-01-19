@@ -50,7 +50,7 @@ def MS1_extractor(
         mzs = np.array([iso.getMZ() for iso in isotopes.getContainer()])
         ints = np.array([iso.getIntensity() for iso in isotopes.getContainer()])
         ints_normalized = ints/np.max(ints)*100
-
+        # this is a bug, must be: mzs[-1]+0.5
         idx_cut = np.logical_and(mz_array > mzs[0]-0.5, mz_array < mzs[-1]-0.5)
         mz_array_cut = mz_array[idx_cut]
         intens_array_cut = intens_array[idx_cut]/np.max(intens_array[idx_cut])*100
