@@ -1,0 +1,39 @@
+# Parameters for pyopenms processing (feature detection, alignment, etc.)
+
+project_name: "PFAScreen"
+
+path_sample_file: D:\MS_raw_data\DeltaPFAS\UFZ_RPLC_Orbitrap_neg\mzML\sample_list.csv
+
+path_output: D:\MS_raw_data\DeltaPFAS\UFZ_RPLC_Orbitrap_neg\mzML\output
+
+#path_suspect_list: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfascreen\data\suspect_list_comptox_norman_nist_custom.csv
+path_suspect_list: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfascreen\data\suspect_list_comptox_norman_nist_custom.csv
+path_mass_differences: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfascreen\data\fragment_mass_differences.csv
+path_diagnostic_fragments: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfascreen\data\diagnostic_fragments.csv
+path_ms2_library: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfascreen\data\MSMS-Neg-PFAS_20200806.msp
+
+polarity: "neg"
+
+mass_error_ppm: 10
+intensity_threshold: 500
+min_trace_length: 3
+isotope_model: "none"
+score_by_elements: "true"
+elements: CFHNOPSClBr
+remove_single_traces: "true"
+report_convex_hulls: "true"
+# NOTE: Add alignment parameters! Move them out of feature_alignment_oms
+# Parameters for downstream processing
+mz_tol_ms2: 0.005
+rt_tol_ms2: 10
+rel_noise_ms2: 0.02
+ms2_avg_tol: 0.005
+# PFAScreen parameters
+number_of_fragments: 1
+# NOTE PUT BACK TO 0.005
+mass_tolerance: 0.005
+intensity_threshold_ms2: 2000
+diff_kmd: "CF2"
+n_homologues: 3
+# NOTE: THIS NEED TO BE CHANGED!
+adducts: 1
