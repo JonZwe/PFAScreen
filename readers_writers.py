@@ -5,7 +5,7 @@ import numpy as np
 import xml.etree.ElementTree as ET
 from utils import match_mz_rt_intens
 from pyteomics import mgf
-import matplotlib.pyplot as plt
+import pyopenms as oms
 from ms2_utils import merge_spectra
 
 """
@@ -640,6 +640,82 @@ def mzmine_to_df(config,
     df_alignment['adduct'] = '[M-H]-' if polarity == 'neg' else '[M+H]+'
 
     return df_alignment
+
+
+def write_ms2_only_mzml(spectra,  # list of dicts
+                        output_path,
+                        return_exp=False
+                        ):
+    """
+    spectra = [
+        {
+            "rt": 49.4, # seconds
+            "precursor_mz": 112.05034,
+            "mz": [40.01, 42.03, ...],
+            "intensity": [3.4e5, 6.1e5, ...]
+        },
+        ...
+    ]
+    """
+
+    exp = oms.MSExperiment()
+
+    for s in spectra:
+        spec = oms.MSSpectrum()
+        spec.setMSLevel(2)
+        spec.setRT(s["rt"])
+
+        # Set peaks
+        spec.set_peaks((s["mz"], s["intensity"]))
+
+        # Precursor
+        prec = oms.Precursor()
+        prec.setMZ(s["precursor_mz"])
+        prec.setCharge(1)  # safe default if unknown
+        spec.setPrecursors([prec])
+
+        exp.addSpectrum(spec)
+
+    exp.sortSpectra(True)
+
+    oms.MzMLFile().store(output_path, exp)
+
+    if return_exp == True:
+        return exp
+
+
+def df_ms2_to_mzml(df,
+                   output_path, 
+                   return_exp=False):
+
+    exp = oms.MSExperiment()
+
+    for n in range(len(df)):
+
+        row = df.iloc[n]
+
+        spec = oms.MSSpectrum()
+        spec.setMSLevel(2)
+        spec.setRT(row["rt"])
+
+        # Set peaks
+        spec.set_peaks((np.array(row["mzs_ms2"]), 
+                        np.array(row["ints_ms2"])))
+
+        # Precursor
+        prec = oms.Precursor()
+        prec.setMZ(row["mz"])
+        prec.setCharge(1)  # safe default if unknown
+        spec.setPrecursors([prec])
+
+        exp.addSpectrum(spec)
+
+    exp.sortSpectra(True)
+
+    oms.MzMLFile().store(output_path, exp)
+
+    if return_exp == True:
+        return exp
 
     
 def masshunter_cef_to_df(path): 
