@@ -143,6 +143,7 @@ def pfascreen(df,
     
     df['MD'] = df['mz'] - np.round(df['mz'], decimals=0)
 
+    print('Calculated m/C, MD/C, and MD values.')
     #%%
     # KMD analysis
     # ==============================================================================================

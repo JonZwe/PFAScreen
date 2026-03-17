@@ -16,6 +16,8 @@ from rdkit.Chem.rdchem import Mol
 from rdkit.Chem.rdMolDescriptors import CalcMolFormula
 from rdkit.Chem.rdmolfiles import MolFromSmiles, MolToSmiles
 from rdkit.Chem.rdmolops import GetFormalCharge, GetMolFrags
+import pubchempy as pcp
+from tqdm import tqdm
 
 # Type aliases
 FragmentList: TypeAlias = list[str]
@@ -366,7 +368,6 @@ def has_fluorine(smiles: str) -> bool:
     return any(atom.GetSymbol() == "F" for atom in mol.GetAtoms())
 
 
-
 def has_element(smiles: str, element: str) -> bool:
     """
     Check if SMILES contains a specific element.
@@ -381,6 +382,29 @@ def has_element(smiles: str, element: str) -> bool:
     if mol is None:
         raise ValueError(f"Invalid SMILES: {smiles}")
     return any(atom.GetSymbol() == element for atom in mol.GetAtoms())
+
+
+def has_formal_charge(formula: str) -> bool:
+    """
+    Check if a molecular formula indicates a charged species.
+    """
+    # Look for common charge indicators in the formula
+    charge_indicators = ['+', '-']
+    return any(indicator in formula for indicator in charge_indicators)
+
+
+def get_charge_str(formula: str) -> str:
+    """
+    Get "positive", "negative", or "neutral" from formula string.
+    """
+    if '+' in formula and '-' in formula:
+        return "neutral"  # Both charges present, likely neutral overall
+    elif '+' in formula:
+        return "positive"
+    elif '-' in formula:
+        return "negative"
+    else:
+        return "neutral"
 
 
 def neutralize_smiles_fluorine(smiles: str) -> str:
@@ -437,4 +461,65 @@ def neutralize_smiles_fluorine(smiles: str) -> str:
     return MolToSmiles(mol_writable, isomericSmiles=True)
 
 
+def pubchem_names_to_df(names, properties=None) -> pd.DataFrame:
+    """
+    One row per input name (always).
+    Flags multiple PubChem hits instead of expanding rows.
+    Uses the first hit deterministically when multiple hits occur.
+    """
 
+    if properties is None:
+        properties = [
+                    "cid",
+                    "molecular_formula",
+                    "molecular_weight",
+                    "exact_mass",
+                    "inchi",
+                    "inchikey",
+                    "smiles",
+                    "xlogp",
+                    "tpsa",
+                    "charge",
+                    "rotatable_bond_count",
+                    "h_bond_donor_count",
+                    "heavy_atom_count"
+                     ]
+
+    rows = []
+
+    for name in tqdm(names, desc="Running pubchempy queries"):
+        try:
+            cs = pcp.get_compounds(name, namespace="name")
+        except Exception as e:
+            rows.append({
+                "query_name": name,
+                "found": False,
+                "n_hits": 0,
+                "multiple_hits": False,
+                "error": str(e)
+            })
+            continue
+
+        # no hits
+        if not cs:
+            rows.append({
+                "query_name": name,
+                "found": False,
+                "n_hits": 0,
+                "multiple_hits": False
+            })
+            continue
+
+        # one or more hits
+        df_hits = pcp.compounds_to_frame(cs, properties=properties)
+
+        rows.append({
+            "query_name": name,
+            "found": True,
+            "n_hits": len(df_hits),
+            "multiple_hits": len(df_hits) > 1,
+            # take first hit deterministically
+            **df_hits.iloc[0].to_dict()
+        })
+
+    return pd.DataFrame(rows)

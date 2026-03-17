@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 from utils import match_mz_rt_intens
 from pyteomics import mgf
 import pyopenms as oms
+from tqdm import tqdm
 from ms2_utils import merge_spectra
 
 """
@@ -590,7 +591,7 @@ def mzmine_to_df(config,
 
     df_spectra['feature_id'] = df_spectra['feature_id'].astype(int)
 
-    for n in range(len(df_alignment)):
+    for n in tqdm(range(len(df_alignment)), desc="Processing features"):
         
         df_curr = df_spectra[df_spectra['feature_id'] == df_alignment['id'].iloc[n]]
 
@@ -600,20 +601,20 @@ def mzmine_to_df(config,
 
             # note, it happens that the isotope spacing is not 1! Either fix it here, or make sure PFAScreen handles it
             mzs_isotopes, ints_isotopes = get_isotope_candidates(df_curr['mzs_ms1'].dropna().iloc[0], 
-                                                                                        df_curr['ints_ms1'].dropna().iloc[0], 
-                                                                                        df_curr['mz_prec'].iloc[0],
-                                                                                        ppm_tol=5, 
-                                                                                        z_max=3,
-                                                                                        n_carbons=2, 
-                                                                                        n_halogen_steps=3)
+                                                                 df_curr['ints_ms1'].dropna().iloc[0], 
+                                                                 df_curr['mz_prec'].iloc[0],
+                                                                 ppm_tol=5, 
+                                                                 z_max=3,
+                                                                 n_carbons=2, 
+                                                                 n_halogen_steps=3)
             if len(mzs_isotopes) > 1:
                 df_alignment.at[n, 'mzs_isotopes'] = list(mzs_isotopes)
                 df_alignment.at[n, 'ints_isotopes'] = list(ints_isotopes)
             
             if len(df_curr['mzs_ms2'].dropna()) > 0:
                 mzs_ms2, ints_ms2 = merge_spectra(df_curr['mzs_ms2'].dropna().to_list(),
-                                                                df_curr['ints_ms2'].dropna().to_list(),
-                                                                tolerance=0.005)
+                                                  df_curr['ints_ms2'].dropna().to_list(),
+                                                  tolerance=0.005)
                 df_alignment.at[n, 'mzs_ms2'] = mzs_ms2
                 df_alignment.at[n, 'ints_ms2'] = ints_ms2
 
@@ -676,7 +677,7 @@ def write_ms2_only_mzml(spectra,  # list of dicts
 
         exp.addSpectrum(spec)
 
-    exp.sortSpectra(True)
+    #exp.sortSpectra(True)
 
     oms.MzMLFile().store(output_path, exp)
 
@@ -710,7 +711,7 @@ def df_ms2_to_mzml(df,
 
         exp.addSpectrum(spec)
 
-    exp.sortSpectra(True)
+    #exp.sortSpectra(True)
 
     oms.MzMLFile().store(output_path, exp)
 

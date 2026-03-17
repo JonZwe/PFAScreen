@@ -6,7 +6,10 @@ import plotly.express as px
 import altair as alt
 import matplotlib.pyplot as plt
 from rdkit import Chem
+from rdkit.Chem import PandasTools
 from rdkit.Chem import Draw
+from PIL import Image
+from typing import Optional, List
 #from IPython.display import display
 import pandas as pd
 from kmd_analysis import kmd_analysis
@@ -83,6 +86,60 @@ def spectrum_plot(mzs_arr,
     plt.show()
 
     return fig
+
+
+def spectrum_mirror_plot(mzs_arr_1, 
+                        ints_arr_1, 
+                        mzs_arr_2, 
+                        ints_arr_2, 
+                        top_n_label = 10,
+                        title=None):
+
+    mzs_arr_1 = np.array(mzs_arr_1)
+    ints_arr_1 = np.array(ints_arr_1)
+    mzs_arr_2 = np.array(mzs_arr_2)
+    ints_arr_2 = np.array(ints_arr_2)
+
+    fig = plt.figure(figsize=(6,4))
+
+    plt.stem(mzs_arr_1, ints_arr_1, 'Black', markerfmt=" ", basefmt=" ")
+    _, stemlines, _ = plt.stem(mzs_arr_1, ints_arr_1, 'Black',markerfmt=" ", basefmt=" ")
+    plt.setp(stemlines, color = 'Black', linewidth= 0.5)
+
+    if len(mzs_arr_1) < top_n_label:
+        top_n_idx = np.arange(len(mzs_arr_1))
+    else:
+        top_n_idx = np.argpartition(ints_arr_1, -top_n_label)[-top_n_label:]
+        # Sort these indices by intensity for nicer annotation order (optional)
+        top_n_idx = top_n_idx[np.argsort(-ints_arr_1[top_n_idx])]
+        
+    for i, txt in enumerate(np.round(mzs_arr_1[top_n_idx], 4)):
+        plt.annotate(txt, (mzs_arr_1[top_n_idx][i], ints_arr_1[top_n_idx][i]), color = 'Black', rotation = 20, fontsize=7)
+
+    plt.stem(mzs_arr_2, -ints_arr_2, 'red', markerfmt=" ", basefmt=" ")
+    _, stemlines, _ = plt.stem(mzs_arr_2, -ints_arr_2, 'red', markerfmt=" ", basefmt=" ")
+    plt.setp(stemlines, color = 'red', linewidth = 0.5)
+
+    if len(mzs_arr_2) < top_n_label:
+        top_n_idx = np.arange(len(mzs_arr_2))
+    else:
+        top_n_idx = np.argpartition(ints_arr_2, -top_n_label)[-top_n_label:]
+        # Sort these indices by intensity for nicer annotation order (optional)
+        top_n_idx = top_n_idx[np.argsort(-ints_arr_2[top_n_idx])]
+
+    for i, txt in enumerate(np.round(mzs_arr_2[top_n_idx], 4)):
+        plt.annotate(txt, (mzs_arr_2[top_n_idx][i], -ints_arr_2[top_n_idx][i]), color = 'red', rotation = 20, fontsize=7)
+
+    if title:
+        plt.title(title)
+    plt.axhline(0, color='black', linewidth=1)
+    plt.xlabel('m/z')
+    plt.ylabel('Counts (-)')
+    fig.tight_layout()
+    plt.show()
+
+    return fig
+
 
 def feature_overview_plot(df, 
                           feature_index, 
@@ -200,7 +257,7 @@ def feature_overview_plot(df,
         plt.ylabel('Counts (-)')
         plt.ylim(bottom=0)
 
-    plt.suptitle(f'Feature {feature_index} | m/z: {feature['mz']:.4f} | RT: {feature['rt']/60:.2f} min', fontsize=14)
+    plt.suptitle(f'Feature {feature_index} | m/z: {feature["mz"]:.4f} | RT: {feature["rt"]:.2f}', fontsize=14)
     plt.tight_layout()
     plt.show(block=False)
     #plt.pause(0.1)
@@ -322,18 +379,80 @@ def plot_spectrum_with_differences(masses,
     - labels: Dictionary of named mass differences to annotate (e.g., {'Na': 23.003, 'K': 45.342}).
     """
         
-    labels = {'-H': -1.0072, 
-              'H':1.0072, 
+    # labels = {#'-H': -1.0072, 
+    #           #'H':1.0072,
+    #           '13C': 1.00335,
+    #           'Cl/Br/S_approx': 1.99705,
+    #           'Na': 21.9823, 
+    #           'K': 37.9565, 
+    #           'NH4': 17.0265,
+    #           'Cl': 35.97667,
+    #           'Br': 79.92616, 
+    #           'HCOO': 46.005480, 
+    #           'CH3COO':60.021130,
+    #           'NaCOOH': 66.97960, # Check this again
+    #           'NaCH3COO': 82.003075,
+    #           'H2O':18.01056,
+    #           'CO2':43.98983,
+    #           'HF': 20.00622}
+
+    labels = {'C2H7N': 45.0578, 
               'Na': 21.9823, 
               'K': 37.9565, 
-              'NH4': 17.0265,
-              'Cl': 34.96885,
-              'CH3COOH':60.021130, 
-              'Br': 78.91833, 
-              'COOH': 44.99765, 
-              'NaCOOH': 67.987425,
-              'H2O':18.01056,
-              'CO2':43.98983}
+              'NH4': 17.0265, 
+              'Cl': 35.97667, 
+              'Br': 79.92616, 
+              'HCOO': 46.00548, 
+              'CH3COO': 60.02113, 
+              'NaHCOO': 66.9796, 
+              'NaCH3COO': 82.003075, 
+              'H2O': 18.01056, 
+              'CO2': 43.98983, 
+              'HF': 20.00622, 
+              'NO2': 45.9929, 
+              'C2H4NO2H': 75.03202, 
+              'C2H3NO': 57.0214, 
+              'C5H6O2': 98.0367, 
+              'CH4O': 32.02621, 
+              'C2H6S': 62.019022, 
+              'C7H5NO': 119.0377, 
+              'C2H6O': 46.04186, 
+              'C3H6O2': 74.03678, 
+              'C4H9NO2': 103.06332, 
+              'C4H8': 56.0626, 
+              'C9H11NO2': 165.07897, 
+              'C6H10O': 98.07316, 
+              'C10H8F7N': 275.054495, 
+              'C2H3N': 41.0265, 
+              'C3H6': 42.04695, 
+              'CH5N': 31.0422, 
+              'C3H4N2': 68.037448, 
+              'C5H10': 70.0782, 
+              'C2H6OS': 78.01393, 
+              'C8H7NO': 133.0527, 
+              'C5H10OS': 118.0452, 
+              'CH5NO': 47.0371, 
+              'C7H8O': 108.0575, 
+              'C8H10O': 122.0732, 
+              'C6H4F3NO': 163.024498,
+              'C4H11O2PS2': 185.9938, 
+              'C8H9F3N2O2': 222.06161, 
+              'CH3NO': 45.02146, 
+              'CH4': 16.0313, 
+              'C3H8O': 60.05751, 
+              'C6H12': 84.0939, 
+              'C10H12ClNO': 197.06074, 
+              'CHN': 27.01089, 
+              'C3H9N': 59.0735, 
+              'C10H10ClNO': 195.04509, 
+              'C2H4N2OS': 104.00443, 
+              'C8H4O3': 148.01604, 
+              'C11H13N3O2S': 251.0728, 
+              'C7H6N2': 118.05309, 
+              'C2F2O2': 93.986636, 
+              'C3F4O3': 159.9783, 
+              'C3HF3O2': 125.992864, 
+              'C8H5ClF3N': 207.00626}
 
     ref_mass_idx = np.argmin(np.abs(masses - ref_mass)) 
 
@@ -684,7 +803,108 @@ def mz_rt_plot_interactive(df):
     return fig.to_html(full_html=False, include_plotlyjs=False)
 
 
-def mdc_mc_plot_interactive(df):
+def smiles_subplot_individual(smiles_list, name_list, molsPerRow=4, size=(200,200)):
+
+    """
+    Best possible compact way of plotting SMILES in n x m grid
+    """
+
+    mols = [Chem.MolFromSmiles(x) for x in smiles_list]
+    imgs = []
+    for mol, label in zip(mols, name_list):
+        img = Draw.MolToImage(mol, size=size, legend=str(label))
+        imgs.append(img)
+    # Combine images into a grid
+    nRows = (len(imgs) + molsPerRow - 1) // molsPerRow
+    grid_img = Image.new('RGB', (size[0]*molsPerRow, size[1]*nRows), (255,255,255))
+    for i, img in enumerate(imgs):
+        row, col = divmod(i, molsPerRow)
+        grid_img.paste(img, (col*size[0], row*size[1]))
+    plt.figure(figsize=(molsPerRow*2, nRows*2))
+    plt.imshow(grid_img)
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+
+def save_molecules_html(
+    df: pd.DataFrame,
+    output_path: str,
+    smiles_col1: str,
+    structure_name1: str = 'structure_1',
+    smiles_col2: Optional[str] = None,
+    structure_name2: str = 'structure_2',
+    additional_columns: Optional[List[str]] = None,
+    mol_size: tuple = (200, 200)
+) -> None:
+    """
+    Save a DataFrame with molecular structures to HTML.
+    
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe
+    output_path : str
+        Path to save HTML file
+    smiles_col1 : str
+        Name of first SMILES column
+    structure_name1 : str, optional
+        Name for first structure column (default: 'structure_1')
+    smiles_col2 : str, optional
+        Name of second SMILES column. If None, only one structure shown (default: None)
+    structure_name2 : str, optional
+        Name for second structure column (default: 'structure_2')
+    additional_columns : list, optional
+        Additional columns to include in output (default: None)
+    mol_size : tuple, optional
+        Molecule image size (width, height) (default: (200, 200))
+    
+    Examples
+    --------
+    # Single structure column
+    save_molecules_html(df, 'output.html', 'smiles', 
+                        additional_columns=['name', 'formula'])
+    
+    # Two structure columns for comparison
+    save_molecules_html(df, 'output.html', 'smiles', 'structure_original',
+                        smiles_col2='smiles_clean', structure_name2='structure_clean',
+                        additional_columns=['has_formal_charge', 'formula_new'])
+    """
+    # Make a copy to avoid modifying original
+    df_copy = df.copy()
+    
+    # Set molecule rendering options
+    PandasTools.RenderImagesInAllDataFrames(images=True)
+    PandasTools.molSize = mol_size
+    
+    # Add first structure column
+    PandasTools.AddMoleculeColumnToFrame(
+        df_copy, smiles_col1, structure_name1, includeFingerprints=False
+    )
+    
+    # Build columns to show - start with first structure and its SMILES
+    columns_to_show = [structure_name1, smiles_col1]
+    
+    # Add second structure column if provided
+    if smiles_col2 is not None:
+        PandasTools.AddMoleculeColumnToFrame(
+            df_copy, smiles_col2, structure_name2, includeFingerprints=False
+        )
+        columns_to_show.extend([structure_name2, smiles_col2])
+    
+    # Add additional columns if provided
+    if additional_columns:
+        columns_to_show.extend(additional_columns)
+    
+    # Filter to only existing columns
+    columns_to_show = [col for col in columns_to_show if col in df_copy.columns]
+    
+    # Save to HTML
+    df_copy[columns_to_show].to_html(output_path, escape=False)
+    print(f"Saved molecular structures to: {output_path}")
+
+
+def mdc_mc_plot_interactive(df, output_path=None):
     
     # constants
     m_CF = -8.40596e-05
@@ -713,6 +933,9 @@ def mdc_mc_plot_interactive(df):
     fig_all = go.Figure(data=fig1.data + fig2.data + fig3.data + fig4.data)
     fig_all.update_layout(xaxis_title="m/C", yaxis_title="MD/C", font=dict(size=22), showlegend=False)
     
+    if output_path is not None:
+        fig_all.write_html(output_path)
+
     return fig_all.to_html(full_html=False, include_plotlyjs=False)
 
 
@@ -728,7 +951,7 @@ def mc_histogram_plot_interactive(df):
     return fig.to_html(full_html=False, include_plotlyjs=False)
 
 
-def kmd_plot_interactive(df, mC_limit=0):
+def kmd_plot_interactive(df, mC_limit=0, output_path=None):
 
     df = df[['mz', 'rt', 'unique_homologues', 'hs_number',
                                      'intens_mean', 'min_homologues', 'm/C', 'KMD', 'formulas']]
@@ -794,6 +1017,9 @@ def kmd_plot_interactive(df, mC_limit=0):
         labelFontSize=20,
         titleFontSize=20
     )
+
+    if output_path is not None:
+        HS_concat.save(output_path)
 
     return HS_concat.to_html()
 
