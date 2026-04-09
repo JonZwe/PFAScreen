@@ -7,7 +7,7 @@ import altair as alt
 import matplotlib.pyplot as plt
 from rdkit import Chem
 from rdkit.Chem import PandasTools
-from rdkit.Chem import Draw
+from rdkit.Chem import Draw, rdDepictor
 from PIL import Image
 from typing import Optional, List
 #from IPython.display import display
@@ -538,21 +538,36 @@ def smiles_subplot(smiles_list,
     #display(img)
 
 
-def save_smiles_to_svg(smiles: str, 
-                       output_path: str, 
-                       size: int = 300):
+def save_smiles_to_svg(smiles: str, output_path: str, size: int = 300):
     
     mol = Chem.MolFromSmiles(smiles)
     if mol is None:
         raise ValueError(f"Invalid SMILES: {smiles}")
 
+    # --- safely override global setting ---
+    old_setting = rdDepictor.GetPreferCoordGen()
+    rdDepictor.SetPreferCoordGen(True)
+
+    try:
+        rdDepictor.Compute2DCoords(mol)
+    finally:
+        # always restore, even if something fails
+        rdDepictor.SetPreferCoordGen(old_setting)
+
     drawer = Draw.MolDraw2DSVG(size, size)
-    drawer.drawOptions().backgroundColour = None  # Request transparent background
+    opts = drawer.drawOptions()
+    
+    # --- Appearance tweaks ---
+    opts.backgroundColour = None
+    opts.baseFontSize = 0.8
+    opts.fixedBondLength = 40  
+    opts.bondLineWidth = 2
+    opts.padding = 0.05
+
     drawer.DrawMolecule(mol)
     drawer.FinishDrawing()
     
     svg = drawer.GetDrawingText()
-    # Remove white background manually (the white <rect> tag)
     svg = svg.replace('fill:#FFFFFF', 'fill:none')
 
     with open(output_path, 'w') as f:

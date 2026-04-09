@@ -1,6 +1,7 @@
 
 import pandas as pd
 import pyopenms as oms
+import pyperclip
 
 """
 Collection of various functions applicable to the pandas DataFrame objects used in PFAScreen.
@@ -34,6 +35,14 @@ def filter_df(df, column, lower=None, upper=None, reset_index=True):
         return df[condition].reset_index(drop=True)
     else:
         return df[condition]
+
+
+def get_n_highest(df, col, n=20):
+    return df.sort_values(by=col, ascending=False).iloc[:n]
+
+
+def copy_to_clipboard(df, col):
+    pyperclip.copy(", ".join(df[col].astype(str).to_list()))
 
 
 def fold_change_filter(df, sample_names, blank, fold_change):

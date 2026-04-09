@@ -13,6 +13,7 @@ path_diagnostic_fragments: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfa
 path_ms2_library: C:\Users\wxf439\OneDrive\PYTHON\current_dev_codes\pfascreen\data\MSMS-Neg-PFAS_20200806.msp
 
 polarity: "neg"
+subformula_annotation: False
 
 mass_error_ppm: 10
 intensity_threshold: 500

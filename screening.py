@@ -34,6 +34,7 @@ def pfascreen(df,
     diff_kmd = params['diff_kmd']
     n_homologues = params['n_homologues']
     polarity = params['polarity']
+    subformula_annotation = params['subformula_annotation']
 
     # calculate mean of sample
     df['intens_mean'] = df[sample_names].mean(axis = 1)
@@ -174,60 +175,62 @@ def pfascreen(df,
     # Annotate MS2 spectra with subformulas
     # NOTE: bring this into a function together with match_subformulas_to_peaks
 
-    df_annot = df[(df['mzs_ms2'].notna()) & (df['formulas'].notna())]
+    if subformula_annotation == True:
 
-    results = []
-    for idx in tqdm(df_annot.index, total=len(df_annot), desc="Annotating MS2 spectra with subformulas"):
-        mzs_top_n, top_n_idx = get_top_n_peaks(df_annot['mzs_ms2'][idx], df_annot['ints_ms2'][idx], 10)
+        df_annot = df[(df['mzs_ms2'].notna()) & (df['formulas'].notna())]
 
-        matches_col = []
-        for n in range(len(df_annot['formulas'][idx])):
-            matches = match_subformulas_to_peaks(
-                df_annot['formulas'][idx][n],
-                mzs_top_n,
-                mass_tolerance=0.005,
-                max_combinations=100_000
-            )
-            matches_col.append(matches)
+        results = []
+        for idx in tqdm(df_annot.index, total=len(df_annot), desc="Annotating MS2 spectra with subformulas"):
+            mzs_top_n, top_n_idx = get_top_n_peaks(df_annot['mzs_ms2'][idx], df_annot['ints_ms2'][idx], 10)
 
-        # Append all results for this row
-        results.append({
-            'index': idx,
-            'top_n_idx_ms2': list(top_n_idx),
-            'annot': matches_col
-        })
+            matches_col = []
+            for n in range(len(df_annot['formulas'][idx])):
+                matches = match_subformulas_to_peaks(
+                    df_annot['formulas'][idx][n],
+                    mzs_top_n,
+                    mass_tolerance=0.005,
+                    max_combinations=100_000
+                )
+                matches_col.append(matches)
 
-    # Create a new DataFrame from results
-    if len(results) > 0:
-        annot_df = pd.DataFrame(results).set_index('index')
+            # Append all results for this row
+            results.append({
+                'index': idx,
+                'top_n_idx_ms2': list(top_n_idx),
+                'annot': matches_col
+            })
 
-        annot_df['annot'] = annot_df['annot'].astype('object')
-        annot_df['top_n_idx_ms2'] = annot_df['top_n_idx_ms2'].astype('object')
+        # Create a new DataFrame from results
+        if len(results) > 0:
+            annot_df = pd.DataFrame(results).set_index('index')
 
-        # add the explained percentage of top_n peaks
-        perc_ints_explained_col = []
-        for idx in annot_df.index:
-            ints = np.array(df_annot['ints_ms2'][idx])
-            top_n_idxs = np.array(annot_df['top_n_idx_ms2'][idx])
-            if len(top_n_idxs) > 0:
-                # NOTE: Check if this is correct! (second else also needs to be checked!)
-                ints_total_top_n = np.sum(ints[top_n_idxs])
-                perc_ints_explained = []
-                for n in range(len(annot_df['annot'][idx])):
-                    idx_explained = np.unique(np.array(list(annot_df['annot'][idx][n].keys())))
-                    if len(idx_explained) > 0:
+            annot_df['annot'] = annot_df['annot'].astype('object')
+            annot_df['top_n_idx_ms2'] = annot_df['top_n_idx_ms2'].astype('object')
 
-                        ints_explained = np.sum(ints[idx_explained])
-                        perc_ints_explained.append(ints_explained/ints_total_top_n)
+            # add the explained percentage of top_n peaks
+            perc_ints_explained_col = []
+            for idx in annot_df.index:
+                ints = np.array(df_annot['ints_ms2'][idx])
+                top_n_idxs = np.array(annot_df['top_n_idx_ms2'][idx])
+                if len(top_n_idxs) > 0:
+                    # NOTE: Check if this is correct! (second else also needs to be checked!)
+                    ints_total_top_n = np.sum(ints[top_n_idxs])
+                    perc_ints_explained = []
+                    for n in range(len(annot_df['annot'][idx])):
+                        idx_explained = np.unique(np.array(list(annot_df['annot'][idx][n].keys())))
+                        if len(idx_explained) > 0:
+
+                            ints_explained = np.sum(ints[idx_explained])
+                            perc_ints_explained.append(ints_explained/ints_total_top_n)
+                    else:
+                        perc_ints_explained.append(0)
                 else:
-                    perc_ints_explained.append(0)
-            else:
-                perc_ints_explained = [0]
-            perc_ints_explained_col.append(perc_ints_explained)
+                    perc_ints_explained = [0]
+                perc_ints_explained_col.append(perc_ints_explained)
 
-        annot_df['perc_explained'] = perc_ints_explained_col
+            annot_df['perc_explained'] = perc_ints_explained_col
 
-        df = df.merge(annot_df, how='left', left_index=True, right_index=True)
+            df = df.merge(annot_df, how='left', left_index=True, right_index=True)
 
     # =======================================================================================
     # Finalize DataFrame
