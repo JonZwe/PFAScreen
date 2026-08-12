@@ -114,15 +114,29 @@ def ms1_feature_finding(exp,
     return fm
 
 
-def feature_alignment_oms(feature_maps, 
+def feature_alignment_oms(feature_maps,
                           sample_names,
-                          mz_distance_ppm = 10) -> tuple:
+                          mz_distance_ppm = 10,
+                          max_num_peaks_considered = -1,
+                          pairfinder_mz_unit = "ppm",
+                          superimposer_rt_pair_distance_fraction = 0.1,
+                          superimposer_mz_pair_max_distance = 0.5,
+                          superimposer_num_used_points = 2000,
+                          superimposer_scaling_bucket_size = 0.005,
+                          grouper_mz_tolerance = None,
+                          grouper_mz_unit = None,
+                          grouper_rt_tolerance = None,
+                          apply_transformed_rt = True) -> tuple:
 
     """
-    Feature alignment by pyOpenMS
-    There a many more parameters for feature alignment which could be
-    moved as function parameters (if necessary)
+    Feature alignment by pyOpenMS.
+
     Main algorithm: MapAlignmentAlgorithmPoseClustering
+    Secondary algorithm: FeatureGroupingAlgorithmKD
+
+    Defaults are chosen to preserve current behavior for existing calls.
+    Additional optional parameters expose the most important alignment
+    and grouping settings without changing legacy usage.
     """
 
     # (works well if you have a pooled QC for example)
@@ -133,9 +147,15 @@ def feature_alignment_oms(feature_maps,
 
     # parameter optimization
     aligner_par = aligner.getDefaults()
-    aligner_par.setValue("max_num_peaks_considered", -1)  # infinite
+    aligner_par.setValue("max_num_peaks_considered", int(max_num_peaks_considered))  # infinite if -1
     aligner_par.setValue("pairfinder:distance_MZ:max_difference", float(mz_distance_ppm))  # Never pair features with larger m/z distance
-    aligner_par.setValue("pairfinder:distance_MZ:unit", "ppm")
+    aligner_par.setValue("pairfinder:distance_MZ:unit", pairfinder_mz_unit)
+
+    # Pose clustering superimposer defaults from OpenMS docs/comments.
+    aligner_par.setValue("superimposer:rt_pair_distance_fraction", float(superimposer_rt_pair_distance_fraction))
+    aligner_par.setValue("superimposer:mz_pair_max_distance", float(superimposer_mz_pair_max_distance))
+    aligner_par.setValue("superimposer:num_used_points", int(superimposer_num_used_points))
+    aligner_par.setValue("superimposer:scaling_bucket_size", float(superimposer_scaling_bucket_size))
 
     # for p in aligner.getParameters().keys():
     #    print(p, aligner.getParameters().getDescription(p))
@@ -156,9 +176,17 @@ def feature_alignment_oms(feature_maps,
         trafo = oms.TransformationDescription()  # save the transformed data points
         aligner.align(feature_map, trafo)
         transformer = oms.MapAlignmentTransformer()
-        transformer.transformRetentionTimes(feature_map, trafo, True)
+        transformer.transformRetentionTimes(feature_map, trafo, bool(apply_transformed_rt))
 
     feature_grouper = oms.FeatureGroupingAlgorithmKD()
+    grouper_par = feature_grouper.getDefaults()
+    if grouper_mz_tolerance is not None:
+        grouper_par.setValue("distance_MZ:max_difference", float(grouper_mz_tolerance))
+    if grouper_mz_unit is not None:
+        grouper_par.setValue("distance_MZ:unit", grouper_mz_unit)
+    if grouper_rt_tolerance is not None:
+        grouper_par.setValue("distance_RT:max_difference", float(grouper_rt_tolerance))
+    feature_grouper.setParameters(grouper_par)
 
     consensus_map = oms.ConsensusMap()
     file_descriptions = consensus_map.getColumnHeaders()

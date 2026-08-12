@@ -200,3 +200,21 @@ def corrl_deconvolution(exp, mz, rt,
         plt.show()
 
     return orig_spec, deconv_spec, idx_corr, corr_coeffs
+
+
+# from corrl_deconvolution import corrl_deconvolution
+# from ms_preprocessing_oms import mzml_to_exp
+
+# corrl_deconvolution(mzml_to_exp(r"D:\FluorineID\20251124_d4r_gw_acquirex\iter\neg\006_SA4_neg_dda_1_inj.mzML"), 
+#                     mz=205.014, 
+#                     rt=2.98*60, 
+#                     rt_width=20, 
+#                     int_thresh=1000, 
+#                     corr_thresh=0.9,
+#                     smoothing = False, 
+#                     md_range = 0.5, 
+#                     extraction_window = 0.005,
+#                     ms_level = 1,
+#                     mass_range = None,
+#                     full_spectrum_range = False, 
+#                     plotting = True)

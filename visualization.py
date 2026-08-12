@@ -1346,16 +1346,16 @@ def mass_spec_3d_html(exp,
         stemsz.extend([0, zs, None])
 
     fig = go.Figure(go.Scatter3d(x = stemsx, y = stemsy, z = stemsz, 
-                                 mode= "lines", line=dict(color="indigo", width=7)))
+                                 mode= "lines", line=dict(color="indigo", width=3)))
     
     fig.update_layout(template='simple_white', 
                     scene = dict(xaxis_title='m/z',
                                  yaxis_title='RT (min)',
                                  zaxis_title='Counts'),
-                                 font = dict(size = 16))
+                                 font = dict(size = 12))
     fig.update_scenes(aspectmode='manual', aspectratio=dict(x=2, y=1.5, z=1))
     fig.write_html('3DMassSpec.html')
-    fig.show()
+    #fig.show()
 
     # 2D respresentation
     figure = px.scatter(x=x, y=y, color=np.log10(z), color_continuous_scale= 'viridis')

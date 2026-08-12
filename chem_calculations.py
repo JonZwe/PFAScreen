@@ -17,6 +17,7 @@ from rdkit.Chem.rdMolDescriptors import CalcMolFormula
 from rdkit.Chem.rdmolfiles import MolFromSmiles, MolToSmiles
 from rdkit.Chem.rdmolops import GetFormalCharge, GetMolFrags
 import pubchempy as pcp
+import pyopenms as oms
 from tqdm import tqdm
 
 # Type aliases
@@ -367,6 +368,26 @@ def has_fluorine(smiles: str) -> bool:
         raise ValueError(f"Invalid SMILES: {smiles}")
     return any(atom.GetSymbol() == "F" for atom in mol.GetAtoms())
 
+
+def has_element_formula(formula: str, element: str) -> bool:
+    """
+    Check if a given element is present in a molecular formula string.
+
+    Args:
+        formula: Molecular formula as a string (e.g., 'C7H8O4')
+        element: Element symbol as a string (e.g., 'C', 'N', 'F')
+    Returns:
+        True if the element is present, False otherwise.
+    """
+    try:
+        ef = oms.EmpiricalFormula(formula)
+        # EmpiricalFormula.getElementalComposition() returns a dict with byte keys
+        comp = ef.getElementalComposition()
+        return element.encode() in comp
+    except Exception as e:
+        print(f"Error parsing formula '{formula}': {e}")
+        return False
+    
 
 def has_element(smiles: str, element: str) -> bool:
     """
