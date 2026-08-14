@@ -1,6 +1,7 @@
 
 import pandas as pd
 import pyopenms as oms
+import matplotlib.pyplot as plt
 import pyperclip
 
 """
@@ -57,6 +58,54 @@ def fold_change_filter(df, sample_names, blank, fold_change):
     df = df.loc[idx].reset_index(drop=True)
     print(f'{l} -> {len(df)}')
     return df
+
+
+def plot_correlate_features(df, mz1, mz2, sample_names, index=0, tol=0.005):
+    
+    i1 = get_by_accurate_mass(df, mz1, tol).index[index]
+    i2 = get_by_accurate_mass(df, mz2, tol).index[index]
+
+    if len(get_by_accurate_mass(df, mz1, tol)) > 1:
+        print('More than one feature found for mz:', mz1)
+
+    if len(get_by_accurate_mass(df, mz2, tol)) > 1:
+        print('More than one feature found for mz:', mz2)
+
+    plt.figure()
+    plt.scatter(df.loc[i1, sample_names], df.loc[i2, sample_names])
+    plt.xlabel(f'mz {mz1}')
+    plt.ylabel(f'mz {mz2}')
+    plt.show()
+
+
+def find_correlating_features(df, sample_names, mz, threshold=0.8, index=0, tol=0.005):
+
+    sample_names = list(dict.fromkeys(sample_names))
+
+    i = get_by_accurate_mass(df, mz, tol=tol)
+    if len(i) > 1:
+        print('More than one feature found for mz:', mz)
+    i = i.index[index]
+
+    ints = df.loc[i, sample_names]
+    ref_compound = df.loc[i, 'compound_names'] if 'compound_names' in df.columns else None
+
+    results = []
+    for j in range(len(df)):
+        ints_j = df.iloc[j][sample_names]
+        n = (ints.notna() & ints_j.notna()).sum()
+        corr = ints.corr(ints_j)
+        if corr > threshold and n > 2:
+            results.append({
+                'feature_idx': df.index[j],
+                'mz': df.iloc[j]['mz'],
+                'rt': df.iloc[j]['rt'],
+                'corr': corr,
+                'n': n
+            })
+
+    result_df = pd.DataFrame(results).sort_values('corr', ascending=False)
+    return result_df
 
 
 def filter_alignment_table(df_data, df_meta,

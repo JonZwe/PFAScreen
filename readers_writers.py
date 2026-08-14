@@ -545,22 +545,20 @@ def has_M1_isotope(masses, delta=1.003355, tol=0.005):
 
 
 def mzmine_to_df(config,
-                 path, 
-                 name):
+                 path_feature_table_csv,
+                 path_sirius_mgf):
+
+    # NOTE: several parameters for the componetization should become function parameters in the future! 
     
-    # workes for mzmine 4.8.0
+    # workes for mzmine 4.8.0, and 4.9
 
-    path_full_feature_table_csv = os.path.join(path, f'{name}_full_feature_table.csv')
-
-    df_alignment = pd.read_csv(path_full_feature_table_csv)
+    df_alignment = pd.read_csv(path_feature_table_csv)
     
     def count_spectra(filepath):
         with open(filepath) as f:
             return sum(1 for line in f if line.startswith("BEGIN IONS"))
 
-    path_sirus_mgf = os.path.join(path, f'{name}_sirius.mgf')
-
-    n_spectra = count_spectra(path_sirus_mgf)
+    n_spectra = count_spectra(path_sirius_mgf)
 
     columns = ['feature_id', 'mz_prec', 'rt_prec', 'intens_prec', 'mzs_ms1', 'ints_ms1', 'mzs_ms2', 'ints_ms2']
     df_spectra = pd.DataFrame(np.nan, index=range(n_spectra), columns=columns)
@@ -569,7 +567,7 @@ def mzmine_to_df(config,
         'mzs_ms1': 'object', 'ints_ms1': 'object', 
         'mzs_ms2': 'object', 'ints_ms2': 'object'})
 
-    with mgf.MGF(path_sirus_mgf) as spectra:
+    with mgf.MGF(path_sirius_mgf) as spectra:
         for n, spec in enumerate(spectra):
                 df_spectra.at[n, 'feature_id'] = int(spec['params']['feature_id'])
                 df_spectra.at[n, 'mz_prec'] = spec['params']['pepmass'][0]
