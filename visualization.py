@@ -1358,10 +1358,14 @@ def mass_spec_3d_html(exp,
     if output_path is None:
         output_path = os.path.join(os.getcwd(), '3DMassSpec.html')
     fig.write_html(output_path)
-    #fig.show()
 
-    # 2D respresentation
-    figure = px.scatter(x=x, y=y, color=np.log10(z), color_continuous_scale= 'viridis')
+    fig_2d = px.scatter(x=y, y=x, color=np.log10(z),
+                        color_continuous_scale='viridis',
+                        labels={'x': 'RT (min)', 'y': 'm/z', 'color': 'log10(Intensity)'})
+    fig_2d.update_traces(marker=dict(size=3))
+    fig_2d.update_layout(template='simple_white', font=dict(size=12))
+    output_path_2d = output_path.replace('.html', '_2D.html')
+    fig_2d.write_html(output_path_2d)
 
 
 def feature_map_plotter(fm):
