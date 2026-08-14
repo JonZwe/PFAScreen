@@ -1264,7 +1264,8 @@ def mass_spec_3d_html(exp,
                       mz_min=100, 
                       mz_max=1000, 
                       int_thresh=1000, 
-                      ms_level=1) -> None:
+                      ms_level=1,
+                      output_path=None) -> None:
     """
     Function to generate 3D representation of an mzML file in a given time window.
     
@@ -1354,7 +1355,9 @@ def mass_spec_3d_html(exp,
                                  zaxis_title='Counts'),
                                  font = dict(size = 12))
     fig.update_scenes(aspectmode='manual', aspectratio=dict(x=2, y=1.5, z=1))
-    fig.write_html('3DMassSpec.html')
+    if output_path is None:
+        output_path = os.path.join(os.getcwd(), '3DMassSpec.html')
+    fig.write_html(output_path)
     #fig.show()
 
     # 2D respresentation
