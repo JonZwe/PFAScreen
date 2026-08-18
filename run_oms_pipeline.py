@@ -3,7 +3,7 @@ import time
 from tqdm import tqdm
 import pandas as pd
 
-from ms_preprocessing_oms import (mzml_to_exp, 
+from ms_preprocessing import (mzml_to_exp, 
                                   ms1_feature_finding, 
                                   feature_alignment_oms, 
                                   feature_map_to_df,
