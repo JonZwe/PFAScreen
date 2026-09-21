@@ -5,6 +5,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 import altair as alt
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pyopenms as oms
 from rdkit import Chem
 from rdkit.Chem import PandasTools
 from rdkit.Chem import Draw, rdDepictor
@@ -264,33 +266,143 @@ def feature_overview_plot(df,
     #plt.draw()
     #plt.pause(0.1)
 
+
 def schedule_plot_overview(df, feature_idx):
     # Use matplotlib’s GUI-safe event loop
     def run():
         feature_overview_plot(df, feature_idx)
     plt.gcf().canvas.manager.window.after(10, run)
 
-def scatter_plot(df, x, y, col=None, highlight=None, size=100, alpha=0.7, cmap_name='coolwarm'):
-    
+
+def scatter_plot(df, x, y,
+                 col=None,
+                 highlight=None,
+                 size=100,
+                 alpha=0.7,
+                 label=None,
+                 cmap_name='coolwarm',
+                 sample_names=None):
+
     df = df.copy()
     df['feature_index'] = df.index
-   
+
     _, ax = plt.subplots(figsize=(10, 8))
 
-    sc = ax.scatter(df[x], df[y], s=size, c=df[col] if col else 'darkcyan', cmap=cmap_name, alpha=alpha)
-    if isinstance(highlight, pd.core.series.Series):
-        ax.scatter(df[x][highlight], df[y][highlight], facecolors='none', edgecolors='red')
+    scatter_artists = []
 
-    cur = mplcursors.cursor(sc, hover=False)
+    if col is not None:
+        valid_color = df[col].notna()
+
+        if (~valid_color).any():
+            sc_nan = ax.scatter(
+                df.loc[~valid_color, x],
+                df.loc[~valid_color, y],
+                s=size,
+                c='lightgray',
+                edgecolors='black',
+                alpha=alpha,
+                zorder=1
+            )
+            sc_nan.feature_indices = df.loc[~valid_color, 'feature_index'].to_numpy()
+            scatter_artists.append(sc_nan)
+
+        if valid_color.any():
+            sc_valid = ax.scatter(
+                df.loc[valid_color, x],
+                df.loc[valid_color, y],
+                s=size,
+                c=df.loc[valid_color, col],
+                cmap=cmap_name,
+                alpha=alpha,
+                zorder=2
+            )
+            sc_valid.feature_indices = df.loc[valid_color, 'feature_index'].to_numpy()
+            scatter_artists.append(sc_valid)
+
+            cbar = plt.colorbar(sc_valid, ax=ax)
+            cbar.set_label(col, fontsize=14)
+
+    else:
+        sc = ax.scatter(
+            df[x],
+            df[y],
+            s=size,
+            c='darkcyan',
+            alpha=alpha,
+            zorder=2
+        )
+        sc.feature_indices = df['feature_index'].to_numpy()
+        scatter_artists.append(sc)
+
+    if isinstance(highlight, pd.core.series.Series):
+        ax.scatter(
+            df.loc[highlight, x],
+            df.loc[highlight, y],
+            s=size,
+            facecolors='none',
+            edgecolors='red',
+            zorder=3
+        )
+
+    cur = mplcursors.cursor(scatter_artists, hover=False)
 
     @cur.connect("add")
     def on_add(sel):
-        idx = sel.index
-        feature_idx = df.iloc[idx]['feature_index']
-        feature_overview_plot(df, feature_idx)
+        feature_idx = sel.artist.feature_indices[sel.index]
+
+        sel.annotation.set_text(
+            f"index={feature_idx}\n"
+            f"{x}={sel.target[0]:.4f}\n"
+            f"{y}={sel.target[1]:.4f}"
+        )
+
+        feature_overview_plot(df, feature_idx, sample_names=sample_names)
 
     ax.set_xlabel(x, fontsize=16)
     ax.set_ylabel(y, fontsize=16)
+
+    if label is not None:
+        ax.scatter(
+            df[x],
+            df[y],
+            s=size,
+            c='none',
+            edgecolors='black',
+            zorder=4
+        )
+
+        for i, txt in enumerate(df[label]):
+            if pd.notna(df[x].iloc[i]) and pd.notna(df[y].iloc[i]):
+                ax.annotate(
+                    txt,
+                    (df[x].iloc[i], df[y].iloc[i]),
+                    color='black',
+                    fontsize=7,
+                    zorder=5
+                )
+
+    plt.tight_layout()
+    plt.show()
+
+
+def heatmap(df, sample_names, normalization_type=None, cmap='viridis'):
+    df = df.copy()
+    if normalization_type == 'zscore':
+        df[sample_names] = (df[sample_names] - df[sample_names].mean()) / df[sample_names].std()
+    elif normalization_type == 'minmax':
+        df[sample_names] = (df[sample_names] - df[sample_names].min()) / (df[sample_names].max() - df[sample_names].min())
+    elif normalization_type == 'log10':
+        df[sample_names] = np.log10(df[sample_names] + 1e-9)  # Add a small constant to avoid log(0)
+
+    labels = [
+    f"{fid} {mz:.4f}, {rt:.1f}"
+    for fid, mz, rt in zip(df.index, df['mz'], df['rt'])
+    ]
+
+    plt.figure(figsize=(10, 8))
+    ax = sns.heatmap(df[sample_names], cmap=cmap, yticklabels=labels)
+    plt.title(f'Heatmap ({normalization_type}), n={df.shape[0]}' if normalization_type else f'Heatmap, n={df.shape[0]}', fontsize=16)
+    ax.tick_params(axis='y', labelsize=6)
     plt.tight_layout()
     plt.show()
 
@@ -738,6 +850,24 @@ def isotope_patters_raw_plot(exp,
     plt.show()
 
 
+def plot_isotope_pattern(formula):
+    isotopes = oms.EmpiricalFormula(formula).getIsotopeDistribution(oms.CoarseIsotopePatternGenerator(8))
+    mzs = [iso.getMZ() for iso in isotopes.getContainer()]
+    ints = [iso.getIntensity() for iso in isotopes.getContainer()]
+    plt.figure()
+    plt.stem(mzs, ints, 'Black', markerfmt=" ", basefmt=" ")
+    _, stemlines, _ = plt.stem(mzs, ints, 'Black',markerfmt=" ", basefmt=" ")
+    plt.setp(stemlines, color = 'Black', linewidth= 2)
+    for i, txt in enumerate(np.round(mzs, 4)):
+        plt.annotate(txt, (mzs[i],ints[i]), color = 'Black', rotation = 20, fontsize = 10)
+    plt.ylim(ymin = 0)
+    plt.xlabel('m/z')
+    plt.ylabel('Relative intensity')
+    plt.tight_layout()
+    plt.title(f'{formula}')
+    plt.show()
+
+
 def plot_feature_eics(df_alignment, 
                       sample_names, 
                       feature_idx, 
@@ -818,7 +948,7 @@ def mz_rt_plot_interactive(df):
     return fig.to_html(full_html=False, include_plotlyjs=False)
 
 
-def smiles_subplot_individual(smiles_list, name_list, molsPerRow=4, size=(200,200)):
+def smiles_subplot_individual(smiles_list, name_list, molsPerRow=4, size=(200,200), save_path=None):
 
     """
     Best possible compact way of plotting SMILES in n x m grid
@@ -839,7 +969,23 @@ def smiles_subplot_individual(smiles_list, name_list, molsPerRow=4, size=(200,20
     plt.imshow(grid_img)
     plt.axis('off')
     plt.tight_layout()
-    plt.show()
+    if save_path is not None:
+        plt.savefig(save_path)
+        plt.close()
+    else:
+        plt.show()
+
+
+def smiles_overview_df(df, col, smiles_col='SMILES', n=100):
+
+    if n > 500:
+        print("n is too large, setting to 500")
+        n = 500
+    df_sorted = df.sort_values(by=col, ascending=False).head(n)
+    smiles_list = df_sorted[smiles_col].tolist()
+    name_list = df_sorted[col].tolist()
+    molsPerRow = int((len(smiles_list) * 1.5) ** 0.5) + 1
+    smiles_subplot_individual(smiles_list, name_list, molsPerRow=molsPerRow)
 
 
 def save_molecules_html(

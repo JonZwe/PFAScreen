@@ -192,6 +192,7 @@ def run_oms_pipeline(params,
     # NOTE: COMPONENTIZATION NEEDS TO BE IMPLEMENTED!
 
     df_alignment['adduct'] = '[M-H]-' if polarity == 'neg' else '[M+H]+'
+    df_alignment['rt'] = df_alignment['rt']/60
 
     # This is only a temporary solution
 

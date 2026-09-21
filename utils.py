@@ -17,6 +17,16 @@ classes: Chemical (dev)
 Jonathan Zweigle, 06/2025
 """
 
+def exact_mass(formula):
+    return oms.EmpiricalFormula(formula).getMonoWeight()
+
+
+def ppm_diff(formula_1, formula_2):
+    mass_1 = exact_mass(formula_1)
+    mass_2 = exact_mass(formula_2)
+    return (mass_1 - mass_2) / mass_2 * 1e6
+
+
 def get_all_mass_differences(arr):
     """
     Function to return all differences in an array
@@ -666,6 +676,95 @@ def bin_ms2_to_matrix(mz_vec_corr,
     X = X[:,~np.all(X == 0, axis=0)]
 
     return X, mass_array
+
+
+def compare_collections(
+    collection1,
+    collection2,
+    column1=None,
+    column2=None,
+    strip=True,
+    case_sensitive=True,
+    suffixes=('_df1', '_df2')
+):
+    """
+    Compare two DataFrames or lists using a shared comparison key.
+
+    Returns:
+        consensus_df: matching entries
+        unique1_df: entries only in collection1
+        unique2_df: entries only in collection2
+    """
+
+    def prepare_collection(collection, column, collection_name):
+        if isinstance(collection, pd.DataFrame):
+            if column is None:
+                raise ValueError(
+                    f"{collection_name} is a DataFrame; provide its column name."
+                )
+
+            result = collection.copy()
+            result['_comparison_key'] = result[column]
+
+        else:
+            if column is not None:
+                raise ValueError(
+                    f"{collection_name} is a list; column names are not needed."
+                )
+
+            result = pd.DataFrame({'value': list(collection)})
+            result['_comparison_key'] = result['value']
+
+        key = result['_comparison_key'].astype('string')
+
+        if strip:
+            key = key.str.strip()
+
+        if not case_sensitive:
+            key = key.str.casefold()
+
+        result['_comparison_key'] = key
+        return result
+
+    left = prepare_collection(collection1, column1, 'collection1')
+    right = prepare_collection(collection2, column2, 'collection2')
+
+    # Missing values are not considered matches.
+    keys1 = set(left['_comparison_key'].dropna())
+    keys2 = set(right['_comparison_key'].dropna())
+    shared_keys = keys1 & keys2
+
+    consensus_df = left[
+        left['_comparison_key'].isin(shared_keys)
+    ].merge(
+        right[right['_comparison_key'].isin(shared_keys)],
+        on='_comparison_key',
+        how='inner',
+        suffixes=suffixes
+    )
+
+    unique1_df = left[
+        ~left['_comparison_key'].isin(shared_keys)
+    ].copy()
+
+    unique2_df = right[
+        ~right['_comparison_key'].isin(shared_keys)
+    ].copy()
+
+    consensus_df = consensus_df.drop(columns='_comparison_key')
+    unique1_df = unique1_df.drop(columns='_comparison_key')
+    unique2_df = unique2_df.drop(columns='_comparison_key')
+
+    print(
+        f"Collection 1: {len(collection1)} entries\n"
+        f"Collection 2: {len(collection2)} entries\n"
+        f"Shared values: {len(shared_keys)}\n"
+        f"Consensus rows: {len(consensus_df)}\n"
+        f"Unique to collection 1: {len(unique1_df)}\n"
+        f"Unique to collection 2: {len(unique2_df)}"
+    )
+
+    return consensus_df, unique1_df, unique2_df
 
 
 class Chemical():

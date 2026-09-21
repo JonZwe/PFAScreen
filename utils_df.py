@@ -20,22 +20,23 @@ def get_by_accurate_mass(df, mz, tol):
     return df[condition]
 
 
-def filter_df(df, column, lower=None, upper=None, reset_index=True):
-    """
-    Filter a pandas DataFrame by column range
-    """
+def filter_df(df, column, lower=None, upper=None, reset_index=True, keep_nan=False):
+    """Filter a pandas DataFrame by column range."""
     condition = pd.Series(True, index=df.index)
+
     if lower is not None:
         condition &= df[column] >= lower
     if upper is not None:
         condition &= df[column] <= upper
 
+    if keep_nan:
+        condition |= df[column].isna()
+
     print(f'{len(df)} -> {len(df[condition])}')
 
-    if reset_index==True:
+    if reset_index:
         return df[condition].reset_index(drop=True)
-    else:
-        return df[condition]
+    return df[condition]
 
 
 def get_n_highest(df, col, n=20):
@@ -46,7 +47,7 @@ def copy_to_clipboard(df, col):
     pyperclip.copy(", ".join(df[col].astype(str).to_list()))
 
 
-def fold_change_filter(df, sample_names, blank, fold_change):
+def fold_change_filter_simple(df, sample_names, blank, fold_change):
 
     """
     Drop rows where the fold change of any sample compared to the blank is below a threshold.
@@ -60,22 +61,148 @@ def fold_change_filter(df, sample_names, blank, fold_change):
     return df
 
 
-def plot_correlate_features(df, mz1, mz2, sample_names, index=0, tol=0.005):
-    
-    i1 = get_by_accurate_mass(df, mz1, tol).index[index]
-    i2 = get_by_accurate_mass(df, mz2, tol).index[index]
+def fold_change_filter(df, sample_names, blank, fold_change,
+                       blank_aggregation='mean'):
+    """
+    Keep rows where at least one non-blank sample is at least `fold_change`
+    times the aggregated abundance across the blank samples.
 
-    if len(get_by_accurate_mass(df, mz1, tol)) > 1:
-        print('More than one feature found for mz:', mz1)
+    Parameters
+    ----------
+    blank : str or list[str]
+        One blank sample name or a list of blank sample names.
+    blank_aggregation : {'mean', 'median', 'max'}
+        Method used to combine multiple blank abundances.
+    """
+    blank_samples = [blank] if isinstance(blank, str) else list(blank)
+    non_blank_samples = [
+        sample for sample in sample_names if sample not in blank_samples
+    ]
 
-    if len(get_by_accurate_mass(df, mz2, tol)) > 1:
-        print('More than one feature found for mz:', mz2)
+    if not non_blank_samples:
+        raise ValueError("sample_names must contain at least one non-blank sample.")
 
-    plt.figure()
-    plt.scatter(df.loc[i1, sample_names], df.loc[i2, sample_names])
-    plt.xlabel(f'mz {mz1}')
-    plt.ylabel(f'mz {mz2}')
+    missing_samples = set(blank_samples + non_blank_samples) - set(df.columns)
+    if missing_samples:
+        raise KeyError(f"Samples not found in DataFrame: {sorted(missing_samples)}")
+
+    if blank_aggregation == 'mean':
+        blank_reference = df[blank_samples].mean(axis=1)
+    elif blank_aggregation == 'median':
+        blank_reference = df[blank_samples].median(axis=1)
+    elif blank_aggregation == 'max':
+        blank_reference = df[blank_samples].max(axis=1)
+    else:
+        raise ValueError(
+            "blank_aggregation must be 'mean', 'median', or 'max'."
+        )
+
+    fold_changes = df[non_blank_samples].div(blank_reference, axis=0)
+    keep_mask = fold_changes.ge(fold_change).any(axis=1)
+
+    initial_count = len(df)
+    df = df.loc[keep_mask].reset_index(drop=True)
+
+    print(f'{initial_count} -> {len(df)}')
+    return df
+
+
+def plot_feature_corr(
+    df,
+    feature_1,
+    feature_2,
+    sample_names,
+    identifier='id',
+    index_1=0,
+    index_2=0,
+    tol=0.005,
+    annotate=False
+):
+    """
+    Plot sample intensities for two features.
+
+    identifier:
+        'id' or 'mz'
+    """
+
+    sample_names = list(dict.fromkeys(sample_names))
+
+    if identifier == 'id':
+        fid_1 = feature_1
+        fid_2 = feature_2
+
+    elif identifier == 'mz':
+        hits_1 = get_by_accurate_mass(df, feature_1, tol)
+        hits_2 = get_by_accurate_mass(df, feature_2, tol)
+
+        if hits_1.empty:
+            raise ValueError(f'No feature found near m/z {feature_1}.')
+        if hits_2.empty:
+            raise ValueError(f'No feature found near m/z {feature_2}.')
+
+        if len(hits_1) > 1:
+            print(f'More than one feature found for m/z: {feature_1}')
+        if len(hits_2) > 1:
+            print(f'More than one feature found for m/z: {feature_2}')
+
+        fid_1 = hits_1.index[index_1]
+        fid_2 = hits_2.index[index_2]
+
+    else:
+        raise ValueError("identifier must be either 'id' or 'mz'.")
+
+    x = df.loc[fid_1, sample_names]
+    y = df.loc[fid_2, sample_names]
+
+    # Keep only samples where both features were detected.
+    valid = x.notna() & y.notna()
+    x_valid = x[valid]
+    y_valid = y[valid]
+
+    if len(x_valid) < 2:
+        raise ValueError(
+            'At least two shared non-missing samples are required for plotting.'
+        )
+
+    correlation = x_valid.corr(y_valid)
+
+    plt.figure(figsize=(7, 6))
+    plt.scatter(x_valid, y_valid)
+
+    if annotate:
+        for sample, x_value, y_value in zip(
+            x_valid.index,
+            x_valid.values,
+            y_valid.values
+        ):
+            plt.annotate(
+                sample,
+                (x_value, y_value),
+                xytext=(4, 4),
+                textcoords='offset points'
+            )
+
+    mz_1 = df.loc[fid_1, 'mz']
+    mz_2 = df.loc[fid_2, 'mz']
+
+    plt.xlabel(f'Feature {fid_1} | m/z {mz_1:.5f}')
+    plt.ylabel(f'Feature {fid_2} | m/z {mz_2:.5f}')
+    plt.title(
+        f'Correlation: r = {correlation:.3f}, '
+        f'n = {len(x_valid)} shared samples'
+    )
+    plt.tight_layout()
     plt.show()
+
+    return {
+        'feature_id_1': fid_1,
+        'feature_id_2': fid_2,
+        'mz_1': mz_1,
+        'mz_2': mz_2,
+        'correlation': correlation,
+        'n_shared': len(x_valid),
+        'shared_samples': list(x_valid.index)
+    }
 
 
 def find_correlating_features(df, sample_names, mz, threshold=0.8, index=0, tol=0.005):

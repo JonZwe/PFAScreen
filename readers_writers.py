@@ -79,46 +79,66 @@ def write_mgf(df,
             f.write("END IONS\n\n")
 
 
-def write_extended_mgf(df, 
-                       output_path, 
-                       polarity = 'pos'):
+def write_extended_mgf(df,
+                       output_path,
+                       polarity='pos'):
     """
-    Generate extended MGF file from DataFrame containing the alignment table data
-    This is in the style of the SIRIUS export file from MZmine 4
-    NOTE: The given df should already be filtered to only contain features with associated MS2 data
+    Generate an extended MGF file from a DataFrame containing alignment data.
+
+    Writes one MS1 and one MS2 entry per feature. Features without an isotope
+    spectrum receive a single MS1 peak at their precursor m/z with intensity 1.
+
+    The input DataFrame must contain MS2 spectra.
     """
+    charge = 1 if polarity == 'pos' else -1
 
     with open(output_path, 'w') as f:
         for n in range(len(df)):
+            row = df.iloc[n]
+            feature_id = df.index[n]
+
+            isotope_mzs = row['mzs_isotopes']
+            isotope_intensities = row['ints_isotopes']
+
+            has_valid_isotopes = (
+                isinstance(isotope_mzs, (list, tuple, np.ndarray))
+                and isinstance(isotope_intensities, (list, tuple, np.ndarray))
+                and len(isotope_mzs) > 0
+                and len(isotope_mzs) == len(isotope_intensities)
+            )
+
+            if not has_valid_isotopes:
+                isotope_mzs = [row['mz']]
+                isotope_intensities = [1]
+
             f.write("BEGIN IONS\n")
-            f.write(f"FEATURE_ID={df.index[n]}\n")
-            f.write(f"MSLEVEL=1\n")
-            f.write(f"RTINSECONDS={df['rt'].iloc[n]}\n")
-            f.write(f"PEPMASS={df['mz'].iloc[n]}\n")
-            if polarity == 'pos':
-                f.write(f"CHARGE=1\n")
-            else:
-                f.write(f"CHARGE=-1\n")
-            f.write(f"SPECTYPE='CORRELATED MS')\n")
-            f.write(f"FILENAME=dummy.mzML\n")
-            f.write(f"SCANS=dummy\n")
-            f.write(f"Num peaks={len(df['mzs_isotopes'].iloc[n])}\n")
-            for mz, intensity in zip(df['mzs_isotopes'].iloc[n], df['ints_isotopes'].iloc[n]):
+            f.write(f"FEATURE_ID={feature_id}\n")
+            f.write("MSLEVEL=1\n")
+            f.write(f"RTINSECONDS={row['rt']}\n")
+            f.write(f"PEPMASS={row['mz']}\n")
+            f.write(f"CHARGE={charge}\n")
+            f.write("SPECTYPE='CORRELATED MS'\n")
+            f.write("FILENAME=dummy.mzML\n")
+            f.write("SCANS=dummy\n")
+            f.write(f"Num peaks={len(isotope_mzs)}\n")
+
+            for mz, intensity in zip(isotope_mzs, isotope_intensities):
                 f.write(f"{mz} {intensity}\n")
+
             f.write("END IONS\n\n")
+
             f.write("BEGIN IONS\n")
-            f.write(f"FEATURE_ID={df.index[n]}\n")
-            f.write(f"MSLEVEL=2\n")
-            f.write(f"RTINSECONDS={df['rt'].iloc[n]}\n")
-            f.write(f"PEPMASS={df['mz'].iloc[n]}\n")
-            if polarity == 'pos':
-                f.write(f"CHARGE=1\n")
-            else:
-                f.write(f"CHARGE=-1\n")
-            f.write(f"SCANS=dummy\n")
-            f.write(f"Num peaks={len(df['mzs_ms2'].iloc[n])}\n")
-            for mz, intensity in zip(df['mzs_ms2'].iloc[n], df['ints_ms2'].iloc[n]):
+            f.write(f"FEATURE_ID={feature_id}\n")
+            f.write("MSLEVEL=2\n")
+            f.write(f"RTINSECONDS={row['rt']}\n")
+            f.write(f"PEPMASS={row['mz']}\n")
+            f.write(f"CHARGE={charge}\n")
+            f.write("SCANS=dummy\n")
+            f.write(f"Num peaks={len(row['mzs_ms2'])}\n")
+
+            for mz, intensity in zip(row['mzs_ms2'], row['ints_ms2']):
                 f.write(f"{mz} {intensity}\n")
+
             f.write("END IONS\n\n")
 
 

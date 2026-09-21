@@ -144,7 +144,36 @@ def pfascreen(df,
     
     df['MD'] = df['mz'] - np.round(df['mz'], decimals=0)
 
-    print('Calculated m/C, MD/C, and MD values.')
+    # determine [M+2]/[M+0] isotope ratio
+    def get_m_m2_isotope_ratio(row, mass_distance=1.997, tol=0.05):
+
+        mzs = row['mzs_isotopes']
+        ints = row['ints_isotopes']
+
+        if not isinstance(mzs, (list, tuple, np.ndarray)):
+            return np.nan
+
+        if not isinstance(ints, (list, tuple, np.ndarray)):
+            return np.nan
+
+        if len(mzs) < 3 or len(ints) < 3:
+            return np.nan
+
+        mzs = np.asarray(mzs, dtype=float)
+        ints = np.asarray(ints, dtype=float)
+
+        if not np.isclose(mzs[2] - mzs[0], mass_distance, atol=tol):
+            return np.nan
+
+        if not np.isfinite(ints[0]) or ints[0] <= 0:
+            return np.nan
+
+        return ints[2] / ints[0]
+
+
+    df['isotope_ratio_m2_m0'] = df.apply(get_m_m2_isotope_ratio, axis=1)
+
+    print('Calculated m/C, MD/C, and [M+2]/[M+0] isotope ratios!')
     #%%
     # KMD analysis
     # ==============================================================================================
@@ -235,13 +264,12 @@ def pfascreen(df,
     # =======================================================================================
     # Finalize DataFrame
 
-    df['rt_min'] = df['rt'] / 60
     df = df.sort_values(by = ['m/C'], ascending = False)
     df = df.round(5)
 
     
     # Define priority columns to show first (left to right)
-    priority_columns = ['mz','rt_min', 'adduct', 'C', 'm/C', 'MD/C', 'MD', 'n_diffs', 'n_dias', 'min_homologues', 'unique_homologues', 'intens_mean']
+    priority_columns = ['mz','rt', 'adduct', 'C', 'm/C', 'MD/C', 'MD', 'isotope_ratio_m2_m0', 'n_diffs', 'n_dias', 'min_homologues', 'unique_homologues', 'intens_mean']
     
     # Get priority columns that exist in the dataframe
     existing_priority_cols = [col for col in priority_columns if col in df.columns]

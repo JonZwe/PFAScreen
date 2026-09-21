@@ -19,6 +19,7 @@ from rdkit.Chem.rdmolops import GetFormalCharge, GetMolFrags
 import pubchempy as pcp
 import pyopenms as oms
 from tqdm import tqdm
+import time
 
 # Type aliases
 FragmentList: TypeAlias = list[str]
@@ -544,3 +545,40 @@ def pubchem_names_to_df(names, properties=None) -> pd.DataFrame:
         })
 
     return pd.DataFrame(rows)
+
+
+def add_pubchem_data(
+    df,
+    query_col='CAS',
+    namespace='name',
+    wait_seconds=0
+):
+    """Add the first PubChem match and number of matches to a DataFrame."""
+    
+    if wait_seconds < 0:
+        raise ValueError("wait_seconds must be zero or positive.")
+
+    records = []
+
+    for position, query in enumerate(
+        tqdm(df[query_col], desc="Running PubChem queries")
+    ):
+        try:
+            compounds = pcp.get_compounds(
+                str(query).strip(),
+                namespace
+            )
+        except Exception:
+            compounds = []
+
+        record = compounds[0].to_dict() if compounds else {}
+        record['pubchem_match_count'] = len(compounds)
+        records.append(record)
+
+        if wait_seconds and position < len(df) - 1:
+            time.sleep(wait_seconds)
+
+    return pd.concat(
+        [df.reset_index(drop=True), pd.DataFrame(records)],
+        axis=1
+    )

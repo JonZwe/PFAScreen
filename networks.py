@@ -150,6 +150,8 @@ def single_molecular_network(df,
     # -----------------------------
     # 4. Plot the network
     # -----------------------------
+    plt.figure()
+
     pos = nx.spring_layout(G, seed=42)
     labels = {node: G.nodes[node]["rounded_mz"] for node in G.nodes}
 
@@ -185,26 +187,88 @@ def single_molecular_network(df,
     plt.show()
 
 
-
-def mass_difference_network(mz_array, 
-                            diffs=['CF2'], 
-                            mz_tol=0.005, 
-                            network_n = 1, 
-                            k = 0.1) -> tuple:
+def mass_difference_network(mz_array,
+                            diffs=None,
+                            mz_tol=0.005,
+                            network_n=1,
+                            k=0.1,
+                            node_color=None,
+                            node_color_label='m/z',
+                            node_labels=None,
+                            mz_col='mz') -> tuple:
     """
-    Create annotated mass difference network plots from a list of m/z values and given mass differences
-    NOTE: Add more metadata such as RT!
-    """
-    # TODO:
-    # allow automatic determination of most frequent diffs 
-    # node_labels = None, color_labels = None, nodes_marked = None
-    # allow second colormap for nodes! (e.g. RT, or intensity), default coloring is m/z
+    Create annotated mass difference network plots from m/z values and given mass differences.
 
-    # 'CF2', 'C2F4', 'C3F6', 'HF', 'H2F2' 'H3F3', 'CF2O', 'C6H3F9', 'C8H3F13', 'C10H3F17', 'C12H3F21'
-    # 'H2O', 'O', CH3COOH', 'CH2', 'HCl', 'BrH', 'Cl', 'Br', 'SO4', 'NO3', 'HNO3'
+    Parameters
+    ----------
+    mz_array : array-like or pandas.DataFrame
+        m/z values, or a DataFrame containing an m/z column.
+    diffs : list
+        Mass differences as formulas or numeric values.
+    mz_tol : float
+        Mass tolerance for matching differences.
+    network_n : int
+        Rank of connected component to plot separately, sorted by component size.
+    k : float
+        Spring layout spacing parameter.
+    node_color : array-like, pandas.Series, or str, optional
+        Values used for node coloring. If mz_array is a DataFrame, this can be a column name.
+        If omitted, nodes are colored by m/z.
+    node_color_label : str, optional
+        Label for the node colorbar.
+    node_labels : array-like, pandas.Series, or str, optional
+        Labels shown on nodes. If mz_array is a DataFrame, this can be a column name.
+        If omitted, rounded m/z values are used.
+    mz_col : str
+        Column containing m/z values when mz_array is a DataFrame.
+    """
+    if diffs is None:
+        diffs = ['CF2']
 
     node_size = 500
     font_size = 12
+
+    input_is_df = isinstance(mz_array, pd.DataFrame)
+
+    if input_is_df:
+        source_df = mz_array
+        mz_values = source_df[mz_col].to_numpy()
+    else:
+        source_df = None
+        mz_values = np.asarray(mz_array)
+
+    def _resolve_node_values(values, value_name):
+        if values is None:
+            return None
+
+        if input_is_df and isinstance(values, str):
+            resolved = source_df[values].to_numpy()
+        else:
+            resolved = np.asarray(values)
+
+        if len(resolved) != len(mz_values):
+            raise ValueError(
+                f"{value_name} must have the same length as mz_array "
+                f"({len(resolved)} != {len(mz_values)})."
+            )
+
+        return resolved
+
+    node_color_values = _resolve_node_values(node_color, 'node_color')
+    node_label_values = _resolve_node_values(node_labels, 'node_labels')
+
+    if node_color_values is None:
+        node_color_values = mz_values
+        if node_color_label is None:
+            node_color_label = 'm/z'
+
+    rounded_mz = np.round(mz_values, 4)
+
+    # If rounded m/z values are duplicated, the graph nodes are merged by NetworkX.
+    # The first matching row is used for node colors and labels.
+    mz_to_idx = {}
+    for idx, mz in enumerate(rounded_mz):
+        mz_to_idx.setdefault(mz, idx)
 
     # Compute exact mass differences
     m_diffs = np.array([
@@ -213,7 +277,7 @@ def mass_difference_network(mz_array,
     ])
 
     # Compute difference matrix
-    mzx, mzy = np.meshgrid(mz_array, mz_array)
+    mzx, mzy = np.meshgrid(mz_values, mz_values)
     diff_matrix = abs(mzx - mzy)
 
     # Find matching indices
@@ -222,16 +286,25 @@ def mass_difference_network(mz_array,
     diff_connection = []
 
     for n, m_diff in enumerate(m_diffs):
-        log_matrix = np.logical_and(diff_matrix >= m_diff - mz_tol, diff_matrix <= m_diff + mz_tol)
+        log_matrix = np.logical_and(
+            diff_matrix >= m_diff - mz_tol,
+            diff_matrix <= m_diff + mz_tol
+        )
         idx1, idx2 = np.where(log_matrix)
+
+        # Keep only one direction for each pair.
+        keep = idx1 < idx2
+        idx1 = idx1[keep]
+        idx2 = idx2[keep]
+
         connect_idx_1.extend(idx1)
         connect_idx_2.extend(idx2)
         diff_connection.extend([diffs[n]] * len(idx1))
 
     # Build DataFrame
     df = pd.DataFrame({
-        'mass_1': np.round(mz_array[np.array(connect_idx_1)], 4),
-        'mass_2': np.round(mz_array[np.array(connect_idx_2)], 4),
+        'mass_1': rounded_mz[np.array(connect_idx_1)],
+        'mass_2': rounded_mz[np.array(connect_idx_2)],
         'connect': diff_connection
     })
 
@@ -239,7 +312,16 @@ def mass_difference_network(mz_array,
     df['color'] = df['connect'].map(diff_to_color)
 
     # Build NetworkX graph
-    G = nx.from_pandas_edgelist(df, source='mass_1', target='mass_2', edge_attr=['color', 'connect'])
+    G = nx.from_pandas_edgelist(
+        df,
+        source='mass_1',
+        target='mass_2',
+        edge_attr=['color', 'connect']
+    )
+
+    if len(G.nodes) == 0:
+        print("No mass-difference connections found.")
+        return df, diff_matrix
 
     # Layout
     pos = nx.spring_layout(G, k=k)
@@ -247,100 +329,223 @@ def mass_difference_network(mz_array,
         G.nodes[node]['x'] = x
         G.nodes[node]['y'] = y
 
-    #if not node_labels:
-    #    node_labels = [str(mz) for mz in mz_array]
-    #    color_lables = [str(mz) for mz in mz_array]
+    # Node colors and labels
+    graph_node_colors = [
+        node_color_values[mz_to_idx[node]]
+        for node in G.nodes()
+    ]
 
-    # Node and edge colors
-    node_colors = [float(node) for node in G.nodes()]
-    edge_colors = [a['color'] for u, v, a in G.edges(data=True)]
+    if node_label_values is None:
+        graph_node_labels = {
+            node: str(node)
+            for node in G.nodes()
+        }
+    else:
+        graph_node_labels = {
+            node: str(node_label_values[mz_to_idx[node]])
+            if pd.notna(node_label_values[mz_to_idx[node]]) else ''
+            for node in G.nodes()
+        }
+
+    edge_colors = [a['color'] for _, _, a in G.edges(data=True)]
     edge_labels = {(u, v): d['connect'] for u, v, d in G.edges(data=True)}
 
-    # Number of groups
     components = list(nx.connected_components(G))
+    components_sorted = sorted(components, key=len, reverse=True)
+
+    def _draw_network(graph, layout, colors, labels, edge_label_dict, title):
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        nx.draw_networkx_nodes(
+            graph,
+            pos=layout,
+            node_color=colors,
+            cmap=plt.cm.viridis,
+            node_size=node_size,
+            alpha=0.8,
+            ax=ax
+        )
+        nx.draw_networkx_edges(
+            graph,
+            pos=layout,
+            edge_color=[a['color'] for _, _, a in graph.edges(data=True)],
+            edge_cmap=plt.cm.Set3,
+            edge_vmin=0,
+            edge_vmax=max(1, len(diffs) - 1),
+            width=2,
+            ax=ax
+        )
+        nx.draw_networkx_labels(
+            graph,
+            pos=layout,
+            labels=labels,
+            font_size=font_size,
+            alpha=0.5,
+            ax=ax
+        )
+        nx.draw_networkx_edge_labels(
+            graph,
+            pos=layout,
+            edge_labels=edge_label_dict,
+            font_size=font_size,
+            alpha=0.5,
+            ax=ax
+        )
+
+        finite_colors = pd.Series(colors).dropna().astype(float)
+        if len(finite_colors) > 0:
+            sm = plt.cm.ScalarMappable(
+                cmap=plt.cm.viridis,
+                norm=plt.Normalize(
+                    vmin=finite_colors.min(),
+                    vmax=finite_colors.max()
+                )
+            )
+            fig.colorbar(sm, ax=ax, label=node_color_label)
+
+        cmap = matplotlib.colormaps['Set3']
+        lines = []
+        legend_labels = []
+        for i, diff in enumerate(diffs):
+            rgba = cmap(i / max(1, len(diffs) - 1))
+            hex_color = matplotlib.colors.rgb2hex(rgba)
+            lines.append(Line2D([0], [0], color=hex_color, linewidth=5))
+            legend_labels.append(str(diff))
+        ax.legend(lines, legend_labels)
+
+        ax.set_title(title)
+        plt.tight_layout()
+        plt.show()
 
     # Plot full network
-    fig, ax = plt.subplots(figsize=(12, 8))
-    nx.draw_networkx_nodes(G, pos=pos, node_color=node_colors, cmap=plt.cm.viridis, node_size=node_size, alpha=0.8, ax=ax)
-    nx.draw_networkx_edges(G, pos=pos, edge_color=edge_colors, edge_cmap=plt.cm.Set3, edge_vmin=0, edge_vmax=np.max(edge_colors), width=2, ax=ax)
-    nx.draw_networkx_labels(G, pos=pos, font_size=font_size, alpha=0.5, ax=ax)
-    nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=font_size, alpha=0.5, ax=ax)
+    n_total = len(mz_values)
+    n_in_network = len(G.nodes)
+    n_groups = len(components)
+    largest_group_size = len(components_sorted[0])
+    title_summary = (
+        f"n = {n_total}, n_in_network = {n_in_network}, "
+        f"n_groups = {n_groups}, largest group = {largest_group_size} nodes"
+    )
 
-    sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis, norm=plt.Normalize(vmin=min(node_colors), vmax=max(node_colors)))
-    fig.colorbar(sm, ax=ax, label='m/z')
+    fig, ax = plt.subplots(figsize=(12, 8))
+    nx.draw_networkx_nodes(
+        G,
+        pos=pos,
+        node_color=graph_node_colors,
+        cmap=plt.cm.viridis,
+        node_size=node_size,
+        alpha=0.8,
+        ax=ax
+    )
+    nx.draw_networkx_edges(
+        G,
+        pos=pos,
+        edge_color=edge_colors,
+        edge_cmap=plt.cm.Set3,
+        edge_vmin=0,
+        edge_vmax=max(1, len(diffs) - 1),
+        width=2,
+        ax=ax
+    )
+    nx.draw_networkx_labels(
+        G,
+        pos=pos,
+        labels=graph_node_labels,
+        font_size=font_size,
+        alpha=0.5,
+        ax=ax
+    )
+    nx.draw_networkx_edge_labels(
+        G,
+        pos=pos,
+        edge_labels=edge_labels,
+        font_size=font_size,
+        alpha=0.5,
+        ax=ax
+    )
+
+    finite_colors = pd.Series(graph_node_colors).dropna().astype(float)
+    if len(finite_colors) > 0:
+        sm = plt.cm.ScalarMappable(
+            cmap=plt.cm.viridis,
+            norm=plt.Normalize(vmin=finite_colors.min(), vmax=finite_colors.max())
+        )
+        fig.colorbar(sm, ax=ax, label=node_color_label)
 
     cmap = matplotlib.colormaps['Set3']
     lines = []
     labels = []
     for i, diff in enumerate(diffs):
-        rgba = cmap(i / max(1, len(diffs)-1))
+        rgba = cmap(i / max(1, len(diffs) - 1))
         hex_color = matplotlib.colors.rgb2hex(rgba)
         lines.append(Line2D([0], [0], color=hex_color, linewidth=5))
-        labels.append(diff)
+        labels.append(str(diff))
     ax.legend(lines, labels)
-    
-    # Sort components by size
-    components_sorted = sorted(components, key=len, reverse=True)
 
-    # Annotate groups in the background
     for i, component in enumerate(components_sorted):
         x_coords = [pos[node][0] for node in component]
         y_coords = [pos[node][1] for node in component]
         centroid_x = np.mean(x_coords)
         centroid_y = np.mean(y_coords)
-        ax.text(centroid_x, centroid_y, str(i+1), fontsize=30, color='gray', alpha=0.2, ha='center', va='center', weight='bold')
-
-    n_total = len(mz_array)
-    n_in_network = len(G.nodes)
-    n_groups = len(components)
-    largest_group_size = len(max(components, key=len))
-    title_summary = f"n = {n_total}, n_in_network = {n_in_network}, n_groups = {n_groups}, largest group = {largest_group_size} nodes"
+        ax.text(
+            centroid_x,
+            centroid_y,
+            str(i + 1),
+            fontsize=30,
+            color='gray',
+            alpha=0.2,
+            ha='center',
+            va='center',
+            weight='bold'
+        )
 
     ax.set_title(title_summary)
     plt.tight_layout()
     plt.show()
 
-    # Plot network n 
-    components_sorted = sorted(components, key=len, reverse=True)
+    # Plot selected network
     if network_n > len(components_sorted):
-        print(f"Warning: group_rank {network_n} exceeds number of groups ({len(components_sorted)}). Plotting largest group instead.")
+        print(
+            f"Warning: group_rank {network_n} exceeds number of groups "
+            f"({len(components_sorted)}). Plotting largest group instead."
+        )
         network_n = 1
 
     selected_component = components_sorted[network_n - 1]
     G_selected = G.subgraph(selected_component)
-    
-    pos_largest = nx.spring_layout(G_selected, k=k)
-    node_colors_largest = [float(node) for node in G_selected.nodes()]
-    edge_colors_largest = [a['color'] for u, v, a in G_selected.edges(data=True)]
-    edge_labels_largest = {(u, v): d['connect'] for u, v, d in G_selected.edges(data=True)}
 
-    fig, ax = plt.subplots(figsize=(12, 8))
-    nx.draw_networkx_nodes(G_selected, pos=pos_largest, node_color=node_colors_largest, cmap=plt.cm.viridis, node_size=node_size, alpha=0.8, ax=ax)
-    nx.draw_networkx_edges(G_selected, pos=pos_largest, edge_color=edge_colors_largest, edge_cmap=plt.cm.Set3, width=2, ax=ax)
-    nx.draw_networkx_labels(G_selected, pos=pos_largest, font_size=font_size, alpha=0.5, ax=ax)
-    nx.draw_networkx_edge_labels(G_selected, pos=pos_largest, edge_labels=edge_labels_largest, font_size=font_size, alpha=0.5, ax=ax)
+    pos_selected = nx.spring_layout(G_selected, k=k)
+    node_colors_selected = [
+        node_color_values[mz_to_idx[node]]
+        for node in G_selected.nodes()
+    ]
+    node_labels_selected = {
+        node: graph_node_labels[node]
+        for node in G_selected.nodes()
+    }
+    edge_labels_selected = {
+        (u, v): d['connect']
+        for u, v, d in G_selected.edges(data=True)
+    }
 
-    sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis, norm=plt.Normalize(vmin=min(node_colors_largest), vmax=max(node_colors_largest)))
-    fig.colorbar(sm, ax=ax, label='m/z')
-    
-    ax.set_title(f"n network has {len(G_selected.nodes())} nodes")
-    plt.tight_layout()
-    plt.show()
+    _draw_network(
+        G_selected,
+        pos_selected,
+        node_colors_selected,
+        node_labels_selected,
+        edge_labels_selected,
+        f"Network {network_n} has {len(G_selected.nodes())} nodes"
+    )
 
     # Summary of mass difference detections
-    # NOTE: this does not account for given masses (diffs)
-    mass_diffs = [data['connect'] for u, v, data in G.edges(data=True)]
+    mass_diffs = [data['connect'] for _, _, data in G.edges(data=True)]
     diff_counts = Counter(mass_diffs)
 
-    # Prepare data for plotting
-    diffs = [str(d) for d in diff_counts.keys()]  # Convert all to strings
+    diffs_detected = [str(d) for d in diff_counts.keys()]
     counts = [diff_counts[d] for d in diff_counts.keys()]
 
-    # Bar plot
     _, ax_bar = plt.subplots(figsize=(6, 4))
-
-    ax_bar.bar(diffs, counts, color='teal', edgecolor='black', alpha=0.8)
-
+    ax_bar.bar(diffs_detected, counts, color='teal', edgecolor='black', alpha=0.8)
     ax_bar.set_ylabel('Frequency')
     ax_bar.set_xlabel('Mass Difference')
     ax_bar.set_title('Mass Difference Counts in Network')
