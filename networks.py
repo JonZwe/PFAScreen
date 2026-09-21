@@ -10,6 +10,51 @@ from matchms import Spectrum, calculate_scores
 from matchms.similarity import CosineGreedy
 from matchms.networking import SimilarityNetwork
 
+
+
+def gnps_layout(G, 
+                layout_func=nx.kamada_kawai_layout, 
+                padding=0.3):
+    
+    """Grid-pack connected components (largest first), each laid out independently."""
+    components = sorted(nx.connected_components(G), key=len, reverse=True)
+
+    sub_layouts = []
+    for comp in components:
+        sub = G.subgraph(comp)
+        if len(sub) == 1:
+            pos = {next(iter(sub.nodes())): np.array([0.0, 0.0])}
+        else:
+            pos = layout_func(sub)
+
+        coords = np.array(list(pos.values()))
+        coords -= coords.mean(axis=0)
+        span = coords.max(axis=0) - coords.min(axis=0)
+        span[span == 0] = 1.0
+        coords /= span
+
+        scale = np.sqrt(len(sub))
+        coords *= scale
+        sub_layouts.append((dict(zip(pos.keys(), coords)), scale))
+
+    pos_final = {}
+    x_cursor, y_cursor, row_height = 0.0, 0.0, 0.0
+    row_width = np.sqrt(sum(s for _, s in sub_layouts)) * 4
+
+    for coords, scale in sub_layouts:
+        box_size = scale * 2 + padding
+        if x_cursor + box_size > row_width and x_cursor > 0:
+            x_cursor, y_cursor, row_height = 0.0, y_cursor + row_height + padding, 0.0
+
+        for node, xy in coords.items():
+            pos_final[node] = xy + np.array([x_cursor + scale, y_cursor + scale])
+
+        x_cursor += box_size
+        row_height = max(row_height, box_size)
+
+    return pos_final
+
+
 def molecular_network(df, 
                       identifier_key='precursor_mz', 
                       col_highlight = 'compound_names',
@@ -51,7 +96,8 @@ def molecular_network(df,
 
     fig, ax = plt.subplots(figsize=(10, 10))
     labels = {node: my_network.nodes[node]['rounded_mz'] for node in my_network.nodes}
-    pos = nx.spring_layout(my_network, seed=42)
+    #pos = nx.spring_layout(my_network, seed=42)
+    pos = gnps_layout(my_network)
 
     # Fixed fill color for all nodes
     if colormap_column == None:
@@ -152,7 +198,8 @@ def single_molecular_network(df,
     # -----------------------------
     plt.figure()
 
-    pos = nx.spring_layout(G, seed=42)
+    #pos = nx.spring_layout(G, seed=42)
+    pos = gnps_layout(G)
     labels = {node: G.nodes[node]["rounded_mz"] for node in G.nodes}
 
     nx.draw_networkx_nodes(
@@ -190,12 +237,15 @@ def single_molecular_network(df,
 def mass_difference_network(mz_array,
                             diffs=None,
                             mz_tol=0.005,
-                            network_n=1,
-                            k=0.1,
                             node_color=None,
                             node_color_label='m/z',
                             node_labels=None,
-                            mz_col='mz') -> tuple:
+                            mz_col='mz',
+                            node_size=300, 
+                            font_size=6,
+                            cmap='coolwarm',
+                            show_group_number=False
+                            ) -> tuple:
     """
     Create annotated mass difference network plots from m/z values and given mass differences.
 
@@ -224,9 +274,7 @@ def mass_difference_network(mz_array,
     """
     if diffs is None:
         diffs = ['CF2']
-
-    node_size = 500
-    font_size = 12
+    cmap_nodes = plt.get_cmap(cmap)
 
     input_is_df = isinstance(mz_array, pd.DataFrame)
 
@@ -324,7 +372,8 @@ def mass_difference_network(mz_array,
         return df, diff_matrix
 
     # Layout
-    pos = nx.spring_layout(G, k=k)
+    #pos = nx.spring_layout(G, k=k)
+    pos = gnps_layout(G)
     for node, (x, y) in pos.items():
         G.nodes[node]['x'] = x
         G.nodes[node]['y'] = y
@@ -360,7 +409,7 @@ def mass_difference_network(mz_array,
             graph,
             pos=layout,
             node_color=colors,
-            cmap=plt.cm.viridis,
+            cmap=cmap_nodes,
             node_size=node_size,
             alpha=0.8,
             ax=ax
@@ -395,7 +444,7 @@ def mass_difference_network(mz_array,
         finite_colors = pd.Series(colors).dropna().astype(float)
         if len(finite_colors) > 0:
             sm = plt.cm.ScalarMappable(
-                cmap=plt.cm.viridis,
+                cmap=cmap_nodes,
                 norm=plt.Normalize(
                     vmin=finite_colors.min(),
                     vmax=finite_colors.max()
@@ -432,7 +481,7 @@ def mass_difference_network(mz_array,
         G,
         pos=pos,
         node_color=graph_node_colors,
-        cmap=plt.cm.viridis,
+        cmap=cmap_nodes,
         node_size=node_size,
         alpha=0.8,
         ax=ax
@@ -467,7 +516,7 @@ def mass_difference_network(mz_array,
     finite_colors = pd.Series(graph_node_colors).dropna().astype(float)
     if len(finite_colors) > 0:
         sm = plt.cm.ScalarMappable(
-            cmap=plt.cm.viridis,
+            cmap=cmap_nodes,
             norm=plt.Normalize(vmin=finite_colors.min(), vmax=finite_colors.max())
         )
         fig.colorbar(sm, ax=ax, label=node_color_label)
@@ -482,60 +531,62 @@ def mass_difference_network(mz_array,
         labels.append(str(diff))
     ax.legend(lines, labels)
 
-    for i, component in enumerate(components_sorted):
-        x_coords = [pos[node][0] for node in component]
-        y_coords = [pos[node][1] for node in component]
-        centroid_x = np.mean(x_coords)
-        centroid_y = np.mean(y_coords)
-        ax.text(
-            centroid_x,
-            centroid_y,
-            str(i + 1),
-            fontsize=30,
-            color='gray',
-            alpha=0.2,
-            ha='center',
-            va='center',
-            weight='bold'
-        )
+    if show_group_number == True:
+        for i, component in enumerate(components_sorted):
+            x_coords = [pos[node][0] for node in component]
+            y_coords = [pos[node][1] for node in component]
+            centroid_x = np.mean(x_coords)
+            centroid_y = np.mean(y_coords)
+            ax.text(
+                centroid_x,
+                centroid_y,
+                str(i + 1),
+                fontsize=30,
+                color='gray',
+                alpha=0.2,
+                ha='center',
+                va='center',
+                weight='bold'
+            )
 
     ax.set_title(title_summary)
     plt.tight_layout()
     plt.show()
 
-    # Plot selected network
-    if network_n > len(components_sorted):
-        print(
-            f"Warning: group_rank {network_n} exceeds number of groups "
-            f"({len(components_sorted)}). Plotting largest group instead."
-        )
-        network_n = 1
+    # # Plot selected network
+    # if network_n > len(components_sorted):
+    #     print(
+    #         f"Warning: group_rank {network_n} exceeds number of groups "
+    #         f"({len(components_sorted)}). Plotting largest group instead."
+    #     )
+    #     network_n = 1
 
-    selected_component = components_sorted[network_n - 1]
-    G_selected = G.subgraph(selected_component)
+    # selected_component = components_sorted[network_n - 1]
+    # G_selected = G.subgraph(selected_component)
 
-    pos_selected = nx.spring_layout(G_selected, k=k)
-    node_colors_selected = [
-        node_color_values[mz_to_idx[node]]
-        for node in G_selected.nodes()
-    ]
-    node_labels_selected = {
-        node: graph_node_labels[node]
-        for node in G_selected.nodes()
-    }
-    edge_labels_selected = {
-        (u, v): d['connect']
-        for u, v, d in G_selected.edges(data=True)
-    }
+    # #pos_selected = nx.spring_layout(G_selected, k=k)
+    # pos_selected = gnps_layout(G_selected)
+    # node_colors_selected = [
+    #     node_color_values[mz_to_idx[node]]
+    #     for node in G_selected.nodes()
+    # ]
+    # node_labels_selected = {
+    #     node: graph_node_labels[node]
+    #     for node in G_selected.nodes()
+    # }
+    # edge_labels_selected = {
+    #     (u, v): d['connect']
+    #     for u, v, d in G_selected.edges(data=True)
+    # }
 
-    _draw_network(
-        G_selected,
-        pos_selected,
-        node_colors_selected,
-        node_labels_selected,
-        edge_labels_selected,
-        f"Network {network_n} has {len(G_selected.nodes())} nodes"
-    )
+    # _draw_network(
+    #     G_selected,
+    #     pos_selected,
+    #     node_colors_selected,
+    #     node_labels_selected,
+    #     edge_labels_selected,
+    #     f"Network {network_n} has {len(G_selected.nodes())} nodes"
+    # )
 
     # Summary of mass difference detections
     mass_diffs = [data['connect'] for _, _, data in G.edges(data=True)]
