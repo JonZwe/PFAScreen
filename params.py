@@ -10,7 +10,7 @@ def get_config(config_path="parameters.yaml"):
         config_path: Path to YAML config file
         
     Returns:
-        Tuple of (config_dict, sample_names, output_folder)
+        Tuple of (config_dict, sample_names, output_folder, sample_metadata)
     """
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Config file not found: {config_path}")
@@ -25,13 +25,13 @@ def get_config(config_path="parameters.yaml"):
     # Extract output folder
     output_folder = params['path_output']
     
-    return params, sample_names, output_folder
+    return params, sample_names, output_folder, sample_df
 
 
 if __name__ == "__main__":
     # Test the function
     try:
-        config, sample_names, output_folder = get_config()
+        config, sample_names, output_folder, sample_metadata = get_config()
         print("Loaded parameters:")
         for key, value in config.items():
             print(f"  {key}: {value}")

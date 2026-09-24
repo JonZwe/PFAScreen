@@ -11,7 +11,7 @@ from networks import molecular_network, mass_difference_network
 
 """Demo function for PFAScreen workflow"""
 # Load configuration
-config, sample_names, output_folder = get_config()
+config, sample_names, output_folder, sample_metadata = get_config()
 
 # Run complete OpenMS pipeline (feature finding, alignment, isotopes, and MS2 data alignment)
 df = run_oms_pipeline(config, sample_names)
