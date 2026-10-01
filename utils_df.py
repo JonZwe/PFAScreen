@@ -20,7 +20,7 @@ def get_by_accurate_mass(df, mz, tol):
     return df[condition]
 
 
-def filter_df(df, column, lower=None, upper=None, reset_index=True, keep_nan=False):
+def filter_df(df, column, lower=None, upper=None, keep_nan=True, reset_index=False):
     """Filter a pandas DataFrame by column range."""
     condition = pd.Series(True, index=df.index)
 
@@ -47,7 +47,59 @@ def copy_to_clipboard(df, col):
     pyperclip.copy(", ".join(df[col].astype(str).to_list()))
 
 
-def fold_change_filter_simple(df, sample_names, blank, fold_change):
+def copy_to_id(df, feature_id, header=True):
+    
+    result = df.loc[[feature_id]].copy()
+
+    result['comment'] = ""
+    result['link'] = ""
+    result['confidence_level'] = ""
+
+    columns = [
+        'id',
+        'preferred_annotation:compound_name',
+        'preferred_annotation:mol_formula',
+        'link',
+        'confidence_level',
+        'mz',
+        'rt',
+        'intens_mean',
+        'area',
+        'height',
+        'preferred_annotation:smiles',
+        'preferred_annotation:comment',
+        'spectral_db_matches:similarity_score',
+        'highest_intensity_path',
+        'highest_intensity_sample',
+        'n_diffs',
+        'n_dias'
+    ]
+
+    result[columns].to_clipboard(index=False, header=header)
+
+
+def add_dreams_predictions(df, ms2_df, predictions, mz_tolerance=0.005):
+    if len(predictions) != len(ms2_df):
+        raise ValueError("Prediction rows do not match MGF rows.")
+
+    mz_error = np.abs(
+        ms2_df['mz'].to_numpy()
+        - predictions['precursor_mz'].to_numpy()
+    )
+
+    if np.any(mz_error > mz_tolerance):
+        raise ValueError("Prediction order does not match MGF order.")
+
+    predictions = predictions.copy()
+    predictions.index = ms2_df.index
+
+    return df.join(
+        predictions.add_suffix('_dreams'),
+        how='left'
+    )
+
+
+def fold_change_filter_simple(df, sample_names, blank, fold_change, reset_index=False):
 
     """
     Drop rows where the fold change of any sample compared to the blank is below a threshold.
@@ -56,13 +108,16 @@ def fold_change_filter_simple(df, sample_names, blank, fold_change):
     l = len(df)
     idx = df.index[(df[sample_names].drop(columns=[blank]).div(df[sample_names][blank], axis=0) >= fold_change).any(axis=1)]
     
-    df = df.loc[idx].reset_index(drop=True)
+    if reset_index:
+        df = df.loc[idx].reset_index(drop=True)
+    else:
+        df = df.loc[idx]
     print(f'{l} -> {len(df)}')
     return df
 
 
 def fold_change_filter(df, sample_names, blank, fold_change,
-                       blank_aggregation='mean'):
+                       blank_aggregation='mean', reset_index=False):
     """
     Keep rows where at least one non-blank sample is at least `fold_change`
     times the aggregated abundance across the blank samples.
@@ -73,6 +128,8 @@ def fold_change_filter(df, sample_names, blank, fold_change,
         One blank sample name or a list of blank sample names.
     blank_aggregation : {'mean', 'median', 'max'}
         Method used to combine multiple blank abundances.
+    reset_index : bool
+        Whether to replace the original row index with a new integer index.
     """
     blank_samples = [blank] if isinstance(blank, str) else list(blank)
     non_blank_samples = [
@@ -101,7 +158,9 @@ def fold_change_filter(df, sample_names, blank, fold_change,
     keep_mask = fold_changes.ge(fold_change).any(axis=1)
 
     initial_count = len(df)
-    df = df.loc[keep_mask].reset_index(drop=True)
+    df = df.loc[keep_mask]
+    if reset_index:
+        df = df.reset_index(drop=True)
 
     print(f'{initial_count} -> {len(df)}')
     return df

@@ -56,7 +56,83 @@ def df_to_excel_csv_pickle(df,
     df.to_pickle(f'{output_path}.pkl')
 
 
-def write_mgf(df, 
+def write_mgf(df, output_path, polarity="pos"):
+    """
+    Generate an MGF file from a DataFrame containing alignment-table data.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Must contain:
+            - 'mz'
+            - 'rt'
+            - 'mzs_ms2'
+            - 'ints_ms2'
+
+    output_path : str or Path
+        Output MGF path.
+
+    polarity : str
+        Either 'pos'/'positive' or 'neg'/'negative'.
+
+    NOTE
+    ----
+    The input df should already be filtered to features with associated MS2 data.
+    """
+
+    # Normalize polarity input
+    polarity = polarity.lower()
+
+    if polarity in ("pos", "positive"):
+        ionmode = "positive"
+        charge = "1+"
+    elif polarity in ("neg", "negative"):
+        ionmode = "negative"
+        charge = "1-"
+    else:
+        raise ValueError(
+            f"Unknown polarity '{polarity}'. "
+            "Use 'pos'/'positive' or 'neg'/'negative'."
+        )
+
+    with open(output_path, "w") as f:
+
+        for n in range(len(df)):
+
+            feature_id = df.index[n]
+            precursor_mz = float(df["mz"].iloc[n])
+            rt = float(df["rt"].iloc[n])
+
+            mzs = df["mzs_ms2"].iloc[n]
+            intensities = df["ints_ms2"].iloc[n]
+
+            f.write("BEGIN IONS\n")
+
+            f.write(
+                f"TITLE=MS/MS of feature {feature_id} at RT of {rt}\n"
+            )
+
+            f.write(f"FEATURE_ID={feature_id}\n")
+            f.write(f"PEPMASS={precursor_mz:.6f}\n")
+            f.write(f"PRECURSOR_MZ={precursor_mz:.6f}\n")
+
+            # IMPORTANT: DreaMS reads this to determine ion mode
+            f.write(f"IONMODE={ionmode}\n")
+
+            # Conventional MGF charge notation
+            f.write(f"CHARGE={charge}\n")
+
+            f.write("MS_LEVEL=2\n")
+            f.write(f"RETENTION_TIME={rt:.4f}\n")
+            f.write(f"NUM_PEAKS={len(mzs)}\n")
+
+            for mz, intensity in zip(mzs, intensities):
+                f.write(f"{float(mz):.6f} {float(intensity):.6f}\n")
+
+            f.write("END IONS\n\n")
+
+
+def write_mgf_BACKUP(df, 
               output_path, 
               polarity = 'pos'):
     """
