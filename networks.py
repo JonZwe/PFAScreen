@@ -238,7 +238,7 @@ def mass_difference_network(mz_array,
                             diffs=None,
                             mz_tol=0.005,
                             node_color=None,
-                            node_color_label='m/z',
+                            node_color_label=None,
                             node_labels=None,
                             mz_col='mz',
                             node_size=300, 
@@ -265,7 +265,8 @@ def mass_difference_network(mz_array,
         Values used for node coloring. If mz_array is a DataFrame, this can be a column name.
         If omitted, nodes are colored by m/z.
     node_color_label : str, optional
-        Label for the node colorbar.
+        Label for the node colorbar. Defaults to the selected DataFrame column,
+        or ``'m/z'`` when nodes are colored by m/z.
     node_labels : array-like, pandas.Series, or str, optional
         Labels shown on nodes. If mz_array is a DataFrame, this can be a column name.
         If omitted, rounded m/z values are used.
@@ -309,6 +310,8 @@ def mass_difference_network(mz_array,
         node_color_values = mz_values
         if node_color_label is None:
             node_color_label = 'm/z'
+    elif node_color_label is None:
+        node_color_label = node_color if input_is_df and isinstance(node_color, str) else 'node color'
 
     rounded_mz = np.round(mz_values, 4)
 
