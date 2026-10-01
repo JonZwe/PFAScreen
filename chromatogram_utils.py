@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 # Jonathan Zweigle, 06/2025
 """
 
-def get_full_tic(exp, 
+def get_full_tic(exp,
+                 mass_range=None,
                  md_range=(-0.5, 0.5), 
                  ms_level=1) -> tuple:
     """
@@ -16,15 +17,20 @@ def get_full_tic(exp,
     """
     rts = []
     ints = []
+    base_peak_mz = []
     for m in range(exp.getNrSpectra()):
         if exp[m].getMSLevel() == ms_level:
             mzs, intensities = exp[m].get_peaks()
             rts.append(exp[m].getRT())
             md = mzs - np.round(mzs)
-            intensities = intensities[(md >= md_range[0]) & (md <= md_range[1])]
+            mask = (md >= md_range[0]) & (md <= md_range[1])
+            if mass_range is not None:
+                mask &= (mzs >= mass_range[0]) & (mzs <= mass_range[1])
+            mzs, intensities = mzs[mask], intensities[mask]
+            base_peak_mz.append(mzs[np.argmax(intensities)] if intensities.size > 0 else 0)
             ints.append(np.sum(intensities))
     
-    return np.array(rts), np.array(ints)
+    return np.array(rts), np.array(ints), np.array(base_peak_mz)
 
 
 def get_full_kmd_eic(exp, 
